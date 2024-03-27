@@ -1,0 +1,88 @@
+@verdi rc file Version 1.0
+[General]
+saveDB = TRUE
+relativePath = FALSE
+saveSingleView = FALSE
+saveNWaveWinId = 
+VerdiVersion = Verdi_O-2018.09-SP2
+[KeyNote]
+Line1 = Automatic Backup 0
+Line2 = Save Open Database Information: Yes
+Line3 = Path Option: Absolute Paths
+Line4 = Windows Option: All Windows
+[TestBench]
+ConstrViewShow = 0
+InherViewShow = 0
+FSDBMsgShow = 0
+AnnotationShow = 0
+Console = FALSE
+powerDumped = 0
+[hb]
+postSimFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
+syncTime = 6100000
+viewport = 70 27 1850 1016 0 0 299 1848
+activeNode = "Testbench_wrapper.HyPipe_Top.parser_layer.lookup_type.Unnamed_$Lookup_Type_sv_72"
+activeScope = "Testbench_wrapper.HyPipe_Top.parser_layer.lookup_type.Unnamed_$Lookup_Type_sv_72"
+activeFile = "./src/rtl/Lookup_Type.sv"
+interactiveMode = False
+viewType = Source
+simulatorMode = False
+sourceBeginLine = 66
+baMode = True
+srcLineNum = True
+AutoWrap = True
+IdentifyFalseLogic = False
+syncSignal = False
+traceMode = Hierarchical
+showTraceInSchema = True
+paMode = False
+funcMode = False
+powerAwareAnnot = True
+amsAnnot = True
+traceCrossHier = True
+DnDtraceCrossHierOnly = True
+traceIncTopPort = False
+leadingZero = False
+signalPane = False
+Scope1 = "Testbench_wrapper.HyPipe_Top.parser_layer.lookup_type.Unnamed_$Lookup_Type_sv_72"
+Scope2 = "Testbench_wrapper.HyPipe_Top.parser_layer.lookup_type.Unnamed_$Lookup_Type_sv_85"
+Scope3 = "Testbench_wrapper.HyPipe_Top.parser_layer.lookup_type"
+Scope4 = "Testbench_wrapper.HyPipe_Top.parser_layer.rule_conf"
+Scope5 = "Testbench_wrapper.HyPipe_Top.parser_layer.gen_extract_type[0].extract_type_field"
+Scope6 = "Testbench_wrapper.HyPipe_Top"
+Scope7 = "Testbench_wrapper"
+multipleSelection = 3 74 20 0 0 74 15 0 0 74 11 0 0
+sdfCheckUndef = FALSE
+simFlow = FALSE
+[hb.design]
+importCmd = "-sverilog" "+v2k" "-f" "file_list.f" "-top" "Testbench_wrapper" 
+invokeDir = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser
+[hb.sourceTab.1]
+scope = Testbench_wrapper.HyPipe_Top.parser_layer.lookup_type.Unnamed_$Lookup_Type_sv_72
+File = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/src/rtl/Lookup_Type.sv
+Line = 67
+[nMemoryManager]
+WaveformFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
+UserActionNum = 0
+nMemWindowNum = 0
+[wave.0]
+viewPort = 0 27 1850 497 305 245
+primaryWindow = TRUE
+SessionFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/verdiLog/novas_autosave.ses.wave.0
+displayGrid = FALSE
+hierarchicalName = FALSE
+snap = TRUE
+displayLeadingZeros = FALSE
+fixDelta = FALSE
+displayCursorMarker = FALSE
+autoUpdate = FALSE
+highlightGlitchs = FALSE
+waveformSyncCursorMarker = FALSE
+waveformSyncHorizontalRange = FALSE
+waveformSyncVerticalscroll = FALSE
+displayErrors = TRUE
+displayMsgSymbols = TRUE
+showMsgDescriptions = TRUE
+autoFit = FALSE
+displayDeltaY = FALSE
+centerCursor = FALSE

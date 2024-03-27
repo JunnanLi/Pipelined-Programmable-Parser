@@ -1,0 +1,122 @@
+sidCmdLineBehaviorAnalysisOpt -incr -clockSkew 0 -loopUnroll 0 -bboxEmptyModule 0  -cellModel 0 -bboxIgnoreProtected 0 
+debImport "-sverilog" "+v2k" "-f" "file_list.f" "-top" "Testbench_wrapper"
+debLoadSimResult \
+           /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
+wvCreateWindow
+wvSetCursor -win $_nWave2 4661538.461538
+wvRestoreSignal -win $_nWave2 \
+           "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test.rc" \
+           -overWriteAutoAlias on -appendSignals on
+wvSetCursor -win $_nWave2 7125300.355621 -snap {("G2" 1)}
+wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
+wvSetPosition -win $_nWave2 {("G2" 2)}
+wvExpandBus -win $_nWave2 {("G2" 2)}
+wvSetPosition -win $_nWave2 {("G2" 67)}
+wvScrollDown -win $_nWave2 2
+wvScrollUp -win $_nWave2 1
+wvSelectSignal -win $_nWave2 {( "G2" 53 )} 
+wvSelectSignal -win $_nWave2 {( "G2" 52 )} 
+wvScrollUp -win $_nWave2 1
+wvSelectSignal -win $_nWave2 {( "G2" 51 )} 
+wvScrollUp -win $_nWave2 4
+wvScrollDown -win $_nWave2 6
+wvSelectGroup -win $_nWave2 {G3}
+wvSetPosition -win $_nWave2 {("G3" 0)}
+srcHBSelect "Testbench_wrapper.HyPipe_Top" -win $_nTrace1
+srcSetScope -win $_nTrace1 "Testbench_wrapper.HyPipe_Top" -delim "."
+srcHBSelect "Testbench_wrapper.HyPipe_Top" -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "i_data_valid" -line 17 -pos 1 -win $_nTrace1
+srcSelect -signal "i_data" -line 18 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+wvSetCursor -win $_nWave2 5953929.452472 -snap {("G3" 2)}
+wvSelectSignal -win $_nWave2 {( "G3" 1 )} 
+wvSelectSignal -win $_nWave2 {( "G3" 1 2 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G3" 0)}
+wvScrollUp -win $_nWave2 59
+wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
+wvSetPosition -win $_nWave2 {("G2" 2)}
+wvCollapseBus -win $_nWave2 {("G2" 2)}
+wvSetPosition -win $_nWave2 {("G2" 2)}
+wvSetPosition -win $_nWave2 {("G3" 0)}
+wvSelectSignal -win $_nWave2 {( "G2" 3 )} 
+wvSelectGroup -win $_nWave2 {G3}
+wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
+wvSelectGroup -win $_nWave2 {G3}
+wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
+wvSelectSignal -win $_nWave2 {( "G2" 3 )} 
+wvSetCursor -win $_nWave2 6148079.325922 -snap {("G2" 3)}
+wvSetCursor -win $_nWave2 6109249.351232 -snap {("G2" 3)}
+srcActiveTrace "Testbench_wrapper.HyPipe_Top.parser_layer.w_type_field\[1:0\]" \
+           -win $_nTrace1 -TraceByDConWave -TraceTime 2300000 -TraceValue \
+           10001000, 10001000
+wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
+wvSetPosition -win $_nWave2 {("G2" 2)}
+wvExpandBus -win $_nWave2 {("G2" 2)}
+wvSetPosition -win $_nWave2 {("G3" 0)}
+wvScrollDown -win $_nWave2 3
+wvScrollUp -win $_nWave2 12
+wvScrollUp -win $_nWave2 47
+wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
+wvSetPosition -win $_nWave2 {("G2" 2)}
+wvCollapseBus -win $_nWave2 {("G2" 2)}
+wvSetPosition -win $_nWave2 {("G2" 2)}
+wvSetPosition -win $_nWave2 {("G3" 0)}
+srcDeselectAll -win $_nTrace1
+srcSetOptions -win $_nTrace1 -annotate on
+schSetOptions -win $_nSchema1 -annotate on
+srcHBSelect "Testbench_wrapper.HyPipe_Top.parser_layer.rule_conf" -win $_nTrace1
+srcSetScope -win $_nTrace1 "Testbench_wrapper.HyPipe_Top.parser_layer.rule_conf" \
+           -delim "."
+srcHBSelect "Testbench_wrapper.HyPipe_Top.parser_layer.rule_conf" -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "i_rule_addr" -line 13 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "o_typeRule_valid" -line 16 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "o_typeRule_wren" -line 15 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "o_type_offset" -line 14 -pos 1 -win $_nTrace1
+srcHBSelect "Testbench_wrapper.HyPipe_Top.parser_layer.lookup_type" -win \
+           $_nTrace1
+srcSetScope -win $_nTrace1 \
+           "Testbench_wrapper.HyPipe_Top.parser_layer.lookup_type" -delim "."
+srcHBSelect "Testbench_wrapper.HyPipe_Top.parser_layer.lookup_type" -win \
+           $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "o_result" -line 20 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "o_result" -line 20 -pos 1 -win $_nTrace1
+srcAction -pos 19 33 4 -win $_nTrace1 -name "o_result" -ctrlKey off
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "LOOKUP_NO_DELAHY" -line 83 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "w_result" -line 83 -pos 1 -win $_nTrace1
+srcAction -pos 82 12 5 -win $_nTrace1 -name "w_result" -ctrlKey off
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "w_hit_rule\[i\]" -line 88 -pos 1 -win $_nTrace1
+srcAction -pos 87 17 5 -win $_nTrace1 -name "w_hit_rule\[i\]" -ctrlKey off
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "w_hit_rule\[i\]" -line 73 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "r_rule_typeMask\[i\]\[j\]" -line 75 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "r_rule_typeData\[i\]\[j\]" -line 75 -pos 1 -win $_nTrace1
+srcSelect -signal "i_type\[j\]" -line 75 -pos 1 -win $_nTrace1
+srcSelect -signal "r_rule_typeMask\[i\]\[j\]" -line 75 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+wvScrollDown -win $_nWave2 1
+wvSelectSignal -win $_nWave2 {( "G3" 2 )} 
+wvSelectSignal -win $_nWave2 {( "G3" 2 3 4 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G3" 1)}
