@@ -36,10 +36,10 @@ module Parser_Layer(
   output  wire  [31:0]            o_rule_rdata,
 
   //--data--//
-  input   wire                    i_head_in_valid,
-  input   wire  [`HEAD_WIDTH-1:0] i_head_in,
-  output  wire                    o_head_out_valid,
-  output  wire  [`HEAD_WIDTH-1:0] o_head_out,
+  input   wire                    i_head_valid,
+  input   wire  [`HEAD_WIDTH-1:0] i_head,
+  output  wire                    o_head_valid,
+  output  wire  [`HEAD_WIDTH-1:0] o_head,
   output  wire                    o_meta_valid,
   output  wire  [`META_WIDTH-1:0] o_meta
 );
@@ -97,15 +97,24 @@ module Parser_Layer(
   endgenerate
 
   Lookup_Type lookup_type(
-    .i_clk              (i_clk              ),
-    .i_rst_n            (i_rst_n            ),
-    .i_type             (w_type_field       ),
-    .o_result           (w_key_offset       ),
-    .i_rule_wren        (w_typeRule_wren    ),
+    .i_clk                (i_clk                  ),
+    .i_rst_n              (i_rst_n                ),
+    .i_type               (w_type_field           ),
+    .o_result             (w_key_offset           ),
+    .i_rule_wren          (w_typeRule_wren        ),
     .i_typeRule_valid     (w_typeRule_valid       ),
     .i_typeRule_typeData  (w_typeRule_typeData    ),
     .i_typeRule_typeMask  (w_typeRule_typeMask    ),
     .i_typeRule_keyOffset (w_typeRule_keyOffset   )
+  );
+
+  Shift_Head shift_head(
+    .i_clk                (i_clk                  ),
+    .i_rst_n              (i_rst_n                ),
+    .i_head               (l_head                 ),
+    .o_head               (l_head                 ),
+    .i_meta               (w_meta_in              ),
+    .o_meta               (o_meta                 ),
   );
 
   Rule_Conf rule_conf(
@@ -135,9 +144,9 @@ module Parser_Layer(
 
   always_comb begin
     for(integer i=0; i<`TYPE_CANDI_NUM; i=i+1)
-      w_headType[i]         <= i_head_in[(`TYPE_CANDI_NUM-i-1)*`TYPE_WIDTH+:`TYPE_WIDTH];
+      w_headType[i]         <= i_head[(`TYPE_CANDI_NUM-i-1)*`TYPE_WIDTH+:`TYPE_WIDTH];
     for(integer i=0; i<`KEY_CANDI_NUM; i=i+1)
-      w_headKey[i]          <= i_head_in[(`KEY_CANDI_NUM-i-1)*`KEY_FIELD_WIDTH+:`KEY_FIELD_WIDTH];
+      w_headKey[i]          <= i_head[(`KEY_CANDI_NUM-i-1)*`KEY_FIELD_WIDTH+:`KEY_FIELD_WIDTH];
   end
 
   //* insert one cycle;

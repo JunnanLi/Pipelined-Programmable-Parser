@@ -65,10 +65,10 @@ module HyPipe_Top(
     .o_rule_rdata         (               ),
 
     //--data--//
-    .i_head_in_valid      (w_phv_in_valid ),
-    .i_head_in            (w_phv_in       ),
-    .o_head_out_valid     (               ),
-    .o_head_out           (               ),
+    .i_head_valid         (w_phv_in_valid ),
+    .i_head               (w_phv_in       ),
+    .o_head_valid         (               ),
+    .o_head               (               ),
     .o_meta_valid         (w_wren_meta    ),
     .o_meta               (w_wdata_meta   )
   );
