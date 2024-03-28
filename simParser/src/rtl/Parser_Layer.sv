@@ -113,8 +113,10 @@ module Parser_Layer(
     .i_rst_n              (i_rst_n                ),
     .i_head               (l_head                 ),
     .o_head               (l_head                 ),
+    .i_headShift          (l_headShift            ),
     .i_meta               (w_meta_in              ),
     .o_meta               (o_meta                 ),
+    .i_metaShift          (l_metaShift            ),
   );
 
   Rule_Conf rule_conf(

@@ -2,7 +2,7 @@ Magic 271485
 Revision Verdi_O-2018.09-SP2
 
 ; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
-viewPort 0 27 1850 497 305 245
+viewPort 0 27 1978 517 305 245
 
 ; File list:
 ; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
@@ -17,13 +17,13 @@ signalSpacing 5
 ; windowTimeUnit is used for zoom, cursor & marker
 ; waveform viewport range
 zoom 5073783.359498 13318681.318681
-cursor 6100000.000000
+cursor 7100000.000000
 marker 0.000000
 
 ; user define markers
 ; userMarker time_pos marker_name color linestyle
 ; visible top row signal index
-top 2
+top 1
 ; marker line index
 markerPos 19
 
@@ -64,9 +64,9 @@ addGroup "G2"
 addSignal -h 15 /Testbench_wrapper/HyPipe_Top/parser_layer/i_head_in_valid
 addSignal -h 15 -holdScope w_headType[63:0]
 addSignal -h 15 -holdScope w_type_field[1:0]
+addSignal -h 15 -holdScope o_meta_valid
+addSignal -h 15 -holdScope o_meta[127:0]
 addGroup "G3"
-addSignal -h 15 /Testbench_wrapper/HyPipe_Top/parser_layer/lookup_type/w_hit_rule[7:0]
-addGroup "G4"
 
 ; getSignalForm Scope Hierarchy Status
 ; active file of getSignalForm
