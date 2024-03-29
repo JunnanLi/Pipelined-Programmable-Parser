@@ -18,11 +18,15 @@ module Lookup_Type
   input   wire                                              i_rst_n,
   input   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            i_type,
   output  wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0] o_result,
+  output  wire  [`HEAD_SHIFT_WIDTH-1:0]                     o_headShift,
+  output  wire  [`META_SHIFT_WIDTH-1:0]                     o_metaShift,
   input   wire  [`RULE_NUM-1:0]                             i_rule_wren,
   input   wire                                              i_typeRule_valid,
   input   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            i_typeRule_typeData,
   input   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            i_typeRule_typeMask,
-  input   wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0] i_typeRule_keyOffset
+  input   wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0] i_typeRule_keyOffset,
+  input   wire  [`HEAD_SHIFT_WIDTH-1:0]                     i_typeRule_headShift,
+  input   wire  [`META_SHIFT_WIDTH-1:0]                     i_typeRule_metaShift
 );
 
 
@@ -33,10 +37,16 @@ module Lookup_Type
   reg   [`RULE_NUM-1:0][`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]             r_rule_typeData;
   reg   [`RULE_NUM-1:0][`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]             r_rule_typeMask;
   reg   [`RULE_NUM-1:0][`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0]  r_rule_keyOffset;
+  reg   [`RULE_NUM-1:0][`HEAD_SHIFT_WIDTH-1:0]                      r_rule_headShift;
+  reg   [`RULE_NUM-1:0][`META_SHIFT_WIDTH-1:0]                      r_rule_metaShift;
   (* mark_debug = "true"*)logic [`RULE_NUM-1:0]                                          w_hit_rule;
   logic [`TYPE_NUM*`TYPE_WIDTH-1:0]                                 w_type;
   logic [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0]                 w_result;
+  logic [`HEAD_SHIFT_WIDTH-1:0]                                     w_headShift;
+  logic [`META_SHIFT_WIDTH-1:0]                                     w_metaShift;
   reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0]                 r_result;
+  reg   [`HEAD_SHIFT_WIDTH-1:0]                                     r_headShift;
+  reg   [`META_SHIFT_WIDTH-1:0]                                     r_metaShift;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
   //====================================================================//
@@ -53,6 +63,8 @@ module Lookup_Type
          r_rule_typeData[i]     <= i_rule_wren[i]? i_typeRule_typeData: r_rule_typeData[i];
          r_rule_typeMask[i]     <= i_rule_wren[i]? i_typeRule_typeMask: r_rule_typeMask[i];
          r_rule_keyOffset[i]    <= i_rule_wren[i]? i_typeRule_keyOffset:r_rule_keyOffset[i];
+         r_rule_headShift[i]    <= i_rule_wren[i]? i_typeRule_headShift:r_rule_headShift[i];
+         r_rule_metaShift[i]    <= i_rule_wren[i]? i_typeRule_metaShift:r_rule_metaShift[i];
       end
     end
   end
@@ -80,16 +92,26 @@ module Lookup_Type
   //====================================================================//
   //*   output result
   //====================================================================//
-  assign o_result = (LOOKUP_NO_DELAHY)? w_result: r_result;
+  assign o_result    = (LOOKUP_NO_DELAHY)? w_result: r_result;
+  assign o_headShift = (LOOKUP_NO_DELAHY)? w_headShift: r_headShift;
+  assign o_metaShift = (LOOKUP_NO_DELAHY)? w_metaShift: r_metaShift;
   always_comb begin
     for(integer j = 0; j < `KEY_FILED_NUM; j++) begin
       w_result[j]   = 'b0;
       for(integer i = 0; i < `RULE_NUM; i++)
         w_result[j] = {`KEY_OFFSET_WIDTH{w_hit_rule[i]}} & r_rule_keyOffset[i][j] | w_result[j];
     end
+    w_headShift     = 'b0;
+    w_metaShift     = 'b0;
+    for(integer i=0; i< `RULE_NUM; i++) begin
+      w_headShift   = {`HEAD_SHIFT_WIDTH{w_hit_rule[i]}} & r_rule_headShift[i] | w_headShift;
+      w_metaShift   = {`HEAD_SHIFT_WIDTH{w_hit_rule[i]}} & r_rule_metaShift[i] | w_metaShift;
+    end
   end
   always_ff @(posedge i_clk) begin
     r_result        <= w_result;
+    r_headShift     <= w_headShift;
+    r_metaShift     <= w_metaShift;
   end
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 

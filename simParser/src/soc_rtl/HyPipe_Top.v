@@ -27,10 +27,10 @@ module HyPipe_Top(
   wire  [31:0]              w_rule_addr;
   wire  [31:0]              w_rule_wdata;
   wire                      w_phv_in_valid;
-  wire  [`HEAD_WIDTH-1:0]   w_phv_in;
+  wire  [`HEAD_WIDTH+`TAG_WIDTH-1:0]   w_phv_in;
   wire  [133:0]             w_wdata_pktIn, w_dout_pktIn;
   wire                      w_wren_pktIn, w_rden_pktIn, w_wren_meta, w_rden_meta;
-  wire  [`META_WIDTH-1:0]   w_wdata_meta, w_dout_meta;
+  wire  [`META_WIDTH+`TAG_WIDTH-1:0]   w_wdata_meta, w_dout_meta;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
   //* recv pkt, and gen phv;
@@ -65,29 +65,27 @@ module HyPipe_Top(
     .o_rule_rdata         (               ),
 
     //--data--//
-    .i_head_valid         (w_phv_in_valid ),
     .i_head               (w_phv_in       ),
-    .o_head_valid         (               ),
     .o_head               (               ),
-    .o_meta_valid         (w_wren_meta    ),
+    .i_meta               ('b0            ),
     .o_meta               (w_wdata_meta   )
   );
 
   //* replace src mac with dst mac;
 
 
-  Replace_MAC_ADDR Replace_mac_addr(
-    .i_clk                (i_clk          ),
-    .i_rst_n              (i_rst_n        ),
+  // Replace_MAC_ADDR Replace_mac_addr(
+  //   .i_clk                (i_clk          ),
+  //   .i_rst_n              (i_rst_n        ),
 
-    //--data--//
-    .i_pkt_valid          (w_wren_pktIn   ),
-    .i_pkt                (w_wdata_pktIn  ),
-    .o_pkt_valid          (o_data_valid   ),
-    .o_pkt                (o_data         ),
-    .i_meta_valid         (w_wren_meta    ),
-    .i_meta               (w_wdata_meta   )
-  );
+  //   //--data--//
+  //   .i_pkt_valid          (w_wren_pktIn   ),
+  //   .i_pkt                (w_wdata_pktIn  ),
+  //   .o_pkt_valid          (o_data_valid   ),
+  //   .o_pkt                (o_data         ),
+  //   .i_meta_valid         (w_wren_meta    ),
+  //   .i_meta               (w_wdata_meta[127:0]   )
+  // );
 
   // `ifdef XILINX_FIFO_RAM
   //   fifo_134b_512 fifo_pktIn (

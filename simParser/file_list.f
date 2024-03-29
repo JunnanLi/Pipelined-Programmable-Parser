@@ -3,6 +3,7 @@
 ./src/rtl/Parser_Layer.sv
 ./src/rtl/Extract_Field.sv
 ./src/rtl/Lookup_Type.sv
+./src/rtl/Head_Shift.sv
 ./src/rtl/Rule_Conf.sv
 
 ./src/sim_rtl/asyncfifo.v

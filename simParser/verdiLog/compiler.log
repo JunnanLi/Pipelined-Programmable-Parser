@@ -8,6 +8,7 @@ Command arguments:
         ./src/rtl/Parser_Layer.sv
         ./src/rtl/Extract_Field.sv
         ./src/rtl/Lookup_Type.sv
+        ./src/rtl/Head_Shift.sv
         ./src/rtl/Rule_Conf.sv
         ./src/sim_rtl/asyncfifo.v
         ./src/sim_rtl/syncfifo.v
@@ -23,6 +24,10 @@ Highest level modules:
 asyncfifo
 syncfifo
 syncram
+Replace_MAC_ADDR
 Testbench_wrapper
 
-Total	0 error(s),   0 warning(s)
+
+*Warning* port sizes differ (547 vs 0) in port connection (port i_meta)
+"./src/soc_rtl/HyPipe_Top.v", 70: 
+Total	0 error(s),   1 warning(s)

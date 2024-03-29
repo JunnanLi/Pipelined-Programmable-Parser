@@ -313,10 +313,18 @@ module Testbench_wrapper(
                   r_data        <= {2'b00,4'hf,48'b0,
                                       24'b0,4'b0,r_cnt_pktData[3:0],
                                       16'd1,8'd2,4'b0,r_cnt_pktData[3:0]-4'd1,16'b0}; //* 48b pad + 32b data + 32b addr + 16b pad;
-            4'd9: begin
-                  r_data        <= {2'b10,4'hf,48'b0,
+            4'd9: r_data        <= {2'b10,4'hf,48'b0,
                                       24'b0,4'b0,r_cnt_pktData[3:0],
                                       16'd1,8'd2,4'b0,r_cnt_pktData[3:0],16'b0};
+            4'd10: begin
+                  r_data        <= {2'b10,4'hf,48'b0,
+                                      24'b0,4'b0,4'b0,
+                                      16'd1,8'd3,8'b0,16'b0};
+            end
+            4'd11: begin
+                  r_data        <= {2'b10,4'hf,48'b0,
+                                      24'b0,4'b0,4'b0,
+                                      16'd1,8'd4,8'b0,16'b0};
                   state_cur     <= IDLE_S;
             end
           endcase
