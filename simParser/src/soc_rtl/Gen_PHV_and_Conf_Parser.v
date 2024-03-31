@@ -12,7 +12,7 @@
 
 module Gen_PHV_and_Conf_Parser
 #(
-  parameter   PKT_NUM           = `HEAD_WIDTH/128 - 1
+  parameter   PKT_NUM           = `HEAD_WIDTH/128
 )
 (
   input   wire                  i_clk,
@@ -42,7 +42,7 @@ module Gen_PHV_and_Conf_Parser
   reg                                 r_wren_head, r_rden_head;
   wire  [`HEAD_WIDTH+`TAG_WIDTH-1:0]  w_dout_head;
   wire  w_inc_cnt, w_dec_cnt;
-
+  reg   [3:0]                         r_cnt_head;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
   integer i;
@@ -64,23 +64,18 @@ module Gen_PHV_and_Conf_Parser
 
         o_pkt_valid                         <= (i_pkt[31:16] == 16'h9006)? 1'b0: 1'b1;
       end
-      else if(i_pkt_valid == 1'b1 && o_pkt_valid == 1'b1) begin
+      else if(i_pkt_valid == 1'b1) begin
         r_cnt_pkt                           <= 8'd1 + r_cnt_pkt;
         for(i=0; i<PKT_NUM; i=i+1)
-          if(i == r_cnt_pkt[PKT_NUM_WIDTH-1:0] == 1'b0)
+          if(i == r_cnt_pkt[PKT_NUM_WIDTH-1:0])
             r_din_head[`HEAD_WIDTH-128*i-1-:128] <= i_pkt[127:0];
         if(r_cnt_pkt[PKT_NUM_WIDTH-1:0] == 0)
-          r_din_head[0+:`HEAD_WIDTH]        <= {4'b1100,{`TAG_START_BIT{1'b1}}};
+          r_din_head[`HEAD_WIDTH+:`TAG_WIDTH]    <= {4'b1100,{`TAG_START_BIT{1'b1}}};
+        if(r_cnt_pkt[PKT_NUM_WIDTH-1:0] == (PKT_NUM-1) || i_pkt[133:132] == 2'b10)
+          r_wren_head                       <= 1'b1;
+        if(i_pkt[133:132] == 2'b10)
+          r_din_head[`TAG_TAIL_BIT+`HEAD_WIDTH]  <= 1'b1;
       end
-      r_wren_head                           <= 1'b0;
-      if(o_pkt_valid==1'b1 && o_pkt[133:132] == 2'b10) begin
-        r_wren_head                         <= 1'b1;
-        r_din_head[`TAG_TAIL_BIT]           <= 1'b1;
-      end
-      else if(r_cnt_pkt[PKT_NUM_WIDTH-1:0] == PKT_NUM) begin
-        r_wren_head                         <= 1'b1;
-      end
-
       //* tag to conf parser rules;
       if(i_pkt_valid == 1'b1 && i_pkt[133:132] == 2'b01)
         r_tag_conf                      <= (i_pkt[31:16] == 16'h9006);
@@ -92,6 +87,32 @@ module Gen_PHV_and_Conf_Parser
         o_rule_wren                     <= 1'b1;
         o_rule_addr                     <= i_pkt[16+:32];
         o_rule_wdata                    <= i_pkt[48+:32];
+      end
+    end
+  end
+
+  assign w_inc_cnt = r_wren_head & r_din_head[`TAG_TAIL_BIT+`HEAD_WIDTH];
+  assign w_dec_cnt = r_rden_head & w_dout_head[`TAG_START_BIT+`HEAD_WIDTH];
+  always @(posedge i_clk or negedge i_rst_n) begin
+    if(~i_rst_n) begin
+      r_rden_head                       <= 1'b0;
+      o_phv[`HEAD_WIDTH+:`TAG_WIDTH]    <= 'b0;
+      o_phv_valid                       <= 'b1;
+      r_cnt_head                        <= 'b0;
+    end else begin
+      o_phv_valid                       <= r_rden_head;
+      o_phv                             <= (r_rden_head)? w_dout_head: 'b0;
+      case({w_dec_cnt, w_inc_cnt})
+        2'b10: r_cnt_head               <= r_cnt_head - 'd1;
+        2'b01: r_cnt_head               <= r_cnt_head + 'd1;
+        default: r_cnt_head             <= r_cnt_head;
+      endcase
+
+      if(r_cnt_head != 'b0 && r_rden_head == 1'b0) begin
+        r_rden_head                     <= 1'b1;
+      end
+      else if(r_rden_head == 1'b1 && w_dout_head[`HEAD_WIDTH+`TAG_TAIL_BIT] == 1'b1) begin
+        r_rden_head                     <= 1'b0;
       end
     end
   end

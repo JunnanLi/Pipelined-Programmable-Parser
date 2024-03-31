@@ -10,6 +10,20 @@
  *
  */
 
+  /*------------------------------------------------------------------------------------
+   *     name    | offset  |  description
+   *------------------------------------------------------------------------------------
+   * i_rule_addr |  [16]   | 1: conf type_offset, 0: conf rules
+   *------------------------------------------------------------------------------------
+   * [16] is 1   |  [3:0]  | type id, e.g., 2; while i_rule_wdata is offset;
+   *------------------------------------------------------------------------------------
+   *             |         | 0: write rules; while i_rule_wdata[0] is valid info
+   * [16] is 0   |  [10:8] | 1: conf type data & type mask; while i_rule_addr[3:0] is type id
+   *             |         | 2: conf key offset; while i_rule_addr[5:0] is keyField id
+   *             |         | 3: conf head shift; while i_rule_addr[5:0] is keyField id
+   *             |         | 4: conf meta shift; while i_rule_addr[5:0] is keyField id
+   *------------------------------------------------------------------------------------*/
+
 `timescale 1ns/1ps
 // `define SIM_PKT_IO
 
@@ -313,18 +327,18 @@ module Testbench_wrapper(
                   r_data        <= {2'b00,4'hf,48'b0,
                                       24'b0,4'b0,r_cnt_pktData[3:0],
                                       16'd1,8'd2,4'b0,r_cnt_pktData[3:0]-4'd1,16'b0}; //* 48b pad + 32b data + 32b addr + 16b pad;
-            4'd9: r_data        <= {2'b10,4'hf,48'b0,
+            4'd9: r_data        <= {2'b00,4'hf,48'b0,
                                       24'b0,4'b0,r_cnt_pktData[3:0],
                                       16'd1,8'd2,4'b0,r_cnt_pktData[3:0],16'b0};
             4'd10: begin
-                  r_data        <= {2'b10,4'hf,48'b0,
-                                      24'b0,4'b0,4'b0,
-                                      16'd1,8'd3,8'b0,16'b0};
+                  r_data        <= {2'b00,4'hf,48'b0,
+                                      24'b0,4'b0,4'd2,
+                                      16'd1,8'd3,8'b0,16'b0}; //* head shift
             end
             4'd11: begin
                   r_data        <= {2'b10,4'hf,48'b0,
                                       24'b0,4'b0,4'b0,
-                                      16'd1,8'd4,8'b0,16'b0};
+                                      16'd1,8'd4,8'b0,16'b0}; //* meta shift
                   state_cur     <= IDLE_S;
             end
           endcase
