@@ -2,7 +2,7 @@ Magic 271485
 Revision Verdi_O-2018.09-SP2
 
 ; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
-viewPort 0 27 1978 481 305 245
+viewPort 0 27 1978 387 305 245
 
 ; File list:
 ; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
@@ -16,8 +16,8 @@ signalSpacing 5
 
 ; windowTimeUnit is used for zoom, cursor & marker
 ; waveform viewport range
-zoom 7763231.259185 9779527.522318
-cursor 8300000.000000
+zoom 5700370.596936 11589223.889559
+cursor 8500000.000000
 marker 0.000000
 
 ; user define markers
@@ -25,9 +25,9 @@ marker 0.000000
 userMarker 7300000 err ID_GREEN5 long_dashed
 
 ; visible top row signal index
-top 8
+top 18
 ; marker line index
-markerPos 22
+markerPos 29
 
 ; event list
 ; addEvent event_name event_expression
@@ -74,6 +74,11 @@ addSignal -h 15 /Testbench_wrapper/HyPipe_Top/parser_layer/shift_head/r_preHead[
 addSignal -h 15 /Testbench_wrapper/HyPipe_Top/parser_layer/o_head[520:0]
 addSignal -h 15 /Testbench_wrapper/HyPipe_Top/parser_layer/shift_head/w_2head[1023:0]
 addGroup "G6"
+addSignal -h 15 /Testbench_wrapper/HyPipe_Top/parser_layer/shift_head/d_o_head_startBit
+addSignal -h 15 -holdScope d_o_head_tailBit
+addSignal -h 15 -holdScope d_o_head_shiftBit
+addSignal -h 15 -holdScope d_o_head_validBit
+addGroup "G7"
 
 ; getSignalForm Scope Hierarchy Status
 ; active file of getSignalForm
