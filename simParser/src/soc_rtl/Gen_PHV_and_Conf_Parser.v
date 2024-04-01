@@ -106,6 +106,7 @@ module Gen_PHV_and_Conf_Parser
       o_phv                             <= (r_rden_head)? w_dout_head: 'b0;
       o_meta                            <= 'b0;
       if(r_rden_head == 1'b1 & w_dout_head[`HEAD_WIDTH+`TAG_START_BIT]) begin
+        o_meta[`META_WIDTH+`TAG_VALID_BIT]      <= 1'b1;
         o_meta[`META_WIDTH+`TAG_SHIFT_BIT]      <= 1'b1;
         o_meta[`META_WIDTH+`TAG_START_BIT]      <= 1'b1;
         o_meta[`META_WIDTH+`TAG_TAIL_BIT]       <= 1'b1;
