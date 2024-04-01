@@ -24,7 +24,8 @@ module Gen_PHV_and_Conf_Parser
   output  reg   [133:0]         o_pkt,
   input   wire  [7:0]           i_inport,
   output  reg                   o_phv_valid,
-  output  reg   [`HEAD_WIDTH+`TAG_WIDTH-1:0] o_phv,
+  output  reg   [`HEAD_WIDTH+`TAG_WIDTH-1:0]  o_phv,
+  output  reg   [`META_WIDTH+`TAG_WIDTH-1:0]  o_meta,
 
   output  reg                   o_rule_wren,
   output  reg   [31:0]          o_rule_addr,
@@ -97,11 +98,19 @@ module Gen_PHV_and_Conf_Parser
     if(~i_rst_n) begin
       r_rden_head                       <= 1'b0;
       o_phv[`HEAD_WIDTH+:`TAG_WIDTH]    <= 'b0;
+      o_meta[`META_WIDTH+:`TAG_WIDTH]   <= 'b0;
       o_phv_valid                       <= 'b1;
       r_cnt_head                        <= 'b0;
     end else begin
       o_phv_valid                       <= r_rden_head;
       o_phv                             <= (r_rden_head)? w_dout_head: 'b0;
+      o_meta                            <= 'b0;
+      if(r_rden_head == 1'b1 & w_dout_head[`HEAD_WIDTH+`TAG_START_BIT]) begin
+        o_meta[`META_WIDTH+`TAG_SHIFT_BIT]      <= 1'b1;
+        o_meta[`META_WIDTH+`TAG_START_BIT]      <= 1'b1;
+        o_meta[`META_WIDTH+`TAG_TAIL_BIT]       <= 1'b1;
+        o_meta[`META_WIDTH+:`META_SHIFT_WIDTH]  <= {`META_SHIFT_WIDTH{1'b1}};
+      end
       case({w_dec_cnt, w_inc_cnt})
         2'b10: r_cnt_head               <= r_cnt_head - 'd1;
         2'b01: r_cnt_head               <= r_cnt_head + 'd1;

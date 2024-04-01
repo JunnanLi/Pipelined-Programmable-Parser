@@ -3,25 +3,335 @@ debImport "-sverilog" "+v2k" "-f" "file_list.f" "-top" "Testbench_wrapper"
 debLoadSimResult \
            /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
 wvCreateWindow
-wvSetCursor -win $_nWave2 5705563.480742
+wvSetCursor -win $_nWave2 5533594.976452
 wvRestoreSignal -win $_nWave2 \
            "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test.rc" \
            -overWriteAutoAlias on -appendSignals on
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
 wvScrollDown -win $_nWave2 0
 wvScrollDown -win $_nWave2 0
 wvScrollDown -win $_nWave2 0
 wvScrollDown -win $_nWave2 0
-wvSetCursor -win $_nWave2 8303978.331181 -snap {("G5" 6)}
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvSelectSignal -win $_nWave2 {( "G4" 2 )} 
+wvScrollUp -win $_nWave2 9
+wvScrollUp -win $_nWave2 2
+wvScrollDown -win $_nWave2 4
+wvScrollDown -win $_nWave2 2
+wvScrollDown -win $_nWave2 2
+wvSetCursor -win $_nWave2 8502328.868983 -snap {("G5" 1)}
 srcActiveTrace \
-           "Testbench_wrapper.HyPipe_Top.parser_layer.shift_head.w_2head\[1023:0\]" \
+           "Testbench_wrapper.HyPipe_Top.gen_PHV_and_conf_parer.r_din_head\[520:0\]" \
+           -win $_nTrace1 -TraceByDConWave -TraceTime 7700000 -TraceValue \
+           11011111100000000000000010000001000000011000001000000010100000110000001110000100000001001000010100000101100001000000000000100010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011
+srcHBSelect "Testbench_wrapper.HyPipe_Top.parser_layer" -win $_nTrace1
+srcSetScope -win $_nTrace1 "Testbench_wrapper.HyPipe_Top.parser_layer" -delim "."
+srcHBSelect "Testbench_wrapper.HyPipe_Top.parser_layer" -win $_nTrace1
+wvSelectSignal -win $_nWave2 {( "G5" 1 )} 
+wvScrollDown -win $_nWave2 3
+wvSelectSignal -win $_nWave2 {( "G5" 4 )} 
+wvSelectSignal -win $_nWave2 {( "G5" 5 )} 
+wvSelectGroup -win $_nWave2 {G6}
+wvSelectSignal -win $_nWave2 {( "G5" 5 )} 
+wvSelectSignal -win $_nWave2 {( "G5" 4 )} 
+wvSelectSignal -win $_nWave2 {( "G5" 3 )} 
+wvSetCursor -win $_nWave2 8309245.553362 -snap {("G5" 3)}
+srcActiveTrace "Testbench_wrapper.HyPipe_Top.parser_layer.i_head\[520:0\]" -win \
+           $_nTrace1 -TraceByDConWave -TraceTime 8300000 -TraceValue \
+           00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+wvSelectSignal -win $_nWave2 {( "G5" 4 )} 
+wvSetCursor -win $_nWave2 8307662.903233 -snap {("G5" 4)}
+srcActiveTrace \
+           "Testbench_wrapper.HyPipe_Top.parser_layer.shift_head.r_preHead\[520:0\]" \
            -win $_nTrace1 -TraceByDConWave -TraceTime 8300000 -TraceValue \
-           0000000000000001000000100000001100000100000001010000011000000111000010000000100100001010000010110000100000000000010001010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011
+           11011111100000000000000010000001000000011000001000000010100000110000001110000100000001001000010100000101100001000000000000100010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011
+wvSelectSignal -win $_nWave2 {( "G5" 4 )} 
+wvSelectSignal -win $_nWave2 {( "G5" 3 )} 
+wvSelectSignal -win $_nWave2 {( "G5" 3 4 5 6 )} 
+wvSetPosition -win $_nWave2 {("G5" 3)}
+wvSetPosition -win $_nWave2 {("G5" 4)}
+wvSetPosition -win $_nWave2 {("G5" 5)}
+wvSetPosition -win $_nWave2 {("G5" 6)}
+wvSetPosition -win $_nWave2 {("G6" 0)}
+wvMoveSelected -win $_nWave2
+wvSetPosition -win $_nWave2 {("G6" 4)}
+wvSetPosition -win $_nWave2 {("G6" 4)}
+wvSelectSignal -win $_nWave2 {( "G6" 2 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 1 )} 
+wvScrollDown -win $_nWave2 1
+wvSelectGroup -win $_nWave2 {G7}
+wvSelectSignal -win $_nWave2 {( "G6" 4 )} 
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "w_startBit_headTag" -line 43 -pos 1 -win $_nTrace1
+srcSelect -signal "w_validBit_headTag" -line 44 -pos 1 -win $_nTrace1
+srcSelect -signal "w_startBit_metaTag" -line 45 -pos 1 -win $_nTrace1
+srcSelect -signal "w_shiftBit_metaTag" -line 46 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+wvSetCursor -win $_nWave2 8101988.790563 -snap {("G6" 4)}
+wvSelectSignal -win $_nWave2 {( "G6" 1 )} 
+wvSetCursor -win $_nWave2 7893035.546909 -snap {("G6" 1)}
+wvSelectSignal -win $_nWave2 {( "G6" 1 )} 
+wvSetPosition -win $_nWave2 {("G6" 1)}
+wvExpandBus -win $_nWave2 {("G6" 1)}
+wvSetPosition -win $_nWave2 {("G6" 529)}
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 528
+wvScrollDown -win $_nWave2 14
+wvSelectSignal -win $_nWave2 {( "G6" 2 )} 
+wvScrollDown -win $_nWave2 2
+wvSelectSignal -win $_nWave2 {( "G6" 3 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 4 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 5 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 4 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 3 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 2 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 1 )} 
+wvSetPosition -win $_nWave2 {("G6" 1)}
+wvCollapseBus -win $_nWave2 {("G6" 1)}
+wvSetPosition -win $_nWave2 {("G6" 1)}
+wvSetPosition -win $_nWave2 {("G6" 8)}
+wvSelectSignal -win $_nWave2 {( "G6" 6 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 5 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 6 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 1 )} 
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "i_head" -line 43 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -word -line 42 -pos 10 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "i_head" -line 43 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+wvSelectSignal -win $_nWave2 {( "G6" 8 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 9 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 8 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 9 )} 
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvSetCursor -win $_nWave2 7908390.444359 -snap {("G6" 1)}
+srcActiveTrace "Testbench_wrapper.HyPipe_Top.parser_layer.i_head\[520:0\]" -win \
+           $_nTrace1 -TraceByDConWave -TraceTime 7900000 -TraceValue \
+           11011111100000000000000010000001000000011000001000000010100000110000001110000100000001001000010100000101100001000000000000100010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011
 srcDeselectAll -win $_nTrace1
 srcSetOptions -win $_nTrace1 -annotate on
 schSetOptions -win $_nSchema1 -annotate on
 srcDeselectAll -win $_nTrace1
-srcSelect -win $_nTrace1 -range {98 99 3 1 4 1}
+srcSelect -signal "r_rden_head" -line 106 -pos 1 -win $_nTrace1
 srcAddSelectedToWave -clipboard -win $_nTrace1
 wvDrop -win $_nWave2
-wvSelectSignal -win $_nWave2 {( "G5" 7 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 9 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 10 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G7" 0)}
+wvSetPosition -win $_nWave2 {("G6" 9)}
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "r_din_head" -line 74 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -word -line 73 -pos 4 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -word -line 73 -pos 7 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -win $_nTrace1 -range {74 75 1 1 1 1}
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "r_din_head" -line 74 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "r_wren_head" -line 76 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+wvSetCursor -win $_nWave2 7305987.740779 -snap {("G6" 10)}
+srcActiveTrace \
+           "Testbench_wrapper.HyPipe_Top.gen_PHV_and_conf_parer.r_din_head\[520:512\]" \
+           -win $_nTrace1 -TraceByDConWave -TraceTime 7300000 -TraceValue \
+           111011111
+wvSetCursor -win $_nWave2 7097034.497125 -snap {("G6" 11)}
+wvSetCursor -win $_nWave2 6915071.047443 -snap {("G6" 1)}
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "r_din_head" -line 62 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "i_pkt\[133:132\]" -line 60 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+wvSetCursor -win $_nWave2 6321058.133193 -snap {("G6" 12)}
+wvSetCursor -win $_nWave2 6507849.669187 -snap {("G6" 10)}
+wvSetCursor -win $_nWave2 6306811.321126 -snap {("G6" 12)}
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -word -line 61 -pos 4 -win $_nTrace1
+wvSelectSignal -win $_nWave2 {( "G6" 1 )} 
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvSetCursor -win $_nWave2 7907044.912108 -snap {("G6" 1)}
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvSelectSignal -win $_nWave2 {( "G6" 9 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 10 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 10 )} 
+wvSetPosition -win $_nWave2 {("G6" 10)}
+wvExpandBus -win $_nWave2 {("G6" 10)}
+wvSetPosition -win $_nWave2 {("G6" 21)}
+wvSelectSignal -win $_nWave2 {( "G6" 14 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 13 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 12 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 11 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 13 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 14 )} 
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvSelectSignal -win $_nWave2 {( "G6" 10 )} 
+wvSetPosition -win $_nWave2 {("G6" 10)}
+wvCollapseBus -win $_nWave2 {("G6" 10)}
+wvSetPosition -win $_nWave2 {("G6" 10)}
+wvSetPosition -win $_nWave2 {("G6" 12)}
+wvSetCursor -win $_nWave2 7913376.828583 -snap {("G6" 1)}
+wvSelectSignal -win $_nWave2 {( "G6" 1 )} 
+wvSetPosition -win $_nWave2 {("G6" 1)}
+wvExpandBus -win $_nWave2 {("G6" 1)}
+wvSetPosition -win $_nWave2 {("G6" 533)}
+wvScrollUp -win $_nWave2 112
+wvScrollUp -win $_nWave2 402
+wvSelectSignal -win $_nWave2 {( "G6" 5 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 1 )} 
+wvSetPosition -win $_nWave2 {("G6" 1)}
+wvCollapseBus -win $_nWave2 {("G6" 1)}
+wvSetPosition -win $_nWave2 {("G6" 1)}
+wvSetPosition -win $_nWave2 {("G6" 12)}
+wvScrollDown -win $_nWave2 3
+wvSelectSignal -win $_nWave2 {( "G6" 9 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 1 )} 
+wvSetPosition -win $_nWave2 {("G6" 1)}
+wvExpandBus -win $_nWave2 {("G6" 1)}
+wvSetPosition -win $_nWave2 {("G6" 533)}
+wvScrollUp -win $_nWave2 43
+wvScrollUp -win $_nWave2 487
+wvScrollDown -win $_nWave2 15
+wvSelectSignal -win $_nWave2 {( "G6" 5 )} 
+wvSetCursor -win $_nWave2 7900712.995634 -snap {("G6" 5)}
+wvSetCursor -win $_nWave2 7900712.995634 -snap {("G6" 5)}
+srcActiveTrace "Testbench_wrapper.HyPipe_Top.parser_layer.i_head\[517\]" -win \
+           $_nTrace1 -TraceByDConWave -TraceTime 7100000 -TraceValue 0
+wvSelectSignal -win $_nWave2 {( "G6" 5 )} 
+wvAddSignal -win $_nWave2 \
+           "/Testbench_wrapper/HyPipe_Top/parser_layer/i_head\[517\]"
+wvSetPosition -win $_nWave2 {("G6" 533)}
+wvSetPosition -win $_nWave2 {("G6" 534)}
+wvScrollUp -win $_nWave2 21
+wvScrollUp -win $_nWave2 503
+wvSelectSignal -win $_nWave2 {( "G6" 1 )} 
+wvSetPosition -win $_nWave2 {("G6" 1)}
+wvCollapseBus -win $_nWave2 {("G6" 1)}
+wvSetPosition -win $_nWave2 {("G6" 1)}
+wvSetPosition -win $_nWave2 {("G6" 13)}
+wvScrollDown -win $_nWave2 2
+wvSelectSignal -win $_nWave2 {( "G6" 9 )} 
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvSetCursor -win $_nWave2 8098585.385458 -snap {("G6" 9)}
+srcActiveTrace \
+           "Testbench_wrapper.HyPipe_Top.parser_layer.shift_head.i_head\[517\]" \
+           -win $_nTrace1 -TraceByDConWave -TraceTime 7300000 -TraceValue 0
+wvSetCursor -win $_nWave2 7899130.016515 -snap {("G6" 13)}
+wvSetCursor -win $_nWave2 7905461.932990 -snap {("G6" 1)}
+srcActiveTrace "Testbench_wrapper.HyPipe_Top.parser_layer.i_head\[520:0\]" -win \
+           $_nTrace1 -TraceByDConWave -TraceTime 7900000 -TraceValue \
+           11011111100000000000000010000001000000011000001000000010100000110000001110000100000001001000010100000101100001000000000000100010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011
+srcTraceLoad "Testbench_wrapper.HyPipe_Top.gen_PHV_and_conf_parer.o_phv\[520:0\]" \
+           -win $_nTrace1
+wvSelectSignal -win $_nWave2 {( "G6" 1 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G7" 0)}
+wvSetPosition -win $_nWave2 {("G6" 12)}
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "l_head_w_tag" -line 165 -pos 1 -win $_nTrace1
+srcTraceLoad "Testbench_wrapper.HyPipe_Top.parser_layer.l_head_w_tag\[520:0\]" \
+           -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "i_head" -line 43 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+wvSelectSignal -win $_nWave2 {( "G6" 12 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 13 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G7" 0)}
+wvSetPosition -win $_nWave2 {("G6" 12)}
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "i_head" -line 43 -pos 1 -win $_nTrace1
+srcSearchString "i_head" -win $_nTrace1 -prev -case
+srcSelect -win $_nTrace1 -range {25 25 15 15 1 7}
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "i_head" -line 23 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+wvSetPosition -win $_nWave2 {("G6" 12)}
+wvSetPosition -win $_nWave2 {("G6" 11)}
+wvSetPosition -win $_nWave2 {("G6" 10)}
+wvSetPosition -win $_nWave2 {("G6" 9)}
+wvSetPosition -win $_nWave2 {("G6" 8)}
+wvSetPosition -win $_nWave2 {("G6" 7)}
+wvSetPosition -win $_nWave2 {("G6" 6)}
+wvSetPosition -win $_nWave2 {("G6" 5)}
+wvSetPosition -win $_nWave2 {("G6" 4)}
+wvSetPosition -win $_nWave2 {("G6" 3)}
+wvSetPosition -win $_nWave2 {("G6" 2)}
+wvSetPosition -win $_nWave2 {("G6" 1)}
+wvMoveSelected -win $_nWave2
+wvSetPosition -win $_nWave2 {("G6" 1)}
+wvSetPosition -win $_nWave2 {("G6" 2)}
+wvSelectSignal -win $_nWave2 {( "G6" 13 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G6" 2)}
+wvSelectSignal -win $_nWave2 {( "G6" 12 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G6" 2)}
+wvSelectSignal -win $_nWave2 {( "G6" 11 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G6" 2)}
+wvSelectSignal -win $_nWave2 {( "G6" 10 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G6" 2)}
+wvSelectSignal -win $_nWave2 {( "G6" 9 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G6" 2)}
+wvSelectSignal -win $_nWave2 {( "G6" 2 )} 
+wvSelectSignal -win $_nWave2 {( "G6" 3 )} 
+wvSetCursor -win $_nWave2 8115839.857850 -snap {("G6" 2)}
+wvSetCursor -win $_nWave2 8323210.122386 -snap {("G6" 3)}
+wvSetCursor -win $_nWave2 8301048.414725 -snap {("G6" 3)}
+srcActiveTrace "Testbench_wrapper.HyPipe_Top.parser_layer.o_head\[520:0\]" -win \
+           $_nTrace1 -TraceByDConWave -TraceTime 7700000 -TraceValue \
+           00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "r_head" -line 49 -pos 1 -win $_nTrace1
+srcAction -pos 48 7 3 -win $_nTrace1 -name "r_head" -ctrlKey off
+wvSetCursor -win $_nWave2 8305797.352081 -snap {("G6" 3)}
+srcActiveTrace "Testbench_wrapper.HyPipe_Top.parser_layer.o_head\[520:0\]" -win \
+           $_nTrace1 -TraceByDConWave -TraceTime 8300000 -TraceValue \
+           11011111100000000000000010000001000000011000001000000010100000110000001110000100000001001000010100000101100001000000000000100010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "r_head" -line 49 -pos 1 -win $_nTrace1
+srcAction -pos 48 7 4 -win $_nTrace1 -name "r_head" -ctrlKey off
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "r_head" -line 55 -pos 1 -win $_nTrace1
+srcSearchString "r_head" -win $_nTrace1 -next -case
+wvSetCursor -win $_nWave2 8114256.878732 -snap {("G6" 2)}
+wvSetCursor -win $_nWave2 8302631.393844 -snap {("G6" 3)}
+wvSaveSignal -win $_nWave2 \
+           "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test.rc"
 debExit

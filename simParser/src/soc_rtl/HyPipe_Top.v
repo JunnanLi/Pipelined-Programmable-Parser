@@ -30,7 +30,7 @@ module HyPipe_Top(
   wire  [`HEAD_WIDTH+`TAG_WIDTH-1:0]   w_phv_in;
   wire  [133:0]             w_wdata_pktIn, w_dout_pktIn;
   wire                      w_wren_pktIn, w_rden_pktIn, w_wren_meta, w_rden_meta;
-  wire  [`META_WIDTH+`TAG_WIDTH-1:0]   w_wdata_meta, w_dout_meta;
+  wire  [`META_WIDTH+`TAG_WIDTH-1:0]   w_meta_in, w_wdata_meta, w_dout_meta;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
   //* recv pkt, and gen phv;
@@ -44,6 +44,7 @@ module HyPipe_Top(
     .o_pkt                (w_wdata_pktIn  ),
     .o_phv_valid          (w_phv_in_valid ),
     .o_phv                (w_phv_in       ),
+    .o_meta               (w_meta_in      ),
 
     .o_rule_wren          (w_rule_wren    ),
     .o_rule_addr          (w_rule_addr    ),
@@ -67,7 +68,7 @@ module HyPipe_Top(
     //--data--//
     .i_head               (w_phv_in       ),
     .o_head               (               ),
-    .i_meta               ('b0            ),
+    .i_meta               (w_meta_in      ),
     .o_meta               (w_wdata_meta   )
   );
 
