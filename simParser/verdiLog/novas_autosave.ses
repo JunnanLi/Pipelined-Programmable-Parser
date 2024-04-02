@@ -19,8 +19,8 @@ Console = FALSE
 powerDumped = 0
 [hb]
 postSimFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
-syncTime = 10700000
-viewport = 70 27 1850 1016 0 0 249 1848
+syncTime = 10500000
+viewport = 70 27 1978 1088 0 0 162 1976
 activeNode = "Testbench_wrapper"
 activeScope = "Testbench_wrapper"
 activeFile = "./testbench_example.sv"
@@ -60,7 +60,7 @@ WaveformFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.
 UserActionNum = 0
 nMemWindowNum = 0
 [wave.0]
-viewPort = 0 27 1850 438 305 266
+viewPort = 0 27 1978 420 305 266
 primaryWindow = TRUE
 SessionFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/verdiLog/novas_autosave.ses.wave.0
 displayGrid = FALSE

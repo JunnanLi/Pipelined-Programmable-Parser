@@ -110,7 +110,7 @@ module Gen_PHV_and_Conf_Parser
         o_meta[`META_WIDTH+`TAG_SHIFT_BIT]      <= 1'b1;
         o_meta[`META_WIDTH+`TAG_START_BIT]      <= 1'b1;
         o_meta[`META_WIDTH+`TAG_TAIL_BIT]       <= 1'b1;
-        o_meta[`META_WIDTH+:`META_SHIFT_WIDTH]  <= {`META_SHIFT_WIDTH{1'b1}};
+        o_meta[`META_WIDTH+:`META_SHIFT_WIDTH]  <= {`META_SHIFT_WIDTH{1'b0}};
       end
       case({w_dec_cnt, w_inc_cnt})
         2'b10: r_cnt_head               <= r_cnt_head - 'd1;

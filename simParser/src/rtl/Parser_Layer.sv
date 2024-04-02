@@ -46,22 +46,23 @@ module Parser_Layer(
   (* mark_debug = "true"*)wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]              w_type_field;
   (* mark_debug = "true"*)wire  [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]       w_type_offset;
   (* mark_debug = "true"*)wire  [`KEY_FILED_NUM-1:0][`KEY_FIELD_WIDTH-1:0]    w_key_field;
-  (* mark_debug = "true"*)wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0]   w_key_offset;
+  (* mark_debug = "true"*)wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     w_key_offset;
   (* mark_debug = "true"*)wire  [`RULE_NUM-1:0]                               w_typeRule_wren;
   wire                                                w_typeRule_valid;
   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]              w_typeRule_typeData;
   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]              w_typeRule_typeMask;
-  wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0]   w_typeRule_keyOffset;
+  wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     w_typeRule_keyOffset;
   logic [`TYPE_CANDI_NUM-1:0][`TYPE_WIDTH-1:0]        w_headType;
   logic [`KEY_CANDI_NUM-1:0][`KEY_FIELD_WIDTH-1:0]    w_headKey;
   wire  [`HEAD_SHIFT_WIDTH-1:0]                       w_headShift, w_typeRule_headShift;
   wire  [`META_SHIFT_WIDTH-1:0]                       w_metaShift, w_typeRule_metaShift;
   logic [`KEY_CANDI_NUM-1:0][`KEY_FIELD_WIDTH-1:0]    l_head;
-  logic [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0]   l_key_offset;
+  logic [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     l_key_offset;
   logic [`HEAD_SHIFT_WIDTH-1:0]                       l_headShift;
   logic [`META_SHIFT_WIDTH-1:0]                       l_metaShift;
   logic [`HEAD_WIDTH+`TAG_WIDTH-1:0]                  l_head_w_tag;
-  logic [`HEAD_WIDTH+`TAG_WIDTH-1:0]                  l_meta_w_tag, w_meta_w_tag, w_meta;
+  logic [`HEAD_WIDTH+`TAG_WIDTH-1:0]                  l_meta_w_tag;
+  wire  [`KEY_FILED_NUM*`KEY_FIELD_WIDTH-1:0]         w_extField;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
   genvar idx;
@@ -77,7 +78,7 @@ module Parser_Layer(
       .i_rst_n          (i_rst_n            ),
       .i_data           (w_headType         ),
       .o_extract_data   (w_type_field[idx]  ),
-      .i_offset         (w_type_offset[idx] )
+      .i_offset         ({1'b1,w_type_offset[idx]} )
     );
     end
   endgenerate
@@ -120,8 +121,9 @@ module Parser_Layer(
     .i_head               (l_head_w_tag           ),
     .o_head               (o_head                 ),
     .i_headShift          (l_headShift            ),
-    .i_meta               (w_meta_w_tag           ),
+    .i_meta               (l_meta_w_tag           ),
     .o_meta               (o_meta                 ),
+    .i_extField           (w_extField             ),
     .i_metaShift          (l_metaShift            )
   );
 
@@ -144,16 +146,11 @@ module Parser_Layer(
   assign o_rule_rdata_valid = i_rule_rden;
   assign o_rule_rdata       = 64'b0;
 
-  //* assign metadata;
-  // assign w_meta             = 'b0;
+  //* assign w_extField;
   generate for (idx = 0; idx < `KEY_FILED_NUM; idx=idx+1) begin : gen_meta
-    assign w_meta[`META_WIDTH-idx*`KEY_FIELD_WIDTH-1-:`KEY_FIELD_WIDTH] = w_key_field[idx];
+    assign w_extField[(`KEY_FILED_NUM-idx)*`KEY_FIELD_WIDTH-1-:`KEY_FIELD_WIDTH] = w_key_field[idx];
   end
   endgenerate
-  generate if (`KEY_FILED_NUM < `KEY_CANDI_NUM)
-    assign w_meta[0+:(`KEY_CANDI_NUM-`KEY_FILED_NUM)*`KEY_FIELD_WIDTH]  = 'b0;
-  endgenerate
-  assign   w_meta[`META_WIDTH+:`TAG_WIDTH] = l_meta_w_tag[`META_WIDTH+:`TAG_WIDTH];
 
   always_comb begin
     for(integer i=0; i<`TYPE_CANDI_NUM; i=i+1)
@@ -163,7 +160,6 @@ module Parser_Layer(
   end
 
   //* insert one cycle;
-  assign w_meta_w_tag       = l_head_w_tag[`TAG_START_BIT+`HEAD_WIDTH]? w_meta: l_meta_w_tag;
   `ifdef TWO_CYCLE_PER_LAYER
     always_ff @(posedge i_clk) begin
       l_head                <= w_headKey;

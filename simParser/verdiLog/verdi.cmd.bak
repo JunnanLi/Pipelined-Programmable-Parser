@@ -3,9 +3,82 @@ debImport "-sverilog" "+v2k" "-f" "file_list.f" "-top" "Testbench_wrapper"
 debLoadSimResult \
            /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
 wvCreateWindow
-wvSetCursor -win $_nWave2 5577972.865124
+wvSetCursor -win $_nWave2 5529036.929761
 wvRestoreSignal -win $_nWave2 \
            "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_example.rc" \
            -overWriteAutoAlias on -appendSignals on
-wvSetCursor -win $_nWave2 9711917.122768 -snap {("G1" 6)}
+wvSetCursor -win $_nWave2 9510155.629386 -snap {("G1" 5)}
+wvSelectSignal -win $_nWave2 {( "G1" 5 )} 
+wvSetCursor -win $_nWave2 10095845.932109 -snap {("G1" 6)}
+wvSetCursor -win $_nWave2 9504879.140172 -snap {("G1" 5)}
+srcActiveTrace "Testbench_wrapper.HyPipe_Top.parser_top.w_meta_layer1\[520:0\]" \
+           -win $_nTrace1 -TraceByDConWave -TraceTime 8500000 -TraceValue \
+           00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+srcDeselectAll -win $_nTrace1
+srcSetOptions -win $_nTrace1 -annotate on
+schSetOptions -win $_nSchema1 -annotate on
+wvScrollDown -win $_nWave2 2
+wvSelectSignal -win $_nWave2 {( "G3" 2 )} 
+wvSelectSignal -win $_nWave2 {( "G3" 1 2 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G4" 1)}
+wvSelectSignal -win $_nWave2 {( "G2" 1 )} 
+wvSelectGroup -win $_nWave2 {G3}
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvSetPosition -win $_nWave2 {("G3" 0)}
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "i_extField" -line 28 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+wvSetCursor -win $_nWave2 9117057.182964 -snap {("G3" 1)}
+wvSetCursor -win $_nWave2 9088036.492288 -snap {("G3" 1)}
+srcActiveTrace \
+           "Testbench_wrapper.HyPipe_Top.parser_top.parser_layer1.shift_head.i_extField\[127:0\]" \
+           -win $_nTrace1 -TraceByDConWave -TraceTime 8700000 -TraceValue \
+           000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "w_key_field\[idx\]" -line 151 -pos 1 -win $_nTrace1
+srcSearchString "w_key_field" -win $_nTrace1 -prev -case
+srcSelect -win $_nTrace1 -range {96 96 6 6 1 12}
+srcSearchString "w_key_field" -win $_nTrace1 -prev -case
+srcSelect -win $_nTrace1 -range {48 48 29 30 1 1}
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "w_type_field" -line 46 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "w_type_offset" -line 47 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "w_key_field" -line 48 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+wvSelectSignal -win $_nWave2 {( "G3" 2 )} 
+wvExpandBus -win $_nWave2 {("G3" 2)}
+wvScrollDown -win $_nWave2 3
+wvZoomOut -win $_nWave2
+wvZoomOut -win $_nWave2
+wvZoomOut -win $_nWave2
+wvZoomOut -win $_nWave2
+wvZoomOut -win $_nWave2
+wvZoom -win $_nWave2 4727734.335495 24398486.124250
+wvZoomIn -win $_nWave2
+wvZoomIn -win $_nWave2
+wvZoomIn -win $_nWave2
+wvZoomIn -win $_nWave2
+wvZoomOut -win $_nWave2
+wvZoomOut -win $_nWave2
+wvZoomOut -win $_nWave2
+wvZoomOut -win $_nWave2
+wvZoomOut -win $_nWave2
+wvSetCursor -win $_nWave2 4871395.446600 -snap {("G3" 4)}
+srcActiveTrace \
+           "Testbench_wrapper.HyPipe_Top.parser_top.parser_layer1.w_key_field\[6\]\[15:0\]" \
+           -win $_nTrace1 -TraceByDConWave -TraceTime 1300000 -TraceValue \
+           0000000000000000
+wvZoom -win $_nWave2 8033529.332989 9486401.659168
+wvZoomOut -win $_nWave2
+wvZoomOut -win $_nWave2
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "i_offset\[OFFSET_WIDTH\]" -line 31 -pos 1 -win $_nTrace1
 debExit
