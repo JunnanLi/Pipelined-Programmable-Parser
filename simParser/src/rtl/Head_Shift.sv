@@ -33,8 +33,8 @@ module Shift_Head(
   //====================================================================//
   reg   [`HEAD_WIDTH+`TAG_WIDTH-1:0]    r_head, r_preHead;
   reg   [`META_WIDTH+`TAG_WIDTH-1:0]    r_meta, r_preMeta;
+  reg   [`META_WIDTH-1:0]               r_extMeta;
   wire  [2*`HEAD_WIDTH-1:0]             w_2head;
-  wire  [2*`META_WIDTH-1:0]             w_2meta;
   reg   [`HEAD_SHIFT_WIDTH-1:0]         r_headShift;
   wire                                  w_startBit_headTag, w_validBit_headTag;
   reg   [`META_SHIFT_WIDTH-1:0]         r_metaShift;
@@ -45,7 +45,6 @@ module Shift_Head(
   assign w_startBit_metaTag = i_meta[`HEAD_WIDTH+`TAG_SHIFT_BIT] & ~r_preMeta[`HEAD_WIDTH+`TAG_SHIFT_BIT];
   assign w_shiftBit_metaTag = r_preMeta[`META_WIDTH+`TAG_SHIFT_BIT];
   assign w_2head    = {r_preHead[0+:`HEAD_WIDTH], i_head[0+:`HEAD_WIDTH]};
-  assign w_2meta    = {r_preMeta[0+:`META_WIDTH], i_meta[0+:`META_WIDTH]};
   assign o_head     = r_head;
   assign o_meta     = r_meta;
 
@@ -64,22 +63,16 @@ module Shift_Head(
       r_head[`TAG_START_BIT+`HEAD_WIDTH]        <= r_preHead[`TAG_START_BIT+`HEAD_WIDTH];
     end
 
-    if(i_meta[`META_WIDTH+`TAG_SHIFT_BIT] == 1'b0) begin
-      r_meta                                    <= i_meta;
+    if(w_startBit_metaTag) begin
+      r_meta[0+`META_WIDTH]                     <= r_preMeta[0+`META_WIDTH] | r_extMeta;
+      r_meta[`TAG_SHIFT_BIT+`META_WIDTH]        <= ~(&i_metaShift);
+      r_meta[`META_WIDTH+:`META_SHIFT_WIDTH]    <= (&i_metaShift)? 'b0: r_preMeta[`META_WIDTH+:`META_SHIFT_WIDTH] + i_metaShift;
     end
-    else if(w_startBit_metaTag) begin
-      r_meta                                    <= i_meta;
-      r_meta[`TAG_SHIFT_BIT+`META_WIDTH]        <= 1'b0;
-      r_meta[`META_WIDTH+:`META_SHIFT_WIDTH]    <= i_metaShift;
-    end
-    else if(w_shiftBit_metaTag) begin
-      for(integer idx=0; idx<`META_CANDI_NUM; idx=idx+1) begin
-        if(r_metaShift == (`META_CANDI_NUM-idx))
-          r_meta[0+:`META_WIDTH]                <= w_2meta[0+idx*`SHIFT_WIDTH+:`META_WIDTH];
-      end
-      r_meta[`META_WIDTH+:`TAG_WIDTH]           <= r_preHead[`META_WIDTH+:`TAG_WIDTH];
-      r_meta[`TAG_SHIFT_BIT+`META_WIDTH]        <= 1'b1;
-      r_meta[`TAG_START_BIT+`META_WIDTH]        <= 1'b0;
+
+    for(integer idx=0; idx<`META_CANDI_NUM; idx=idx+1) begin
+      if(r_metaShift == idx)
+          r_extMeta[`HEAD_WIDTH-1-:idx*`SHIFT_WIDTH]  <= w_2head[0+idx*`SHIFT_WIDTH+:`HEAD_WIDTH];
+      r_preMeta
     end
 
 	end

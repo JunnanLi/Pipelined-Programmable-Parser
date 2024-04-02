@@ -120,7 +120,7 @@ module Parser_Layer(
     .i_head               (l_head_w_tag           ),
     .o_head               (o_head                 ),
     .i_headShift          (l_headShift            ),
-    .i_meta               (l_meta_w_tag           ),
+    .i_meta               (w_meta_w_tag           ),
     .o_meta               (o_meta                 ),
     .i_metaShift          (l_metaShift            )
   );
@@ -153,6 +153,7 @@ module Parser_Layer(
   generate if (`KEY_FILED_NUM < `KEY_CANDI_NUM)
     assign w_meta[0+:(`KEY_CANDI_NUM-`KEY_FILED_NUM)*`KEY_FIELD_WIDTH]  = 'b0;
   endgenerate
+  assign   w_meta[`META_WIDTH+:`TAG_WIDTH] = l_meta_w_tag[`META_WIDTH+:`TAG_WIDTH];
 
   always_comb begin
     for(integer i=0; i<`TYPE_CANDI_NUM; i=i+1)
@@ -162,7 +163,7 @@ module Parser_Layer(
   end
 
   //* insert one cycle;
-  assign w_meta_w_tag       = l_meta_w_tag[`TAG_START_BIT+`META_WIDTH]? w_meta: l_meta_w_tag;
+  assign w_meta_w_tag       = l_head_w_tag[`TAG_START_BIT+`HEAD_WIDTH]? w_meta: l_meta_w_tag;
   `ifdef TWO_CYCLE_PER_LAYER
     always_ff @(posedge i_clk) begin
       l_head                <= w_headKey;
