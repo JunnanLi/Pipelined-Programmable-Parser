@@ -220,7 +220,7 @@ Selection-LineWidth = 1
 [FSM_Dlg-Print]
 Orientation = Landscape
 [FileBrowser]
-nWaveRestoreRCDirHistory = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test.rc\""
+nWaveRestoreRCDirHistory = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test.rc\"" "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_example.rc\""
 [Form]
 version = Verdi_O-2018.09-SP2
 wave/unknownSave.fm = 100,174,520,275
@@ -373,8 +373,9 @@ saveWaveformStat = TRUE
 savePropStat = FALSE
 savePropDtl = TRUE
 [QtDialog]
-usrMarkerDialog = 659,458,800,300
+QwWarnMsgDlg = 685,425,600,250
 saveSigDlg = 719,379,551,386
+usrMarkerDialog = 595,422,800,300
 restoreSigDlg = 719,353,551,438
 QwUserAskDlg = 833,505,324,134
 [Relationship]
@@ -659,27 +660,27 @@ visualIndex = 1
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column1]
-name = Message
-width = 2000
-visualIndex = 4
-isHidden = FALSE
-isUserChangeColumnVisible = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column2]
-name = Time
-width = 60
-visualIndex = 0
-isHidden = TRUE
-isUserChangeColumnVisible = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column3]
 name = Code
 width = 60
 visualIndex = 2
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column2]
 name = Type
 width = 60
 visualIndex = 3
+isHidden = TRUE
+isUserChangeColumnVisible = FALSE
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column3]
+name = Message
+width = 2000
+visualIndex = 4
+isHidden = FALSE
+isUserChangeColumnVisible = FALSE
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
+name = Time
+width = 60
+visualIndex = 0
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 [Vi]
@@ -701,7 +702,7 @@ scope_to_save_with_macro
 open_file_dir
 open_rc_file_dir
 getSignalForm = 0 0 800 479 100 30 100 30
-viewPort = 0 27 1850 493 305 266
+viewPort = 0 27 1850 334 305 266
 signalSpacing = 5
 digitalSignalHeight = 15
 analogSignalHeight = 98
@@ -972,8 +973,9 @@ curveWindow_Drag&Drop_Mode = TRUE
 hspiceIncOpenMode = TRUE
 pcSelectMode = TRUE
 hierarchyDelimiter = /
-RecentFile1 = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test.rc\""
+RecentFile1 = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_example.rc\""
 RecentFile2 = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb\""
+RecentFile3 = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test.rc\""
 open_file_time_range = FALSE
 value_window_aligment = Right
 signal_window_alignment = Auto
@@ -1299,7 +1301,7 @@ AddImportArgument = FALSE
 LineBreakWithScope = TRUE
 StopAfterCompileOption = -s
 [wave.0]
-viewPort = 0 27 1850 493 305 266
+viewPort = 0 27 1850 334 305 266
 [wave.1]
 viewPort = 127 219 960 332 100 65
 [wave.2]

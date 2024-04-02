@@ -53,7 +53,7 @@ module HyPipe_Top(
 
 
   //* parser pkt;
-  Parser_Layer parser_layer(
+  Parser_Top parser_top(
     .i_clk                (i_clk          ),
     .i_rst_n              (i_rst_n        ),
 
