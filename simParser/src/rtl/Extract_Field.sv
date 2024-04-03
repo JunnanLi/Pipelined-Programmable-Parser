@@ -2,7 +2,9 @@
 //  Module name: Extract_Field
 //  Authority @ lijunnan (lijunnan@nudt.edu.cn)
 //  Last edited time: 2024/01/02
-//  Function outline: 3-stage programmable parser
+//  Function outline: extract fields
+//  Note:
+//    1) top bit of i_offset is valid info;
 /****************************************************/
 
 module Extract_Field #(

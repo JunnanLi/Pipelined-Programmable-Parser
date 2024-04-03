@@ -2,7 +2,9 @@
 //  Module name: Lookup_Type
 //  Authority @ lijunnan (lijunnan@nudt.edu.cn)
 //  Last edited time: 2024/01/02
-//  Function outline: 3-stage programmable parser
+//  Function outline: lookup type & output resutl
+//  Note:
+//    1) top bit of i_offset is valid info;
 /****************************************************/
 
 
@@ -92,26 +94,64 @@ module Lookup_Type
   //====================================================================//
   //*   output result
   //====================================================================//
-  assign o_result    = (LOOKUP_NO_DELAHY)? w_result: r_result;
-  assign o_headShift = (LOOKUP_NO_DELAHY)? w_headShift: r_headShift;
-  assign o_metaShift = (LOOKUP_NO_DELAHY)? w_metaShift: r_metaShift;
-  always_comb begin
-    for(integer j = 0; j < `KEY_FILED_NUM; j++) begin
-      w_result[j]   = 'b0;
-      for(integer i = 0; i < `RULE_NUM; i++)
-        w_result[j] = {(`KEY_OFFSET_WIDTH+1){w_hit_rule[i]}} & r_rule_keyOffset[i][j] | w_result[j];
+  assign o_result     = (LOOKUP_NO_DELAHY)? w_result: r_result;
+  assign o_headShift  = (LOOKUP_NO_DELAHY)? w_headShift: r_headShift;
+  assign o_metaShift  = (LOOKUP_NO_DELAHY)? w_metaShift: r_metaShift;
+  `ifdef RULE_W_PRIORITY
+    logic [7:0]  w_hit_rule_8b, w_hit_rule_oneHot;
+    generate 
+      if(`RULE_NUM < 8)
+        assign w_hit_rule_8b  = {{{1'b0}},w_hit_rule};
+      else
+        assign w_hit_rule_8b  = w_hit_rule[7:0];
+    endgenerate
+    //* gen w_hit_rule_oneHot
+    always_comb begin
+      case(w_hit_rule_8b) inside
+        8'b????_???1: w_hit_rule_oneHot = 8'h1;
+        8'b????_??10: w_hit_rule_oneHot = 8'h2;
+        8'b????_?100: w_hit_rule_oneHot = 8'h4;
+        8'b????_1000: w_hit_rule_oneHot = 8'h8;
+        8'b???1_0000: w_hit_rule_oneHot = 8'h10;
+        8'b??10_0000: w_hit_rule_oneHot = 8'h20;
+        8'b?100_0000: w_hit_rule_oneHot = 8'h40;
+        8'b1000_0000: w_hit_rule_oneHot = 8'h80;
+        default:      w_hit_rule_oneHot = 8'h0;
+      endcase
     end
-    w_headShift     = 'b0;
-    w_metaShift     = 'b0;
-    for(integer i=0; i< `RULE_NUM; i++) begin
-      w_headShift   = {`HEAD_SHIFT_WIDTH{w_hit_rule[i]}} & r_rule_headShift[i] | w_headShift;
-      w_metaShift   = {`HEAD_SHIFT_WIDTH{w_hit_rule[i]}} & r_rule_metaShift[i] | w_metaShift;
+    //* get result
+    always_comb begin
+      for(integer j = 0; j < `KEY_FILED_NUM; j++) begin
+        w_result[j]   = 'b0;
+        for(integer i = 0; i < `RULE_NUM; i++)
+          w_result[j] = {(`KEY_OFFSET_WIDTH+1){w_hit_rule_oneHot[i]}} & r_rule_keyOffset[i][j] | w_result[j];
+      end
+      w_headShift     = 'b0;
+      w_metaShift     = 'b0;
+      for(integer i=0; i< `RULE_NUM; i++) begin
+        w_headShift   = {`HEAD_SHIFT_WIDTH{w_hit_rule_oneHot[i]}} & r_rule_headShift[i] | w_headShift;
+        w_metaShift   = {`HEAD_SHIFT_WIDTH{w_hit_rule_oneHot[i]}} & r_rule_metaShift[i] | w_metaShift;
+      end
     end
-  end
+  `else
+    always_comb begin
+      for(integer j = 0; j < `KEY_FILED_NUM; j++) begin
+        w_result[j]   = 'b0;
+        for(integer i = 0; i < `RULE_NUM; i++)
+          w_result[j] = {(`KEY_OFFSET_WIDTH+1){w_hit_rule[i]}} & r_rule_keyOffset[i][j] | w_result[j];
+      end
+      w_headShift     = 'b0;
+      w_metaShift     = 'b0;
+      for(integer i=0; i< `RULE_NUM; i++) begin
+        w_headShift   = {`HEAD_SHIFT_WIDTH{w_hit_rule[i]}} & r_rule_headShift[i] | w_headShift;
+        w_metaShift   = {`HEAD_SHIFT_WIDTH{w_hit_rule[i]}} & r_rule_metaShift[i] | w_metaShift;
+      end
+    end
+  `endif
   always_ff @(posedge i_clk) begin
-    r_result        <= w_result;
-    r_headShift     <= w_headShift;
-    r_metaShift     <= w_metaShift;
+    r_result          <= w_result;
+    r_headShift       <= w_headShift;
+    r_metaShift       <= w_metaShift;
   end
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 

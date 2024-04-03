@@ -3,6 +3,11 @@
 //  Authority @ lijunnan (lijunnan@nudt.edu.cn)
 //  Last edited time: 2024/01/01
 //  Function outline: Parse one protocol
+//  Note:
+//    1) TWO_CYCLE_PER_LAYER is used to insert 1 clk between 
+//        type lookup and key-field extraction;
+//    2) top bit of w_key_offset is valid info;
+//    3) TODO, reading rules;
 /*************************************************************/
 
 
@@ -43,25 +48,30 @@ module Parser_Layer(
   //====================================================================//
   //*   internal reg/wire/param declarations
   //====================================================================//
+  //* extract type & keyField: w_type_field, w_key_field
+  //* lookup result: w_key_offset & w_headShift & w_metaShift
   (* mark_debug = "true"*)wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]              w_type_field;
   (* mark_debug = "true"*)wire  [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]       w_type_offset;
   (* mark_debug = "true"*)wire  [`KEY_FILED_NUM-1:0][`KEY_FIELD_WIDTH-1:0]    w_key_field;
   (* mark_debug = "true"*)wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     w_key_offset;
+  //* conf rules
   (* mark_debug = "true"*)wire  [`RULE_NUM-1:0]                               w_typeRule_wren;
   wire                                                w_typeRule_valid;
   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]              w_typeRule_typeData;
   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]              w_typeRule_typeMask;
   wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     w_typeRule_keyOffset;
+  //* format change
   logic [`TYPE_CANDI_NUM-1:0][`TYPE_WIDTH-1:0]        w_headType;
   logic [`KEY_CANDI_NUM-1:0][`KEY_FIELD_WIDTH-1:0]    w_headKey;
   wire  [`HEAD_SHIFT_WIDTH-1:0]                       w_headShift, w_typeRule_headShift;
   wire  [`META_SHIFT_WIDTH-1:0]                       w_metaShift, w_typeRule_metaShift;
-  logic [`KEY_CANDI_NUM-1:0][`KEY_FIELD_WIDTH-1:0]    l_head;
+  //* insert 1 clk
+  logic [`KEY_CANDI_NUM-1:0][`KEY_FIELD_WIDTH-1:0]    l_head; //* TODO, insert more clks
+  logic [`HEAD_WIDTH+`TAG_WIDTH-1:0]                  l_head_w_tag;
+  logic [`HEAD_WIDTH+`TAG_WIDTH-1:0]                  l_meta_w_tag;
   logic [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     l_key_offset;
   logic [`HEAD_SHIFT_WIDTH-1:0]                       l_headShift;
   logic [`META_SHIFT_WIDTH-1:0]                       l_metaShift;
-  logic [`HEAD_WIDTH+`TAG_WIDTH-1:0]                  l_head_w_tag;
-  logic [`HEAD_WIDTH+`TAG_WIDTH-1:0]                  l_meta_w_tag;
   wire  [`KEY_FILED_NUM*`KEY_FIELD_WIDTH-1:0]         w_extField;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 

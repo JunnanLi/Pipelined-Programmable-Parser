@@ -19,7 +19,8 @@
    *------------------------------------------------------------------------------------
    *             |         | 0: write rules; while i_rule_wdata[0] is valid info
    * [16] is 0   |  [10:8] | 1: conf type data & type mask; while i_rule_addr[3:0] is type id
-   *             |         | 2: conf key offset; while i_rule_addr[5:0] is keyField id
+   *             |         | 2: conf key offset; while i_rule_addr[5:0] is keyField id; 
+   *             |         |     while i_rule_wdata[16] is valid info
    *             |         | 3: conf head shift; while i_rule_addr[5:0] is keyField id
    *             |         | 4: conf meta shift; while i_rule_addr[5:0] is keyField id
    *------------------------------------------------------------------------------------*/

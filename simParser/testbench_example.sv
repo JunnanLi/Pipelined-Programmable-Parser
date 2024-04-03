@@ -13,14 +13,14 @@
   /*------------------------------------------------------------------------------------
    *     name    | offset  |  description
    *------------------------------------------------------------------------------------
-   * i_rule_addr |  [31:24]| layer in dec, e.g., 0,1,2,...
-   *             |  [16]   | 1: conf type_offset, 0: conf rules
+   * i_rule_addr |  [16]   | 1: conf type_offset, 0: conf rules
    *------------------------------------------------------------------------------------
-   * [16] is 0   |  [3:0]  | type id, e.g., 2; while i_rule_wdata is offset;
+   * [16] is 1   |  [3:0]  | type id, e.g., 2; while i_rule_wdata is offset;
    *------------------------------------------------------------------------------------
    *             |         | 0: write rules; while i_rule_wdata[0] is valid info
-   * [16] is 1   |  [10:8] | 1: conf type data & type mask; while i_rule_addr[3:0] is type id
-   *             |         | 2: conf key offset; while i_rule_addr[5:0] is keyField id
+   * [16] is 0   |  [10:8] | 1: conf type data & type mask; while i_rule_addr[3:0] is type id
+   *             |         | 2: conf key offset; while i_rule_addr[5:0] is keyField id; 
+   *             |         |     while i_rule_wdata[16] is valid info
    *             |         | 3: conf head shift; while i_rule_addr[5:0] is keyField id
    *             |         | 4: conf meta shift; while i_rule_addr[5:0] is keyField id
    *------------------------------------------------------------------------------------*/
@@ -265,7 +265,7 @@ module Testbench_wrapper(
     end
   end
 `else  
-  localparam CONF_PKT_DATA0 = {48'h8888_8888_8988,48'h010203040506,16'h9006,16'b0};
+  localparam CONF_PKT_DATA0   = {48'h8888_8888_8988,48'h010203040506,16'h9006,16'b0};
   localparam NORMAL_ARP_DATA0 = {48'h0001_0203_0405,48'h060708090a0b,16'h0806,16'h0001};
   localparam NORMAL_ARP_DATA1 = {128'h0800_0604_0001_0607_0809_0a0b_c0a8_eefa};
   localparam NORMAL_ARP_DATA2 = {48'h0001_0203_0405,48'h060708090a0b,16'h0806,16'h0001};
@@ -348,7 +348,7 @@ module Testbench_wrapper(
             end
           endcase
         end
-        CONF_LAYER_2: begin
+        CONF_LAYER_3: begin
           r_data_valid          <= 1'b1;
           case(r_cnt_pktData)
             4'd0: r_data        <= {2'b01,4'h0,CONF_PKT_DATA0};  

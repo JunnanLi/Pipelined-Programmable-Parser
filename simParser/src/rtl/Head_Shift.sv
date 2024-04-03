@@ -4,15 +4,14 @@
 //  Last edited time: 2024/03/28
 //  Function outline: Shift head & meta
 //  Note:
-//*   1) Discard pkt'head according to i_headShift
-//*   1-1) The first slice is tagged with `TAG_START_BIT=1
-//*   1-2) Shift each slice with `TAG_VALID_BIT=1
-//*   2) Shift meta accroding to i_metaShift
-//*   2-1) The first slice is tagged with `TAG_START_BIT=1
-//*   2-2) Shift each slice with `TAG_SHIFT_BIT=1
-//*   2-2) The last slice is tagged with `TAG_TAIL_BIT=1
-//*   2-3) Only the slice tagged with `TAG_VALID_BIT=1 will be merged
-//*   2-3) The length of each slice is tagged with $clog2(`HEAD_CANDI_NUM)=x
+//    1) Discard pkt'head according to i_headShift
+//    1-1) The first slice is tagged with `TAG_START_BIT=1
+//    1-2) Shift each slice with `TAG_VALID_BIT=1
+//    2) Shift meta accroding to i_metaShift
+//    2-1) The first slice is tagged with `TAG_START_BIT=1
+//    2-2) The last slice is tagged with `TAG_TAIL_BIT=1
+//    2-3) Do only support shift one slice each time, i.e., 
+//          set the first slice (`TAG_SHIFT_BIT=1) with `TAG_SHIFT_BIT=0
 /*************************************************************/
 
 module Shift_Head(
@@ -32,11 +31,17 @@ module Shift_Head(
   //====================================================================//
   //*   internal reg/wire/param declarations
   //====================================================================//
+  //* r_head/r_meta is used to output;
+  //* r_preHead/r_preMeta is one clk delay of i_head/i_meta
   reg   [`HEAD_WIDTH+`TAG_WIDTH-1:0]    r_head, r_preHead;
   reg   [`META_WIDTH+`TAG_WIDTH-1:0]    r_meta, r_preMeta;
+  //* r_extMeta is used to expanded by i_extField
+  //* w_2head/w_meta is used to shift
   reg   [`META_WIDTH-1:0]               r_extMeta;
   wire  [2*`HEAD_WIDTH-1:0]             w_2head;
   wire  [2*`META_WIDTH-1:0]             w_2meta;
+  //* r_headShift/r_metaShift is record of i_headShift/w_metaShift
+  //* w_metaShift is the sum of all i_metaShift
   reg   [`HEAD_SHIFT_WIDTH-1:0]         r_headShift;
   wire                                  w_startBit_headTag, w_validBit_headTag;
   wire  [`META_SHIFT_WIDTH-1:0]         w_metaShift;
@@ -83,13 +88,5 @@ module Shift_Head(
     end
 
 	end
-
-  `ifdef DEBUG
-    wire    d_o_head_startBit, d_o_head_validBit;
-    wire    d_o_meta_startBit, d_o_meta_tailBit, d_o_meta_shiftBit, d_o_meta_validBit;
-    assign  d_o_head_startBit = o_head[`TAG_START_BIT+`HEAD_WIDTH];
-    assign  d_o_head_validBit = o_head[`TAG_VALID_BIT+`HEAD_WIDTH];
-  `endif
-
 
 endmodule

@@ -1,27 +1,17 @@
 /*************************************************************/
 //  Module name: Parser_Top
 //  Authority @ lijunnan (lijunnan@nudt.edu.cn)
-//  Last edited time: 2024/01/01
+//  Last edited time: 2024/03/04
 //  Function outline: Top module of Pipelined-Packet-Parser
+//  Note:
+//    1) head tag:
+//      a) TAG_VALID_BIT: head/meta is valid
+//      b) TAG_SHIFT_BIT: to shift head/meta
+//      c) TAG_TAIL_BIT:  tail  of head/meta
+//      d) TAG_START_BIT: start of head/meta
+//      e) TAG_OFFSET:    last valid data of head/meta's slice
+//    2) rule's addr [31:24] is used to choose parser layer
 /*************************************************************/
-
-
-//========================================================================//
-//*     phv --+------------------------------------------------+          //
-//*   (input) ↓                                                ↓          //
-//*  +---------------+        +-------------+  extract +---------------+  //
-//*  | Extract_Field | types  | Lookup_Type |  offfset | Extract_Field |  //
-//*  | ( type field) |------->| ( rules )   |--------->| ( key field ) |  //
-//*  +---------------+        +-------------+          +---------------+  //
-//*           ↑                       ↑                        |          //
-//*           |            types &&   |                        |  key     //
-//*    offset |        extract offset |                        ↓ fields   //
-//*           |                       |                     output        //
-//*  +--------------+                 |                                   //
-//*  | Rule_Conf    |-----------------+                                   //
-//*  +--------------+                           Connection Relationship   //
-//========================================================================//
-
 
 module Parser_Top(
   input   wire                                i_clk,

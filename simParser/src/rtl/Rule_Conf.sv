@@ -2,7 +2,9 @@
 //  Module name: Rule_Conf
 //  Authority @ lijunnan (lijunnan@nudt.edu.cn)
 //  Last edited time: 2024/01/03
-//  Function outline: 3-stage programmable parser
+//  Function outline: 32b data -> configure rules
+//  Note:
+//    1) top bit of o_typeRule_keyOffset is valid info
 /****************************************************/
 
 module Rule_Conf (

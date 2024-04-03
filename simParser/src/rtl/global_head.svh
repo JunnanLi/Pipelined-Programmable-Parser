@@ -13,7 +13,7 @@
   //* hardware version configuration
   `define HW_VERSION      32'h0_00_01
   //=========================//
-  //* width configuration;
+  //* width configuration
   `define HEAD_WIDTH      512 //* extract fields from pkt/meta head
   `define META_WIDTH      512
   `define SHIFT_WIDTH     16   //* alined to 16b
@@ -23,7 +23,9 @@
   `define KEY_FILED_NUM   8
   `define RULE_NUM        8
   //=========================//
+  //* specfic configuration
   `define TWO_CYCLE_PER_LAYER //* one cycle for identification, one for extraction
+  `define RULE_W_PRIORITY     //* note: no more than 8 rules!!!
   //=========================//
   //* Using Xilinx's FIFO/SRAM IP cores
   // `define XILINX_FIFO_RAM

@@ -2,7 +2,7 @@ Magic 271485
 Revision Verdi_O-2018.09-SP2
 
 ; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
-viewPort 0 27 1850 399 305 266
+viewPort 0 27 1850 411 305 266
 
 ; File list:
 ; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
@@ -16,18 +16,18 @@ signalSpacing 5
 
 ; windowTimeUnit is used for zoom, cursor & marker
 ; waveform viewport range
-zoom 1432378.292099 16006041.500399
-cursor 3900000.000000
+zoom 12726967.278532 16370383.080607
+cursor 15700000.000000
 marker 0.000000
 
 ; user define markers
 ; userMarker time_pos marker_name color linestyle
-userMarker 9900000 1st_pkt ID_GREEN5 long_dashed
+userMarker 13100000 1st_pkt ID_GREEN5 long_dashed
 
 ; visible top row signal index
-top 24
+top 0
 ; marker line index
-markerPos 36
+markerPos 16
 
 ; event list
 ; addEvent event_name event_expression
@@ -64,27 +64,7 @@ addGroup "G3"
 addSignal -h 15 /Testbench_wrapper/HyPipe_Top/parser_top/parser_layer1/shift_head/r_preMeta[520:0]
 addSignal -h 15 -holdScope o_meta[520:0]
 addGroup "G4"
-addSignal -h 15 /Testbench_wrapper/HyPipe_Top/parser_top/parser_layer1/shift_head/i_extField[127:0]
-addSignal -expanded -h 15 /Testbench_wrapper/HyPipe_Top/parser_top/parser_layer1/w_key_field[7:0]
-addSignal -h 15 -holdScope w_key_field[7][15:0]
-addSignal -h 15 -holdScope w_key_field[6][15:0]
-addSignal -h 15 -holdScope w_key_field[5][15:0]
-addSignal -h 15 -holdScope w_key_field[4][15:0]
-addSignal -h 15 -holdScope w_key_field[3][15:0]
-addSignal -h 15 -holdScope w_key_field[2][15:0]
-addSignal -h 15 -holdScope w_key_field[1][15:0]
-addSignal -h 15 -holdScope w_key_field[0][15:0]
-addSignal -expanded -h 15 /Testbench_wrapper/HyPipe_Top/parser_top/parser_layer1/lookup_type/w_result[7:0]
-addSignal -h 15 -holdScope w_result[7][5:0]
-addSignal -h 15 -holdScope w_result[6][5:0]
-addSignal -h 15 -holdScope w_result[5][5:0]
-addSignal -h 15 -holdScope w_result[4][5:0]
-addSignal -h 15 -holdScope w_result[3][5:0]
-addSignal -h 15 -holdScope w_result[2][5:0]
-addSignal -h 15 -holdScope w_result[1][5:0]
-addSignal -h 15 -holdScope w_result[0][5:0]
-addSignal -h 15 /Testbench_wrapper/HyPipe_Top/parser_top/parser_layer1/rule_conf/i_rule_addr[5:0]
-addSignal -h 15 -holdScope o_typeRule_keyOffset[7:0]
+addSignal -h 15 /Testbench_wrapper/HyPipe_Top/parser_top/parser_layer2/shift_head/r_extMeta[511:0]
 addGroup "G5"
 
 ; getSignalForm Scope Hierarchy Status
