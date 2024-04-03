@@ -312,10 +312,10 @@ module Testbench_wrapper(
             4'd4: r_data        <= {2'b00,4'hf,48'b0,16'h0,16'h0,16'd1,8'd1,8'd1,16'b0}; 
             4'd5,4'd6,4'd7,4'd8,4'd9,4'd10: 
                   r_data        <= {2'b00,4'hf,48'b0,
-                                      12'd1,12'b0,r_cnt_pktData[3:0]-4'd5,
+                                      16'd1,12'b0,r_cnt_pktData[3:0]-4'd5,
                                       16'd1,8'd2,4'b0,r_cnt_pktData[3:0]-4'd5,16'b0};     //* key offset + key id;
-            4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,      8'd1,8'd1,8'd2,8'd6,16'b0};  //* disable
-            4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,      8'd1,8'd1,8'd2,8'd7,16'b0};  //* disable
+            4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,      8'd0,8'd1,8'd2,8'd6,16'b0};  //* disable
+            4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,      8'd0,8'd1,8'd2,8'd7,16'b0};  //* disable
             4'd13:r_data        <= {2'b00,4'hf,48'b0,32'd6,      16'd1,8'd3,8'b0,16'b0};  //* head shift
             4'd14:r_data        <= {2'b00,4'hf,48'b0,32'd6,      16'd1,8'd4,8'b0,16'b0};  //* meta shift
             4'd15: begin
@@ -360,10 +360,10 @@ module Testbench_wrapper(
             4'd6: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd11, 8'd2,8'd1,8'd2,8'd1,16'b0};  //* key offset + key id;
             4'd7: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd12, 8'd2,8'd1,8'd2,8'd2,16'b0};  //* key offset + key id;
             4'd8: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd13, 8'd2,8'd1,8'd2,8'd3,16'b0};  //* key offset + key id;
-            4'd9: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd4,16'b0};  //* disable
-            4'd10:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd5,16'b0};  //* disable
-            4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd6,16'b0};  //* disable
-            4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd7,16'b0};  //* disable
+            4'd9: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd4,16'b0};  //* disable
+            4'd10:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd5,16'b0};  //* disable
+            4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd6,16'b0};  //* disable
+            4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd7,16'b0};  //* disable
             4'd13:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd3,8'b0,16'b0};  //* head shift
             4'd14:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd4,8'b0,16'b0};  //* meta shift
             4'd15: begin
