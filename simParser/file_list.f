@@ -5,6 +5,11 @@
 ./src/rtl/Lookup_Type.sv
 ./src/rtl/Head_Shift.sv
 ./src/rtl/Rule_Conf.sv
+./src/rtl/Deparser/Deparser_Top.sv
+./src/rtl/Deparser/Deparser_Layer.sv
+./src/rtl/Deparser/Lookup_Type_w_Merge.sv
+./src/rtl/Deparser/Shift_Replace_Head.sv
+./src/rtl/Deparser/Rule_Conf_w_Merge.sv
 
 ./src/sim_rtl/asyncfifo.v
 ./src/sim_rtl/syncfifo.v
@@ -13,5 +18,5 @@
 ./src/soc_rtl/HyPipe_Top.v
 ./src/soc_rtl/Replace_MAC_ADDR.v
 
-# ./testbench.sv
-./testbench_example.sv
+./testbench.sv
+# ./testbench_example.sv

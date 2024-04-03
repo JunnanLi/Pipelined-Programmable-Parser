@@ -46,9 +46,11 @@
   `define HEAD_CANDI_NUM    `HEAD_WIDTH/`SHIFT_WIDTH
   `define META_CANDI_NUM    `META_WIDTH/`SHIFT_WIDTH
   //* shift process
-  `define TAG_START_BIT   `META_SHIFT_WIDTH
-  `define TAG_TAIL_BIT    (`TAG_START_BIT + 1)
-  `define TAG_SHIFT_BIT   (`TAG_TAIL_BIT  + 1)
-  `define TAG_VALID_BIT   (`TAG_SHIFT_BIT + 1)
-  `define TAG_WIDTH       (`TAG_VALID_BIT + 1)
+  `define TAG_START_BIT     `META_SHIFT_WIDTH
+  `define TAG_TAIL_BIT      (`TAG_START_BIT + 1)
+  `define TAG_SHIFT_BIT     (`TAG_TAIL_BIT  + 1)
+  `define TAG_VALID_BIT     (`TAG_SHIFT_BIT + 1)
+  `define TAG_WIDTH         (`TAG_VALID_BIT + 1)
+  //* replace process
+  `define REP_OFFSET_WIDTH  $clog2(`KEY_FILED_NUM)
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
