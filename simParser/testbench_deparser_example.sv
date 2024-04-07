@@ -1,11 +1,11 @@
 
 /*
- *  Project:            timelyRV_v1.4.x -- a RISCV-32IMC SoC.
+ *  Project:            Pipelined-Packet-Parser.
  *  Module name:        Testbench.
- *  Description:        Testbench of timelyRV_SoC_hardware.
- *  Last updated date:  2022.10.10.
+ *  Description:        Testbench of Pipelined-Packet-Parser.
+ *  Last updated date:  2024.04.07.
  *
- *  Copyright (C) 2021-2022 Junnan Li <lijunnan@nudt.edu.cn>.
+ *  Copyright (C) 2021-2024 Junnan Li <lijunnan@nudt.edu.cn>.
  *  Copyright and related rights are licensed under the MIT license.
  *
  */
