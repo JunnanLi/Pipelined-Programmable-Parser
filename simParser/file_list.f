@@ -15,8 +15,10 @@
 ./src/sim_rtl/syncfifo.v
 ./src/sim_rtl/syncram.v
 ./src/soc_rtl/Gen_PHV_and_Conf_Parser.v
+./src/soc_rtl/Gen_PHV_and_Conf_Deparser.sv
 ./src/soc_rtl/HyPipe_Top.v
 ./src/soc_rtl/Replace_MAC_ADDR.v
 
-./testbench.sv
+# ./testbench.sv
 # ./testbench_example.sv
+./testbench_deparser_example.sv

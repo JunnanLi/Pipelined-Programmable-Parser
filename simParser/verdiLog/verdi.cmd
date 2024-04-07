@@ -7,3 +7,4 @@ wvSetCursor -win $_nWave2 4256025.538707
 wvRestoreSignal -win $_nWave2 \
            "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_example.rc" \
            -overWriteAutoAlias on -appendSignals on
+debExit

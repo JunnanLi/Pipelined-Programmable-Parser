@@ -72,6 +72,7 @@ module HyPipe_Top(
   //   .o_meta               (w_wdata_meta   )
   // );
 
+
   //* deparser pkt;
   Deparser_Top deparser_top(
     .i_clk                (i_clk          ),
@@ -86,10 +87,10 @@ module HyPipe_Top(
     .o_rule_rdata         (               ),
 
     //--data--//
-    .i_head               (w_phv_in       ),
+    .i_head               (w_meta_in      ),
     .o_head               (               ),
-    .i_meta               (w_meta_in      ),
-    .o_meta               (w_wdata_meta   )
+    .i_meta               (w_phv_in       ),
+    .o_meta               (               )
   );
 
   //* replace src mac with dst mac;

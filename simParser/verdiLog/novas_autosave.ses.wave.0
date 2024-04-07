@@ -2,7 +2,7 @@ Magic 271485
 Revision Verdi_O-2018.09-SP2
 
 ; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
-viewPort 0 27 1850 411 305 266
+viewPort 0 27 1850 486 305 266
 
 ; File list:
 ; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name

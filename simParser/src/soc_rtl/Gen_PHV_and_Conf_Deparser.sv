@@ -1,5 +1,5 @@
 /*************************************************************/
-//  Module name: Gen_PHV_and_Conf_Parser
+//  Module name: Gen_PHV_and_Conf_Deparser
 //  Authority @ lijunnan (lijunnan@nudt.edu.cn)
 //  Last edited time: 2024/01/06
 //  Function outline: 128b pkt -> 1024b PHV
@@ -10,7 +10,7 @@
 //    3) TAG_VALID_BIT, '1' is valid
 /*************************************************************/
 
-module Gen_PHV_and_Conf_Parser
+module Gen_PHV_and_Conf_Deparser
 #(
   parameter   PKT_NUM           = `HEAD_WIDTH/128
 )
@@ -104,7 +104,6 @@ module Gen_PHV_and_Conf_Parser
     end else begin
       o_phv_valid                       <= r_rden_head;
       o_phv                             <= (r_rden_head)? w_dout_head: 'b0;
-      // o_meta                            <= 'b0;
       o_meta                            <= {48'h1111_1111_1111,48'h2222_2222_2222,32'h3333_3333,32'h4444_4444_4444,
                                             16'h55,16'h66,{(`META_WIDTH-126){1'b0}}};
       if(r_rden_head == 1'b1 & w_dout_head[`HEAD_WIDTH+`TAG_START_BIT]) begin
