@@ -82,9 +82,8 @@ module Lookup_Type_w_Merge
     for(integer j=0; j<`META_CANDI_NUM; j++) begin
       w_rule_replaceOffset[j]   = 'b0;
       for(integer k=0; k<`KEY_FILED_NUM; k++)
-        if(i_typeRule_keyMergeOffset[k] == j) begin
-          w_rule_replaceOffset[j][`REP_OFFSET_WIDTH]    = w_rule_replaceOffset[j][`REP_OFFSET_WIDTH] | 
-                                                          i_typeRule_keyOffset[`KEY_OFFSET_WIDTH];
+        if(i_typeRule_keyMergeOffset[k] == j && i_typeRule_keyOffset[k][`KEY_OFFSET_WIDTH] == 1'b1) begin
+          w_rule_replaceOffset[j][`REP_OFFSET_WIDTH]    = w_rule_replaceOffset[j][`REP_OFFSET_WIDTH] | 1'b1;
           w_rule_replaceOffset[j][`REP_OFFSET_WIDTH-1:0]= w_rule_replaceOffset[j][`REP_OFFSET_WIDTH-1:0] | k;
         end
     end
