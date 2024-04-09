@@ -7,7 +7,7 @@
 //    1) top bit of o_typeRule_keyOffset is valid info
 /****************************************************/
 
-module Rule_Conf (
+module Rule_Conf_w_Merge (
   input   wire                                              i_clk,
   input   wire                                              i_rst_n,
   input   wire                                              i_rule_wren,
@@ -19,6 +19,7 @@ module Rule_Conf (
   output  reg   [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            o_typeRule_typeData,
   output  reg   [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            o_typeRule_typeMask,
   output  reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]   o_typeRule_keyOffset,
+  output  reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0] o_typeRule_keyMergeOffset,
   output  reg   [`HEAD_SHIFT_WIDTH-1:0]                     o_typeRule_headShift,
   output  reg   [`META_SHIFT_WIDTH-1:0]                     o_typeRule_metaShift
 );
@@ -39,7 +40,8 @@ module Rule_Conf (
    *             |         | 0: write rules; while i_rule_wdata[0] is valid info
    * [16] is 0   |  [10:8] | 1: conf type data & type mask; while i_rule_addr[3:0] is type id
    *             |         | 2: conf key offset; while i_rule_addr[5:0] is keyField id; 
-   *             |         |     while i_rule_wdata[16] is valid info
+   *             |         |     while i_rule_wdata[16] is valid info, and 
+   *             |         |     i_rule_wdata[8+:5] is replaceOffset info
    *             |         | 3: conf head shift; while i_rule_addr[5:0] is keyField id
    *             |         | 4: conf meta shift; while i_rule_addr[5:0] is keyField id
    *------------------------------------------------------------------------------------*/
@@ -80,6 +82,7 @@ module Rule_Conf (
               for(integer i=0; i<`KEY_FILED_NUM; i++)
                 if(i_rule_addr[5:0] == i) begin
                   o_typeRule_keyOffset[i]       <= {i_rule_wdata[16],i_rule_wdata[0+:`KEY_OFFSET_WIDTH]};
+                  o_typeRule_keyMergeOffset[i]  <= i_rule_wdata[8+:`KEY_OFFSET_WIDTH];
                 end
             end
             3'd3: o_typeRule_headShift          <= i_rule_wdata[0+:`HEAD_SHIFT_WIDTH];

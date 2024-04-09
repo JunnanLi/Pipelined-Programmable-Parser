@@ -1,5 +1,5 @@
 /*************************************************************/
-//  Module name: Parser_Top
+//  Module name: Deparser_Top
 //  Authority @ lijunnan (lijunnan@nudt.edu.cn)
 //  Last edited time: 2024/03/04
 //  Function outline: Top module of Pipelined-Packet-Parser
@@ -13,7 +13,7 @@
 //    2) rule's addr [31:24] is used to choose parser layer
 /*************************************************************/
 
-module Parser_Top(
+module Deparser_Top(
   input   wire                                i_clk,
   input   wire                                i_rst_n,
   //---conf--//
@@ -39,7 +39,7 @@ module Parser_Top(
   assign o_head = w_head_layer3;
   assign o_meta = w_meta_layer3;
   //* layer 1: ethernet
-  Parser_Layer parser_layer1(
+  Deparser_Layer deparser_layer1(
     .i_clk                (i_clk          ),
     .i_rst_n              (i_rst_n        ),
     //---conf--//
@@ -57,7 +57,7 @@ module Parser_Top(
     .o_meta               (w_meta_layer1  )
   );
   //* layer 2: ip/arp
-  Parser_Layer parser_layer2(
+  Deparser_Layer deparser_layer2(
     .i_clk                (i_clk          ),
     .i_rst_n              (i_rst_n        ),
     //---conf--//
@@ -75,7 +75,7 @@ module Parser_Top(
     .o_meta               (w_meta_layer2  )
   );  
   //* layer 3: tcp/udp
-  Parser_Layer parser_layer3(
+  Deparser_Layer deparser_layer3(
     .i_clk                (i_clk          ),
     .i_rst_n              (i_rst_n        ),
     //---conf--//

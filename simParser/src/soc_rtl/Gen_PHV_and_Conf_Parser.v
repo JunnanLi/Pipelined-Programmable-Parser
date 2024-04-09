@@ -104,13 +104,15 @@ module Gen_PHV_and_Conf_Parser
     end else begin
       o_phv_valid                       <= r_rden_head;
       o_phv                             <= (r_rden_head)? w_dout_head: 'b0;
-      o_meta                            <= 'b0;
+      // o_meta                            <= 'b0;
+      o_meta                            <= {48'h1111_1111_1111,48'h2222_2222_2222,32'h3333_3333,32'h4444_4444,
+                                            16'h55,16'h66,{(`META_WIDTH-192){1'b0}}};
       if(r_rden_head == 1'b1 & w_dout_head[`HEAD_WIDTH+`TAG_START_BIT]) begin
         o_meta[`META_WIDTH+`TAG_VALID_BIT]      <= 1'b1;
         o_meta[`META_WIDTH+`TAG_SHIFT_BIT]      <= 1'b1;
         o_meta[`META_WIDTH+`TAG_START_BIT]      <= 1'b1;
         o_meta[`META_WIDTH+`TAG_TAIL_BIT]       <= 1'b1;
-        o_meta[`META_WIDTH+:`META_SHIFT_WIDTH]  <= {`META_SHIFT_WIDTH{1'b1}};
+        o_meta[`META_WIDTH+:`META_SHIFT_WIDTH]  <= {`META_SHIFT_WIDTH{1'b0}};
       end
       case({w_dec_cnt, w_inc_cnt})
         2'b10: r_cnt_head               <= r_cnt_head - 'd1;

@@ -11,7 +11,7 @@
 `timescale 1ns/1ps
 
 
-module Lookup_Type
+module Lookup_Type_w_Merge
 #(
   parameter     LOOKUP_NO_DELAHY= 1
 )
@@ -22,11 +22,13 @@ module Lookup_Type
   output  wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]   o_result,
   output  wire  [`HEAD_SHIFT_WIDTH-1:0]                     o_headShift,
   output  wire  [`META_SHIFT_WIDTH-1:0]                     o_metaShift,
+  output  wire  [`META_CANDI_NUM-1:0][`REP_OFFSET_WIDTH:0]  o_replaceOffset,
   input   wire  [`RULE_NUM-1:0]                             i_rule_wren,
   input   wire                                              i_typeRule_valid,
   input   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            i_typeRule_typeData,
   input   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            i_typeRule_typeMask,
   input   wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]   i_typeRule_keyOffset,
+  input   wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0] i_typeRule_keyMergeOffset,
   input   wire  [`HEAD_SHIFT_WIDTH-1:0]                     i_typeRule_headShift,
   input   wire  [`META_SHIFT_WIDTH-1:0]                     i_typeRule_metaShift
 );
@@ -35,20 +37,24 @@ module Lookup_Type
   //====================================================================//
   //*   internal reg/wire/param declarations
   //====================================================================//
-  (* mark_debug = "true"*)reg   [`RULE_NUM-1:0]                                          r_rule_valid;
+  reg   [`RULE_NUM-1:0]                                             r_rule_valid;
   reg   [`RULE_NUM-1:0][`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]             r_rule_typeData;
   reg   [`RULE_NUM-1:0][`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]             r_rule_typeMask;
   reg   [`RULE_NUM-1:0][`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]    r_rule_keyOffset;
+  reg   [`RULE_NUM-1:0][`META_CANDI_NUM-1:0][`REP_OFFSET_WIDTH:0]   r_rule_replaceOffset;
+  logic                [`META_CANDI_NUM-1:0][`REP_OFFSET_WIDTH:0]   w_rule_replaceOffset;
   reg   [`RULE_NUM-1:0][`HEAD_SHIFT_WIDTH-1:0]                      r_rule_headShift;
   reg   [`RULE_NUM-1:0][`META_SHIFT_WIDTH-1:0]                      r_rule_metaShift;
-  (* mark_debug = "true"*)logic [`RULE_NUM-1:0]                                          w_hit_rule;
+  logic [`RULE_NUM-1:0]                                             w_hit_rule;
   logic [`TYPE_NUM*`TYPE_WIDTH-1:0]                                 w_type;
   logic [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]                   w_result;
   logic [`HEAD_SHIFT_WIDTH-1:0]                                     w_headShift;
   logic [`META_SHIFT_WIDTH-1:0]                                     w_metaShift;
+  logic [`META_CANDI_NUM-1:0][`REP_OFFSET_WIDTH:0]                  w_replaceOffset;
   reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]                   r_result;
   reg   [`HEAD_SHIFT_WIDTH-1:0]                                     r_headShift;
   reg   [`META_SHIFT_WIDTH-1:0]                                     r_metaShift;
+  reg   [`META_CANDI_NUM-1:0][`REP_OFFSET_WIDTH:0]                  r_replaceOffset;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
   //====================================================================//
@@ -61,13 +67,25 @@ module Lookup_Type
       end
     end else begin
       for (integer i = 0; i < `RULE_NUM; i++) begin
-         r_rule_valid[i]        <= i_rule_wren[i]? i_typeRule_valid:    r_rule_valid[i];
-         r_rule_typeData[i]     <= i_rule_wren[i]? i_typeRule_typeData: r_rule_typeData[i];
-         r_rule_typeMask[i]     <= i_rule_wren[i]? i_typeRule_typeMask: r_rule_typeMask[i];
-         r_rule_keyOffset[i]    <= i_rule_wren[i]? i_typeRule_keyOffset:r_rule_keyOffset[i];
-         r_rule_headShift[i]    <= i_rule_wren[i]? i_typeRule_headShift:r_rule_headShift[i];
-         r_rule_metaShift[i]    <= i_rule_wren[i]? i_typeRule_metaShift:r_rule_metaShift[i];
+        r_rule_valid[i]         <= i_rule_wren[i]? i_typeRule_valid:    r_rule_valid[i];
+        r_rule_typeData[i]      <= i_rule_wren[i]? i_typeRule_typeData: r_rule_typeData[i];
+        r_rule_typeMask[i]      <= i_rule_wren[i]? i_typeRule_typeMask: r_rule_typeMask[i];
+        r_rule_keyOffset[i]     <= i_rule_wren[i]? i_typeRule_keyOffset:r_rule_keyOffset[i];
+        r_rule_headShift[i]     <= i_rule_wren[i]? i_typeRule_headShift:r_rule_headShift[i];
+        r_rule_metaShift[i]     <= i_rule_wren[i]? i_typeRule_metaShift:r_rule_metaShift[i];
+        r_rule_replaceOffset[i] <= i_rule_wren[i]? w_rule_replaceOffset:r_rule_replaceOffset[i];
       end
+    end
+  end
+  //* gen w_rule_replaceOffset
+  always_comb begin
+    for(integer j=0; j<`META_CANDI_NUM; j++) begin
+      w_rule_replaceOffset[j]   = 'b0;
+      for(integer k=0; k<`KEY_FILED_NUM; k++)
+        if(i_typeRule_keyMergeOffset[k] == j && i_typeRule_keyOffset[k][`KEY_OFFSET_WIDTH] == 1'b1) begin
+          w_rule_replaceOffset[j][`REP_OFFSET_WIDTH]    = w_rule_replaceOffset[j][`REP_OFFSET_WIDTH] | 1'b1;
+          w_rule_replaceOffset[j][`REP_OFFSET_WIDTH-1:0]= w_rule_replaceOffset[j][`REP_OFFSET_WIDTH-1:0] | k;
+        end
     end
   end
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
@@ -94,9 +112,10 @@ module Lookup_Type
   //====================================================================//
   //*   output result
   //====================================================================//
-  assign o_result     = (LOOKUP_NO_DELAHY)? w_result: r_result;
-  assign o_headShift  = (LOOKUP_NO_DELAHY)? w_headShift: r_headShift;
-  assign o_metaShift  = (LOOKUP_NO_DELAHY)? w_metaShift: r_metaShift;
+  assign o_result         = (LOOKUP_NO_DELAHY)? w_result: r_result;
+  assign o_headShift      = (LOOKUP_NO_DELAHY)? w_headShift: r_headShift;
+  assign o_metaShift      = (LOOKUP_NO_DELAHY)? w_metaShift: r_metaShift;
+  assign o_replaceOffset  = (LOOKUP_NO_DELAHY)? w_replaceOffset: r_replaceOffset;
   `ifdef RULE_W_PRIORITY
     logic [7:0]  w_hit_rule_8b, w_hit_rule_oneHot;
     generate 
@@ -126,6 +145,11 @@ module Lookup_Type
         for(integer i = 0; i < `RULE_NUM; i++)
           w_result[j] = {(`KEY_OFFSET_WIDTH+1){w_hit_rule_oneHot[i]}} & r_rule_keyOffset[i][j] | w_result[j];
       end
+      for(integer j = 0; j < `META_CANDI_NUM; j++) begin
+        w_replaceOffset[j]  = 'b0;
+        for(integer i = 0; i < `RULE_NUM; i++)
+          w_replaceOffset[j] = {(`REP_OFFSET_WIDTH+1){w_hit_rule_oneHot[i]}} & r_rule_replaceOffset[i][j] | w_replaceOffset[j];
+      end
       w_headShift     = 'b0;
       w_metaShift     = 'b0;
       for(integer i=0; i< `RULE_NUM; i++) begin
@@ -140,6 +164,11 @@ module Lookup_Type
         for(integer i = 0; i < `RULE_NUM; i++)
           w_result[j] = {(`KEY_OFFSET_WIDTH+1){w_hit_rule[i]}} & r_rule_keyOffset[i][j] | w_result[j];
       end
+      for(integer j = 0; j < `META_CANDI_NUM; j++) begin
+        w_replaceOffset[j]  = 'b0;
+        for(integer i = 0; i < `RULE_NUM; i++)
+          w_replaceOffset[j] = {(`REP_OFFSET_WIDTH+1){w_hit_rule[i]}} & r_rule_replaceOffset[i][j] | w_replaceOffset[j];
+      end
       w_headShift     = 'b0;
       w_metaShift     = 'b0;
       for(integer i=0; i< `RULE_NUM; i++) begin
@@ -152,6 +181,7 @@ module Lookup_Type
     r_result          <= w_result;
     r_headShift       <= w_headShift;
     r_metaShift       <= w_metaShift;
+    r_replaceOffset   <= w_replaceOffset;
   end
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 

@@ -20,7 +20,8 @@
    *             |         | 0: write rules; while i_rule_wdata[0] is valid info
    * [16] is 0   |  [10:8] | 1: conf type data & type mask; while i_rule_addr[3:0] is type id
    *             |         | 2: conf key offset; while i_rule_addr[5:0] is keyField id; 
-   *             |         |     while i_rule_wdata[16] is valid info
+   *             |         |     while i_rule_wdata[16] is valid info, and 
+   *             |         |     i_rule_wdata[8+:5] is replaceOffset info
    *             |         | 3: conf head shift; while i_rule_addr[5:0] is keyField id
    *             |         | 4: conf meta shift; while i_rule_addr[5:0] is keyField id
    *------------------------------------------------------------------------------------*/
@@ -265,9 +266,16 @@ module Testbench_wrapper(
     end
   end
 `else  
-  localparam CONF_PKT_DATA0 = {48'h8888_8888_8988,48'h010203040506,16'h9006,16'b0};
-  localparam NORMAL_PKT_DATA0 = {48'h0001_0203_0405,48'h060708090a0b,16'h0800,16'h4500};
-  typedef enum logic [3:0] {IDLE_S, CONF_TYPE_OFFSET_S, CONF_TYPE_S, CONF_KEY_OFFSET_S, ENABLE_RULE_S, SEND_PKT_S} state_t;
+  localparam CONF_PKT_DATA0   = {48'h8888_8888_8988,48'h010203040506,16'h9006,16'b0};
+  localparam NORMAL_ARP_DATA0 = {48'h0001_0203_0405,48'h060708090a0b,16'h0806,16'h0001};
+  localparam NORMAL_ARP_DATA1 = {128'h0800_0604_0001_0607_0809_0a0b_c0a8_eefa};
+  localparam NORMAL_ARP_DATA2 = {48'h0001_0203_0405,48'h060708090a0b,16'h0806,16'h0001};
+  localparam NORMAL_TCP_DATA0 = {128'h000a_3500_0102_00e0_4d6d_a7b3_0800_4500};
+  localparam NORMAL_TCP_DATA1 = {128'h0028_e84b_4000_4006_ce61_c0a8_010a_c0a8};
+  localparam NORMAL_TCP_DATA2 = {128'h01c8_1389_c001_3876_6005_0000_1986_5010};
+  localparam NORMAL_TCP_DATA3 = {128'hfad8_843d_0000_3876_6005_0000_1986_5010};
+  
+  typedef enum logic [3:0] {IDLE_S, CONF_LAYER_1, CONF_LAYER_2, CONF_LAYER_3, SEND_ARP_S, SEND_TCP_S} state_t;
   state_t state_cur, state_pre;
 
   reg   [3:0]  r_cnt_pktData;
@@ -286,88 +294,112 @@ module Testbench_wrapper(
       case(state_cur)
         IDLE_S: begin
           case(state_pre)
-            IDLE_S:             state_cur   <= CONF_TYPE_OFFSET_S;
-            CONF_TYPE_OFFSET_S: state_cur   <= CONF_TYPE_S;
-            CONF_TYPE_S:        state_cur   <= CONF_KEY_OFFSET_S;
-            CONF_KEY_OFFSET_S:  state_cur   <= ENABLE_RULE_S;
-            ENABLE_RULE_S:      state_cur   <= SEND_PKT_S;
+            IDLE_S:             state_cur   <= CONF_LAYER_1;
+            CONF_LAYER_1:       state_cur   <= CONF_LAYER_2;
+            CONF_LAYER_2:       state_cur   <= CONF_LAYER_3;
+            CONF_LAYER_3:       state_cur   <= SEND_ARP_S;
+            SEND_ARP_S:         state_cur   <= SEND_TCP_S;
+            // SEND_TCP_S:         state_cur   <= SEND_UDP_S;
           endcase
           r_cnt_pktData         <= 'b0;
         end
-        CONF_TYPE_OFFSET_S: begin
+        CONF_LAYER_1: begin
           r_data_valid          <= 1'b1;
           case(r_cnt_pktData)
             4'd0: r_data        <= {2'b01,4'h0,CONF_PKT_DATA0};  
-            4'd1: r_data        <= {2'b00,4'hf,48'b0,32'd1,32'd0,16'b0}; //* 48b pad + 32b data + 32b addr + 16b pad;
-            4'd2: begin
-                  r_data        <= {2'b10,4'hf,48'b0,32'd3,32'd1,16'b0};
-                  state_cur     <= IDLE_S;
-            end
-          endcase
-        end
-        CONF_TYPE_S: begin
-          r_data_valid          <= 1'b1;
-          case(r_cnt_pktData)
-            4'd0: r_data        <= {2'b01,4'h0,CONF_PKT_DATA0};  
-            4'd1: r_data        <= {2'b00,4'hf,48'b0,
-                                      16'h01,16'hff,
-                                      16'd1,8'd1,8'd0,16'b0}; //* 48b pad + 32b data + 32b addr + 16b pad;
-            4'd2: begin
-                  r_data        <= {2'b10,4'hf,48'b0,
-                                      16'h0,16'h00,
-                                      16'd1,8'd1,8'd1,16'b0};
-                  state_cur     <= IDLE_S;
-            end
-          endcase
-        end
-        CONF_KEY_OFFSET_S: begin
-          r_data_valid          <= 1'b1;
-          case(r_cnt_pktData)
-            4'd0: r_data        <= {2'b01,4'h0,CONF_PKT_DATA0};  
-            4'd1,4'd2,4'd3,4'd4,4'd5,4'd6,4'd7,4'd8: 
+            4'd1: r_data        <= {2'b00,4'hf,48'b0,32'd1,      32'd0,          16'b0};  //* type offset + type id
+            4'd2: r_data        <= {2'b00,4'hf,48'b0,32'd2,      32'd1,          16'b0}; 
+            4'd3: r_data        <= {2'b00,4'hf,48'b0,16'h0,16'h0,16'd1,8'd1,8'd0,16'b0};  //* type + mask + type id
+            4'd4: r_data        <= {2'b00,4'hf,48'b0,16'h0,16'h0,16'd1,8'd1,8'd1,16'b0}; 
+            4'd5,4'd6,4'd7,4'd8,4'd9,4'd10: 
                   r_data        <= {2'b00,4'hf,48'b0,
-                                      24'b0,4'b0,r_cnt_pktData[3:0],
-                                      16'd1,8'd2,4'b0,r_cnt_pktData[3:0]-4'd1,16'b0}; //* 48b pad + 32b data + 32b addr + 16b pad;
-            4'd9: r_data        <= {2'b00,4'hf,48'b0,
-                                      24'b0,4'b0,r_cnt_pktData[3:0],
-                                      16'd1,8'd2,4'b0,r_cnt_pktData[3:0],16'b0};
-            4'd10: begin
-                  r_data        <= {2'b00,4'hf,48'b0,
-                                      24'b0,4'b0,4'd2,
-                                      16'd1,8'd3,8'b0,16'b0}; //* head shift
-            end
-            4'd11: begin
-                  r_data        <= {2'b10,4'hf,48'b0,
-                                      24'b0,4'b0,4'b0,
-                                      16'd1,8'd4,8'b0,16'b0}; //* meta shift
+                                      16'd1,4'd0,r_cnt_pktData[3:0]-4'd5,4'b0,r_cnt_pktData[3:0]-4'd5,
+                                      16'd1,8'd2,4'b0,r_cnt_pktData[3:0]-4'd5,16'b0};     //* replace offset + key offset + key id;
+            4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,      8'd0,8'd1,8'd2,8'd6,16'b0};  //* disable
+            4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,      8'd0,8'd1,8'd2,8'd7,16'b0};  //* disable
+            4'd13:r_data        <= {2'b00,4'hf,48'b0,32'd6,      16'd1,8'd3,8'b0,16'b0};  //* head shift
+            4'd14:r_data        <= {2'b00,4'hf,48'b0,32'd0,      16'd1,8'd4,8'b0,16'b0};  //* meta shift
+            4'd15: begin
+                  r_data        <= {2'b10,4'hf,48'b0,32'd1,      16'd1,8'd0,8'd2,16'b0};  //* enable/disable rule;
                   state_cur     <= IDLE_S;
             end
           endcase
         end
-        ENABLE_RULE_S: begin
+        CONF_LAYER_2: begin
           r_data_valid          <= 1'b1;
           case(r_cnt_pktData)
             4'd0: r_data        <= {2'b01,4'h0,CONF_PKT_DATA0};  
-            4'd1: begin
-                  r_data        <= {2'b10,4'hf,48'b0,
-                                      32'd1,
-                                      16'd1,8'd0,8'd2,16'b0}; //* 48b pad + 32b data + 32b addr + 16b pad;
+            4'd1: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,24'd0,         16'b0};  //* type offset + type id
+            4'd2: r_data        <= {2'b00,4'hf,48'b0,32'd1,        8'd1,24'd1,         16'b0};
+            4'd3: r_data        <= {2'b00,4'hf,48'b0,16'h00,16'h0, 8'd1,8'd1,8'd1,8'd0,16'b0};  //* type + mask + type id
+            4'd4: r_data        <= {2'b00,4'hf,48'b0,16'h00,16'h0, 8'd1,8'd1,8'd1,8'd1,16'b0}; 
+            4'd5: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'hd, 8'h0, 8'd1,8'd1,8'd2,8'd0,16'b0};  //* replace offset + key offset + key id;
+            4'd6: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'he, 8'h1, 8'd1,8'd1,8'd2,8'd1,16'b0};  //* replace offset + key offset + key id;
+            4'd7: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'hf, 8'h2, 8'd1,8'd1,8'd2,8'd2,16'b0};  //* replace offset + key offset + key id;
+            4'd8: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'h10,8'h3, 8'd1,8'd1,8'd2,8'd3,16'b0};  //* replace offset + key offset + key id;
+            4'd9: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd4,16'b0};  //* disable
+            4'd10:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd5,16'b0};  //* disable
+            4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd6,16'b0};  //* disable
+            4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd7,16'b0};  //* disable
+            4'd13:r_data        <= {2'b00,4'hf,48'b0,32'd4,        8'd1,8'd1,8'd3,8'b0,16'b0};  //* head shift
+            4'd14:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd4,8'b0,16'b0};  //* meta shift
+            4'd15: begin
+                  r_data        <= {2'b10,4'hf,48'b0,32'd1,        8'd1,8'd1,8'd0,8'd2,16'b0};  //* enable/disable rule;
                   state_cur     <= IDLE_S;
             end
           endcase
         end
-        SEND_PKT_S: begin
+        CONF_LAYER_3: begin
           r_data_valid          <= 1'b1;
           case(r_cnt_pktData)
-            4'd0: r_data        <= {2'b01,4'h0,NORMAL_PKT_DATA0};  
-            4'd1,4'd2,4'd3: 
-                  r_data        <= {2'b00,4'hf,124'b0,r_cnt_pktData};
+            4'd0: r_data        <= {2'b01,4'h0,CONF_PKT_DATA0};  
+            4'd1: r_data        <= {2'b00,4'hf,48'b0,32'd9,        8'd2,24'd0,         16'b0};  //* type offset + type id
+            4'd2: r_data        <= {2'b00,4'hf,48'b0,32'd10,       8'd2,24'd1,         16'b0};
+            4'd3: r_data        <= {2'b00,4'hf,48'b0,16'h00,16'h00,8'd2,8'd1,8'd1,8'd0,16'b0};  //* type + mask + type id
+            4'd4: r_data        <= {2'b00,4'hf,48'b0,16'h00,16'h00,8'd2,8'd1,8'd1,8'd1,16'b0}; 
+            4'd5: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'h11,8'd0, 8'd2,8'd1,8'd2,8'd0,16'b0};  //* replace offset + key offset + key id;
+            4'd6: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'h12,8'd1, 8'd2,8'd1,8'd2,8'd1,16'b0};  //* replace offset + key offset + key id;
+            4'd7: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd6,16'b0};  //* disable
+            4'd8: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd7,16'b0};  //* disable
+            // 4'd7: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'd12, 8'd2,8'd1,8'd2,8'd2,16'b0};  //* replace offset + key offset + key id;
+            // 4'd8: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'd13, 8'd2,8'd1,8'd2,8'd3,16'b0};  //* replace offset + key offset + key id;
+            4'd9: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd4,16'b0};  //* disable
+            4'd10:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd5,16'b0};  //* disable
+            4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd6,16'b0};  //* disable
+            4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd7,16'b0};  //* disable
+            4'd13:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd3,8'b0,16'b0};  //* head shift
+            4'd14:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd4,8'b0,16'b0};  //* meta shift
+            4'd15: begin
+                  r_data        <= {2'b10,4'hf,48'b0,32'd1,        8'd2,8'd1,8'd0,8'd2,16'b0};  //* enable/disable rule;
+                  state_cur     <= IDLE_S;
+            end
+          endcase
+        end
+        SEND_ARP_S: begin
+          r_data_valid          <= 1'b1;
+          case(r_cnt_pktData)
+            4'd0: r_data        <= {2'b01,4'hf,NORMAL_ARP_DATA0};  
+            4'd1: r_data        <= {2'b00,4'hf,NORMAL_ARP_DATA1};
+            4'd2: begin
+                  r_data        <= {2'b10,4'hf,NORMAL_ARP_DATA2};
+                  state_cur     <= IDLE_S;
+            end
+          endcase
+        end
+        SEND_TCP_S: begin
+          r_data_valid          <= 1'b1;
+          case(r_cnt_pktData)
+            4'd0: r_data        <= {2'b01,4'hf,NORMAL_TCP_DATA0};  
+            4'd1: r_data        <= {2'b00,4'hf,NORMAL_TCP_DATA1}; 
+            4'd2: r_data        <= {2'b00,4'hf,NORMAL_TCP_DATA2};
+            4'd3: begin
+                  r_data        <= {2'b10,4'hf,NORMAL_TCP_DATA3};
+                  // state_cur     <= IDLE_S;
+            end
             4'd4: begin
-                  r_data        <= {2'b10,4'hf,124'b0,r_cnt_pktData};
-            end
-            4'd5: begin
-                  r_data_valid  <= 'b0;
-                  r_cnt_pktData <= 'b0;
+                  r_data_valid  <= 1'b0;
+                  r_cnt_pktData <= r_cnt_pktData;
+                  // state_cur     <= IDLE_S;
             end
           endcase
         end

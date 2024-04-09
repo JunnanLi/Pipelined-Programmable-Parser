@@ -2,7 +2,9 @@
 //  Module name: Extract_Field
 //  Authority @ lijunnan (lijunnan@nudt.edu.cn)
 //  Last edited time: 2024/01/02
-//  Function outline: 3-stage programmable parser
+//  Function outline: extract fields
+//  Note:
+//    1) top bit of i_offset is valid info;
 /****************************************************/
 
 module Extract_Field #(
@@ -15,7 +17,7 @@ module Extract_Field #(
   input   wire                                          i_rst_n,
   input   wire  [CANDI_NUM-1:0][EXTRACT_WIDTH-1:0]      i_data,
   output  wire  [EXTRACT_WIDTH-1:0]                     o_extract_data,
-  input   wire  [OFFSET_WIDTH-1:0]                      i_offset
+  input   wire  [OFFSET_WIDTH:0]                        i_offset
 );
 
   //====================================================================//
@@ -28,7 +30,7 @@ module Extract_Field #(
   //====================================================================//
   //*   extract fields
   //====================================================================//
-  assign w_extract_data = i_data[i_offset];
+  assign w_extract_data = i_offset[OFFSET_WIDTH]? i_data[i_offset[OFFSET_WIDTH-1:0]]: 'b0;
   assign o_extract_data = (EXTRACT_NO_DELAHY)? w_extract_data: r_extract_data;
 
   always @(posedge i_clk) begin

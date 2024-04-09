@@ -1,11 +1,11 @@
 
 /*
- *  Project:            timelyRV_v1.4.x -- a RISCV-32IMC SoC.
+ *  Project:            Pipelined-Packet-Parser.
  *  Module name:        Testbench.
- *  Description:        Testbench of timelyRV_SoC_hardware.
- *  Last updated date:  2022.10.10.
+ *  Description:        Testbench of Pipelined-Packet-Parser.
+ *  Last updated date:  2024.04.07.
  *
- *  Copyright (C) 2021-2022 Junnan Li <lijunnan@nudt.edu.cn>.
+ *  Copyright (C) 2021-2024 Junnan Li <lijunnan@nudt.edu.cn>.
  *  Copyright and related rights are licensed under the MIT license.
  *
  */
@@ -13,14 +13,14 @@
   /*------------------------------------------------------------------------------------
    *     name    | offset  |  description
    *------------------------------------------------------------------------------------
-   * i_rule_addr |  [31:24]| layer in dec, e.g., 0,1,2,...
-   *             |  [16]   | 1: conf type_offset, 0: conf rules
+   * i_rule_addr |  [16]   | 1: conf type_offset, 0: conf rules
    *------------------------------------------------------------------------------------
-   * [16] is 0   |  [3:0]  | type id, e.g., 2; while i_rule_wdata is offset;
+   * [16] is 1   |  [3:0]  | type id, e.g., 2; while i_rule_wdata is offset;
    *------------------------------------------------------------------------------------
    *             |         | 0: write rules; while i_rule_wdata[0] is valid info
-   * [16] is 1   |  [10:8] | 1: conf type data & type mask; while i_rule_addr[3:0] is type id
-   *             |         | 2: conf key offset; while i_rule_addr[5:0] is keyField id
+   * [16] is 0   |  [10:8] | 1: conf type data & type mask; while i_rule_addr[3:0] is type id
+   *             |         | 2: conf key offset; while i_rule_addr[5:0] is keyField id; 
+   *             |         |     while i_rule_wdata[16] is valid info
    *             |         | 3: conf head shift; while i_rule_addr[5:0] is keyField id
    *             |         | 4: conf meta shift; while i_rule_addr[5:0] is keyField id
    *------------------------------------------------------------------------------------*/
@@ -265,7 +265,7 @@ module Testbench_wrapper(
     end
   end
 `else  
-  localparam CONF_PKT_DATA0 = {48'h8888_8888_8988,48'h010203040506,16'h9006,16'b0};
+  localparam CONF_PKT_DATA0   = {48'h8888_8888_8988,48'h010203040506,16'h9006,16'b0};
   localparam NORMAL_ARP_DATA0 = {48'h0001_0203_0405,48'h060708090a0b,16'h0806,16'h0001};
   localparam NORMAL_ARP_DATA1 = {128'h0800_0604_0001_0607_0809_0a0b_c0a8_eefa};
   localparam NORMAL_ARP_DATA2 = {48'h0001_0203_0405,48'h060708090a0b,16'h0806,16'h0001};
@@ -312,11 +312,13 @@ module Testbench_wrapper(
             4'd4: r_data        <= {2'b00,4'hf,48'b0,16'h0,16'h0,16'd1,8'd1,8'd1,16'b0}; 
             4'd5,4'd6,4'd7,4'd8,4'd9,4'd10: 
                   r_data        <= {2'b00,4'hf,48'b0,
-                                      24'b0,4'b0,r_cnt_pktData[3:0]-4'd5,
+                                      16'd1,12'b0,r_cnt_pktData[3:0]-4'd5,
                                       16'd1,8'd2,4'b0,r_cnt_pktData[3:0]-4'd5,16'b0};     //* key offset + key id;
-            4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd6,      16'd1,8'd3,8'b0,16'b0};  //* head shift
-            4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd6,      16'd1,8'd4,8'b0,16'b0};  //* meta shift
-            4'd13: begin
+            4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,      8'd0,8'd1,8'd2,8'd6,16'b0};  //* disable
+            4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,      8'd0,8'd1,8'd2,8'd7,16'b0};  //* disable
+            4'd13:r_data        <= {2'b00,4'hf,48'b0,32'd6,      16'd1,8'd3,8'b0,16'b0};  //* head shift
+            4'd14:r_data        <= {2'b00,4'hf,48'b0,32'd6,      16'd1,8'd4,8'b0,16'b0};  //* meta shift
+            4'd15: begin
                   r_data        <= {2'b10,4'hf,48'b0,32'd1,      16'd1,8'd0,8'd2,16'b0};  //* enable/disable rule;
                   state_cur     <= IDLE_S;
             end
@@ -330,20 +332,23 @@ module Testbench_wrapper(
             4'd2: r_data        <= {2'b00,4'hf,48'b0,32'd1,        8'd1,24'd1,         16'b0};
             4'd3: r_data        <= {2'b00,4'hf,48'b0,16'h08,16'hff,8'd1,8'd1,8'd1,8'd0,16'b0};  //* type + mask + type id
             4'd4: r_data        <= {2'b00,4'hf,48'b0,16'h00,16'hff,8'd1,8'd1,8'd1,8'd1,16'b0}; 
-            4'd5: r_data        <= {2'b00,4'hf,48'b0,32'd5,        8'd1,8'd1,8'd2,8'd0,16'b0};  //* key offset + key id;
-            4'd6: r_data        <= {2'b00,4'hf,48'b0,32'd7,        8'd1,8'd1,8'd2,8'd1,16'b0};  //* key offset + key id;
-            4'd7: r_data        <= {2'b00,4'hf,48'b0,32'd8,        8'd1,8'd1,8'd2,8'd2,16'b0};  //* key offset + key id;
-            4'd8: r_data        <= {2'b00,4'hf,48'b0,32'd9,        8'd1,8'd1,8'd2,8'd3,16'b0};  //* key offset + key id;
-            4'd9: r_data        <= {2'b00,4'hf,48'b0,32'd10,       8'd1,8'd1,8'd2,8'd4,16'b0};  //* key offset + key id;
-            4'd10:r_data        <= {2'b00,4'hf,48'b0,32'd1,        8'd1,8'd1,8'd3,8'b0,16'b0};  //* head shift
-            4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd5,        8'd1,8'd1,8'd4,8'b0,16'b0};  //* meta shift
-            4'd12: begin
+            4'd5: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd5,  8'd1,8'd1,8'd2,8'd0,16'b0};  //* key offset + key id;
+            4'd6: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd7,  8'd1,8'd1,8'd2,8'd1,16'b0};  //* key offset + key id;
+            4'd7: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd8,  8'd1,8'd1,8'd2,8'd2,16'b0};  //* key offset + key id;
+            4'd8: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd9,  8'd1,8'd1,8'd2,8'd3,16'b0};  //* key offset + key id;
+            4'd9: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd10, 8'd1,8'd1,8'd2,8'd4,16'b0};  //* key offset + key id;
+            4'd10:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd5,16'b0};  //* disable
+            4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd6,16'b0};  //* disable
+            4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd7,16'b0};  //* disable
+            4'd13:r_data        <= {2'b00,4'hf,48'b0,32'd1,        8'd1,8'd1,8'd3,8'b0,16'b0};  //* head shift
+            4'd14:r_data        <= {2'b00,4'hf,48'b0,32'd5,        8'd1,8'd1,8'd4,8'b0,16'b0};  //* meta shift
+            4'd15: begin
                   r_data        <= {2'b10,4'hf,48'b0,32'd1,        8'd1,8'd1,8'd0,8'd2,16'b0};  //* enable/disable rule;
                   state_cur     <= IDLE_S;
             end
           endcase
         end
-        CONF_LAYER_2: begin
+        CONF_LAYER_3: begin
           r_data_valid          <= 1'b1;
           case(r_cnt_pktData)
             4'd0: r_data        <= {2'b01,4'h0,CONF_PKT_DATA0};  
@@ -351,13 +356,17 @@ module Testbench_wrapper(
             4'd2: r_data        <= {2'b00,4'hf,48'b0,32'd10,       8'd2,24'd1,         16'b0};
             4'd3: r_data        <= {2'b00,4'hf,48'b0,16'h06,16'h0e,8'd2,8'd1,8'd1,8'd0,16'b0};  //* type + mask + type id
             4'd4: r_data        <= {2'b00,4'hf,48'b0,16'h00,16'h00,8'd2,8'd1,8'd1,8'd1,16'b0}; 
-            4'd5: r_data        <= {2'b00,4'hf,48'b0,32'd10,       8'd2,8'd1,8'd2,8'd0,16'b0};  //* key offset + key id;
-            4'd6: r_data        <= {2'b00,4'hf,48'b0,32'd11,       8'd2,8'd1,8'd2,8'd1,16'b0};  //* key offset + key id;
-            4'd7: r_data        <= {2'b00,4'hf,48'b0,32'd12,       8'd2,8'd1,8'd2,8'd2,16'b0};  //* key offset + key id;
-            4'd8: r_data        <= {2'b00,4'hf,48'b0,32'd13,       8'd2,8'd1,8'd2,8'd3,16'b0};  //* key offset + key id;
-            4'd9: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd3,8'b0,16'b0};  //* head shift
-            4'd10:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd4,8'b0,16'b0};  //* meta shift
-            4'd12: begin
+            4'd5: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd10, 8'd2,8'd1,8'd2,8'd0,16'b0};  //* key offset + key id;
+            4'd6: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd11, 8'd2,8'd1,8'd2,8'd1,16'b0};  //* key offset + key id;
+            4'd7: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd12, 8'd2,8'd1,8'd2,8'd2,16'b0};  //* key offset + key id;
+            4'd8: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd13, 8'd2,8'd1,8'd2,8'd3,16'b0};  //* key offset + key id;
+            4'd9: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd4,16'b0};  //* disable
+            4'd10:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd5,16'b0};  //* disable
+            4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd6,16'b0};  //* disable
+            4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd7,16'b0};  //* disable
+            4'd13:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd3,8'b0,16'b0};  //* head shift
+            4'd14:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd4,8'b0,16'b0};  //* meta shift
+            4'd15: begin
                   r_data        <= {2'b10,4'hf,48'b0,32'd1,        8'd2,8'd1,8'd0,8'd2,16'b0};  //* enable/disable rule;
                   state_cur     <= IDLE_S;
             end

@@ -3,9 +3,24 @@ debImport "-sverilog" "+v2k" "-f" "file_list.f" "-top" "Testbench_wrapper"
 debLoadSimResult \
            /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
 wvCreateWindow
-wvSetCursor -win $_nWave2 5577972.865124
+wvSetCursor -win $_nWave2 5981005.586592
 wvRestoreSignal -win $_nWave2 \
-           "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_example.rc" \
+           "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_deparser.rc" \
            -overWriteAutoAlias on -appendSignals on
-wvSetCursor -win $_nWave2 9711917.122768 -snap {("G1" 6)}
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvSetCursor -win $_nWave2 14336824.422134 -snap {("G3" 2)}
+wvSetCursor -win $_nWave2 13738838.210074 -snap {("G3" 4)}
+wvSelectSignal -win $_nWave2 {( "G3" 4 )} 
+wvSetPosition -win $_nWave2 {("G3" 4)}
+wvSetPosition -win $_nWave2 {("G3" 3)}
+wvSetPosition -win $_nWave2 {("G3" 2)}
+wvSetPosition -win $_nWave2 {("G3" 3)}
+wvMoveSelected -win $_nWave2
+wvSetPosition -win $_nWave2 {("G3" 3)}
+wvSetPosition -win $_nWave2 {("G3" 4)}
+wvScrollDown -win $_nWave2 3
+wvSelectSignal -win $_nWave2 {( "G3" 5 )} 
+wvSetCursor -win $_nWave2 14315467.771703 -snap {("G3" 5)}
+wvSetCursor -win $_nWave2 15092849.847381 -snap {("G3" 5)}
 debExit
