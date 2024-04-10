@@ -11,7 +11,7 @@ module Extract_Field #(
   parameter   CANDI_NUM             = 128,
   parameter   OFFSET_WIDTH          = 7,
   parameter   EXTRACT_WIDTH         = 8,
-  parameter   EXTRACT_NO_DELAHY     = 1
+  parameter   INSERT_ONE_CLK        = 0
 )(
   input   wire                                          i_clk,
   input   wire                                          i_rst_n,
@@ -31,7 +31,7 @@ module Extract_Field #(
   //*   extract fields
   //====================================================================//
   assign w_extract_data = i_offset[OFFSET_WIDTH]? i_data[i_offset[OFFSET_WIDTH-1:0]]: 'b0;
-  assign o_extract_data = (EXTRACT_NO_DELAHY)? w_extract_data: r_extract_data;
+  assign o_extract_data = (INSERT_ONE_CLK)? r_extract_data: w_extract_data;
 
   always @(posedge i_clk) begin
     r_extract_data  <= w_extract_data;

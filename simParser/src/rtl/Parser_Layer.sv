@@ -44,8 +44,8 @@ module Parser_Layer(
   output  logic [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0] o_key_offset,
   input   wire  [`HEAD_SHIFT_WIDTH-1:0]                   i_headShift,
   input   wire  [`META_SHIFT_WIDTH-1:0]                   i_metaShift,
-  input   logic [`HEAD_SHIFT_WIDTH-1:0]                   o_headShift,
-  input   logic [`META_SHIFT_WIDTH-1:0]                   o_metaShift,
+  output  logic [`HEAD_SHIFT_WIDTH-1:0]                   o_headShift,
+  output  logic [`META_SHIFT_WIDTH-1:0]                   o_metaShift,
   //--data--//
   input   wire  [`HEAD_WIDTH+`TAG_WIDTH-1:0]  i_head,
   output  wire  [`HEAD_WIDTH+`TAG_WIDTH-1:0]  o_head,
@@ -56,33 +56,37 @@ module Parser_Layer(
   //====================================================================//
   //*   internal reg/wire/param declarations
   //====================================================================//
-  //* extract type & keyField: w_type_field, w_key_field
   //* lookup result: o_type_offset & o_key_offset & o_headShift & o_metaShift
+  //* extract field: type & keyField: w_type_field, w_key_field
   (* mark_debug = "true"*)wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]              w_type_field;
   (* mark_debug = "true"*)wire  [`KEY_FILED_NUM-1:0][`KEY_FIELD_WIDTH-1:0]    w_key_field;
+  wire  [`KEY_FILED_NUM*`KEY_FIELD_WIDTH-1:0]         w_extField;
   //* conf rules
   (* mark_debug = "true"*)wire  [`RULE_NUM-1:0]                               w_typeRule_wren;
   wire                                                w_typeRule_valid;
   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]              w_typeRule_typeData;
   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]              w_typeRule_typeMask;
+  wire  [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]       w_typeRule_typeOffset;
   wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     w_typeRule_keyOffset;
+  wire  [`HEAD_SHIFT_WIDTH-1:0]                       w_typeRule_headShift;
+  wire  [`META_SHIFT_WIDTH-1:0]                       w_typeRule_metaShift;
   //* format change
   logic [`TYPE_CANDI_NUM-1:0][`TYPE_WIDTH-1:0]        w_headType;
   logic [`KEY_CANDI_NUM-1:0][`KEY_FIELD_WIDTH-1:0]    w_headKey;
-  wire  [`HEAD_SHIFT_WIDTH-1:0]                       w_typeRule_headShift;
-  wire  [`META_SHIFT_WIDTH-1:0]                       w_typeRule_metaShift;
   //* insert 1 clk
   logic [`HEAD_WIDTH+`TAG_WIDTH-1:0]                  l_head;
   logic [`HEAD_WIDTH+`TAG_WIDTH-1:0]                  l_meta;
   logic [`HEAD_SHIFT_WIDTH-1:0]                       l_headShift;
   logic [`META_SHIFT_WIDTH-1:0]                       l_metaShift;
-  wire  [`KEY_FILED_NUM*`KEY_FIELD_WIDTH-1:0]         w_extField;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
   genvar idx;
   generate for (idx = 0; idx < `TYPE_NUM; idx=idx+1) begin : gen_extract_type
     Extract_Field 
     #(
+    `ifdef TWO_CYCLE_PER_LAYER
+      .INSERT_ONE_CLK   (1'b1               ),
+    `endif
       .CANDI_NUM        (`TYPE_CANDI_NUM    ),
       .OFFSET_WIDTH     (`TYPE_OFFSET_WIDTH ),
       .EXTRACT_WIDTH    (`TYPE_WIDTH        )
@@ -99,6 +103,9 @@ module Parser_Layer(
   generate for (idx = 0; idx < `KEY_FILED_NUM; idx=idx+1) begin : gen_extract_field
     Extract_Field 
     #(
+    `ifdef TWO_CYCLE_PER_LAYER
+      .INSERT_ONE_CLK   (1'b1               ),
+    `endif
       .CANDI_NUM        (`KEY_CANDI_NUM     ),
       .OFFSET_WIDTH     (`KEY_OFFSET_WIDTH  ),
       .EXTRACT_WIDTH    (`KEY_FIELD_WIDTH   )
@@ -114,7 +121,7 @@ module Parser_Layer(
   endgenerate
 
   Lookup_Type 
-  #(.LOOKUP_NO_DELAHY     (1'b0))
+  #(.INSERT_ONE_CLK       (1'b0                   ))
   lookup_type(
     .i_clk                (i_clk                  ),
     .i_rst_n              (i_rst_n                ),
@@ -150,11 +157,11 @@ module Parser_Layer(
     .i_rule_wren          (i_rule_wren            ),
     .i_rule_wdata         (i_rule_wdata           ),
     .i_rule_addr          (i_rule_addr            ),
-    // .o_type_offset        (w_type_offset          ),
     .o_typeRule_wren      (w_typeRule_wren        ),
     .o_typeRule_valid     (w_typeRule_valid       ),
     .o_typeRule_typeData  (w_typeRule_typeData    ),
     .o_typeRule_typeMask  (w_typeRule_typeMask    ),
+    .o_typeRule_typeOffset(w_typeRule_typeOffset  ),
     .o_typeRule_keyOffset (w_typeRule_keyOffset   ),
     .o_typeRule_headShift (w_typeRule_headShift   ),
     .o_typeRule_metaShift (w_typeRule_metaShift   )
