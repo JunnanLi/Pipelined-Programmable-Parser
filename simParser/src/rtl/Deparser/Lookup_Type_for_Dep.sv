@@ -1,16 +1,15 @@
 /****************************************************/
-//  Module name: Lookup_Type
+//  Module name: Lookup_Type_for_Dep
 //  Authority @ lijunnan (lijunnan@nudt.edu.cn)
-//  Last edited time: 2024/01/02
+//  Last edited time: 2024/04/11
 //  Function outline: lookup type & output resutl
 //  Note:
 //    1) top bit of i_offset is valid info;
 /****************************************************/
 
-module Lookup_Type
+module Lookup_Type_for_Dep
 #(
-  parameter     INSERT_ONE_CLK = 0,
-  parameter     WITH_REPLACE_FIELD_FUNC = 0
+  parameter     INSERT_ONE_CLK = 0
 )
 (
   input   wire                                              i_clk,
@@ -31,12 +30,6 @@ module Lookup_Type
   input   wire  [`HEAD_SHIFT_WIDTH-1:0]                     i_typeRule_headShift,
   input   wire  [`META_SHIFT_WIDTH-1:0]                     i_typeRule_metaShift
 );
-generate
-  if(WITH_REPLACE_FIELD_FUNC) begin
-    `define REPLACE_FIELD_FUNC
-  end
-endgenerate
-
 
   //====================================================================//
   //*   internal reg/wire/param declarations
@@ -46,12 +39,10 @@ endgenerate
   reg   [`RULE_NUM-1:0][`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]             r_rule_typeMask;
   reg   [`RULE_NUM-1:0][`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]      r_rule_typeOffset;
   reg   [`RULE_NUM-1:0][`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]    r_rule_keyOffset;
-`ifdef REPLACE_FIELD_FUNC
   reg   [`RULE_NUM-1:0][`META_CANDI_NUM-1:0][`REP_OFFSET_WIDTH:0]   r_rule_replaceOffset;
   logic                [`META_CANDI_NUM-1:0][`REP_OFFSET_WIDTH:0]   w_rule_replaceOffset;
   logic                [`META_CANDI_NUM-1:0][`REP_OFFSET_WIDTH:0]   w_replaceOffset;
   reg                  [`META_CANDI_NUM-1:0][`REP_OFFSET_WIDTH:0]   r_replaceOffset;
-`endif
   reg   [`RULE_NUM-1:0][`HEAD_SHIFT_WIDTH-1:0]                      r_rule_headShift;
   reg   [`RULE_NUM-1:0][`META_SHIFT_WIDTH-1:0]                      r_rule_metaShift;
   (* mark_debug = "true"*)logic [`RULE_NUM-1:0]                                          w_hit_rule;
@@ -81,9 +72,7 @@ endgenerate
           r_rule_typeMask[i]      <= i_rule_wren[i]? i_typeRule_typeMask:   r_rule_typeMask[i];
           r_rule_typeOffset[i]    <= i_rule_wren[i]? i_typeRule_typeOffset: r_rule_typeOffset[i];
           r_rule_keyOffset[i]     <= i_rule_wren[i]? i_typeRule_keyOffset:  r_rule_keyOffset[i];
-        `ifdef REPLACE_FIELD_FUNC
           r_rule_replaceOffset[i] <= i_rule_wren[i]? w_rule_replaceOffset:  r_rule_replaceOffset[i];
-        `endif
           r_rule_headShift[i]     <= i_rule_wren[i]? i_typeRule_headShift:  r_rule_headShift[i];
           r_rule_metaShift[i]     <= i_rule_wren[i]? i_typeRule_metaShift:  r_rule_metaShift[i];
       end
@@ -128,11 +117,7 @@ endgenerate
   assign o_keyOffset    = (INSERT_ONE_CLK)? r_keyOffset:    w_keyOffset;
   assign o_headShift    = (INSERT_ONE_CLK)? r_headShift:    w_headShift;
   assign o_metaShift    = (INSERT_ONE_CLK)? r_metaShift:    w_metaShift;
-`ifdef REPLACE_FIELD_FUNC
   assign o_replaceOffset= (INSERT_ONE_CLK)? r_replaceOffset:w_replaceOffset;
-`else
-  assign o_replaceOffset= 'b0;
-`endif
   `ifdef RULE_W_PRIORITY
     logic [7:0]  w_hit_rule_8b, w_hit_rule_oneHot;
     generate 
@@ -167,13 +152,11 @@ endgenerate
         for(integer i = 0; i < `RULE_NUM; i++)
           w_typeOffset[j] = {`TYPE_OFFSET_WIDTH{w_hit_rule_oneHot[i]}} & r_rule_typeOffset[i][j] | w_typeOffset[j];
       end
-    `ifdef REPLACE_FIELD_FUNC
       for(integer j = 0; j < `META_CANDI_NUM; j++) begin
         w_replaceOffset[j]  = 'b0;
         for(integer i = 0; i < `RULE_NUM; i++)
           w_replaceOffset[j] = {(`REP_OFFSET_WIDTH+1){w_hit_rule_oneHot[i]}} & r_rule_replaceOffset[i][j] | w_replaceOffset[j];
       end
-    `endif
       w_headShift     = 'b0;
       w_metaShift     = 'b0;
       for(integer i=0; i< `RULE_NUM; i++) begin
@@ -193,13 +176,11 @@ endgenerate
         for(integer i = 0; i < `RULE_NUM; i++)
           w_typeOffset[j] = {`TYPE_OFFSET_WIDTH{w_hit_rule[i]}} & r_rule_keyOffset[i][j] | w_typeOffset[j];
       end
-    `ifdef REPLACE_FIELD_FUNC
       for(integer j = 0; j < `META_CANDI_NUM; j++) begin
         w_replaceOffset[j]  = 'b0;
         for(integer i = 0; i < `RULE_NUM; i++)
           w_replaceOffset[j] = {(`REP_OFFSET_WIDTH+1){w_hit_rule[i]}} & r_rule_replaceOffset[i][j] | w_replaceOffset[j];
       end
-    `endif
       w_headShift     = 'b0;
       w_metaShift     = 'b0;
       for(integer i=0; i< `RULE_NUM; i++) begin
@@ -213,9 +194,7 @@ endgenerate
     r_keyOffset       <= w_keyOffset;
     r_headShift       <= w_headShift;
     r_metaShift       <= w_metaShift;
-`ifdef REPLACE_FIELD_FUNC
     r_replaceOffset   <= w_replaceOffset;
-`endif
   end
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
