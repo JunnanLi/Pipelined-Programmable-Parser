@@ -48,7 +48,7 @@ module Testbench_wrapper(
   wire                  w_data_valid;
   wire  [133:0]         w_data;
 
-  HyPipe_Top HyPipe_Top(
+  StreamParser_Top StreamParser_Top(
     .i_clk          (clk),
     .i_rst_n        (rst_n),
     .i_data_valid   (r_data_valid),

@@ -1,8 +1,8 @@
 /******************************************************************/
-//  Module name: HyPipe_Top
+//  Module name: StreamParser_Top
 //  Authority @ lijunnan (lijunnan@nudt.edu.cn)
-//  Last edited time: 2024/01/01
-//  Function outline: Top module of Hybrid Packet Processing Pipeline
+//  Last edited time: 2024/04/11
+//  Function outline: Top module of Stream Packet Parser
 //  Noted:
 //    1) 134b pkt data defination: 
 //      [133:132] head tag, 2'b01 is head, 2'b10 is tail;
@@ -11,7 +11,7 @@
 //    2) 1024 phv defination 134b pkt data definition: 
 /*******************************************************************/
 
-module HyPipe_Top(
+module StreamParser_Top(
    input  wire              i_clk
   ,input  wire              i_rst_n
   ,input  wire              i_data_valid

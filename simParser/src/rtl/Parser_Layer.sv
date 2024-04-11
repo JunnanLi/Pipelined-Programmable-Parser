@@ -18,7 +18,7 @@
 //*  | ( type field) |------->| ( rules )   |--------->           //
 //*  +---------------+        +-------------+                     //
 //*           ↑                       ↑     +-------------+       //
-//*     phv---+            types &&   +-----| Rule_Conf   |       //
+//*    head---+            types &&   +-----| Rule_Conf   |       //
 //*  (input)  ↓            extract offset   +-------------+       //
 //*  +---------------+ key    +---------------+                   //
 //*  | Extract_Field | fields | Merge Field & |  new head & meta  //

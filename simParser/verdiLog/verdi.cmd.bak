@@ -3,44 +3,42 @@ debImport "-sverilog" "+v2k" "-f" "file_list.f" "-top" "Testbench_wrapper"
 debLoadSimResult \
            /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
 wvCreateWindow
-wvSetCursor -win $_nWave2 6222825.219473
+wvSetCursor -win $_nWave2 5336153.232243
 wvRestoreSignal -win $_nWave2 \
            "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_example.rc" \
            -overWriteAutoAlias on -appendSignals on
-wvScrollUp -win $_nWave2 1
-wvScrollUp -win $_nWave2 1
-wvScrollUp -win $_nWave2 1
-wvScrollDown -win $_nWave2 1
-wvScrollDown -win $_nWave2 1
-wvScrollDown -win $_nWave2 1
-wvScrollDown -win $_nWave2 1
-wvSelectSignal -win $_nWave2 {( "G4" 4 )} 
-wvSelectSignal -win $_nWave2 {( "G4" 3 )} 
-wvSelectSignal -win $_nWave2 {( "G4" 4 )} 
-wvCut -win $_nWave2
-wvSetPosition -win $_nWave2 {("G5" 0)}
-wvSetPosition -win $_nWave2 {("G4" 5)}
-wvSelectSignal -win $_nWave2 {( "G4" 4 )} 
-wvCut -win $_nWave2
-wvSetPosition -win $_nWave2 {("G5" 0)}
-wvSetPosition -win $_nWave2 {("G4" 4)}
-wvSelectSignal -win $_nWave2 {( "G4" 4 )} 
-wvCut -win $_nWave2
-wvSetPosition -win $_nWave2 {("G5" 0)}
-wvSetPosition -win $_nWave2 {("G4" 3)}
-wvScrollDown -win $_nWave2 0
-wvScrollUp -win $_nWave2 1
-wvScrollUp -win $_nWave2 1
-wvScrollUp -win $_nWave2 1
-wvScrollUp -win $_nWave2 1
-wvScrollUp -win $_nWave2 1
-wvScrollUp -win $_nWave2 1
-wvScrollUp -win $_nWave2 1
-wvScrollUp -win $_nWave2 1
-wvScrollDown -win $_nWave2 0
-wvSetCursor -win $_nWave2 14302594.730430 -snap {("G1" 4)}
-wvSelectSignal -win $_nWave2 {( "G1" 4 )} 
-wvSetCursor -win $_nWave2 15076126.055528 -snap {("G1" 4)}
-wvSetCursor -win $_nWave2 15090720.986191 -snap {("G1" 7)}
-wvSetCursor -win $_nWave2 14513178.729985 -snap {("G1" 3)}
-wvSetCursor -win $_nWave2 15117825.857421 -snap {("G1" 7)}
+wvUnknownSaveResult -win $_nWave2 -clear
+wvUnknownSaveResult -win $_nWave2 -clear
+wvSetCursor -win $_nWave2 13293459.524641
+wvSelectGroup -win $_nWave2 {G1}
+wvSetPosition -win $_nWave2 {("G1" 0)}
+srcHBSelect "Testbench_wrapper.StreamParser_Top" -win $_nTrace1
+srcSetScope -win $_nTrace1 "Testbench_wrapper.StreamParser_Top" -delim "."
+srcHBSelect "Testbench_wrapper.StreamParser_Top" -win $_nTrace1
+srcHBSelect "Testbench_wrapper.StreamParser_Top.parser_top" -win $_nTrace1
+srcSetScope -win $_nTrace1 "Testbench_wrapper.StreamParser_Top.parser_top" -delim \
+           "."
+srcHBSelect "Testbench_wrapper.StreamParser_Top.parser_top" -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -win $_nTrace1 -range {36 38 16 1 1 1}
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+wvSelectGroup -win $_nWave2 {G2}
+wvSetPosition -win $_nWave2 {("G2" 0)}
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "i_head" -line 27 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+wvZoomOut -win $_nWave2
+wvZoomOut -win $_nWave2
+wvSetCursor -win $_nWave2 12483440.872889 -snap {("G2" 1)}
+wvZoom -win $_nWave2 13042218.218243 14268192.393871
+wvZoomOut -win $_nWave2
+wvSetCursor -win $_nWave2 13301991.676837 -snap {("G1" 6)}
+wvSetCursor -win $_nWave2 14304394.344785 -snap {("G1" 6)}
+wvSetCursor -win $_nWave2 15116492.162639 -snap {("G1" 6)}
+wvSaveSignal -win $_nWave2 \
+           "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_example.rc"
+debExit
