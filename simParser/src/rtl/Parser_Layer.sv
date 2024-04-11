@@ -78,6 +78,14 @@ module Parser_Layer(
   logic [`HEAD_WIDTH+`TAG_WIDTH-1:0]                  l_meta;
   logic [`HEAD_SHIFT_WIDTH-1:0]                       l_headShift;
   logic [`META_SHIFT_WIDTH-1:0]                       l_metaShift;
+  wire  [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]       w_type_offset_s0;
+  wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     w_key_offset_s0;
+  wire  [`HEAD_SHIFT_WIDTH-1:0]                       w_headShift_s0;
+  wire  [`META_SHIFT_WIDTH-1:0]                       w_metaShift_s0;
+  reg   [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]       r_type_offset_s1,r_type_offset_s2;
+  reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     r_key_offset_s1, r_key_offset_s2;
+  reg   [`HEAD_SHIFT_WIDTH-1:0]                       r_headShift_s1,  r_headShift_s2;
+  reg   [`META_SHIFT_WIDTH-1:0]                       r_metaShift_s1,  r_metaShift_s2;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
   genvar idx;
@@ -126,14 +134,15 @@ module Parser_Layer(
     .i_clk                (i_clk                  ),
     .i_rst_n              (i_rst_n                ),
     .i_type               (w_type_field           ),
-    .o_typeOffset         (o_type_offset          ),
-    .o_keyOffset          (o_key_offset           ),
-    .o_headShift          (o_headShift            ),
-    .o_metaShift          (o_metaShift            ),
+    .o_typeOffset         (w_type_offset_s0       ),
+    .o_keyOffset          (w_key_offset_s0        ),
+    .o_headShift          (w_headShift_s0         ),
+    .o_metaShift          (w_metaShift_s0         ),
     .i_rule_wren          (w_typeRule_wren        ),
     .i_typeRule_valid     (w_typeRule_valid       ),
     .i_typeRule_typeData  (w_typeRule_typeData    ),
     .i_typeRule_typeMask  (w_typeRule_typeMask    ),
+    .i_typeRule_typeOffset(w_typeRule_typeOffset  ),
     .i_typeRule_keyOffset (w_typeRule_keyOffset   ),
     .i_typeRule_headShift (w_typeRule_headShift   ),
     .i_typeRule_metaShift (w_typeRule_metaShift   )
@@ -200,5 +209,16 @@ module Parser_Layer(
     end
   `endif
 
+  //* shift stage
+  assign o_key_offset   = r_key_offset_s2;
+  assign o_type_offset  = r_type_offset_s2;
+  assign o_headShift    = r_headShift_s2;
+  assign o_metaShift    = r_metaShift_s2;
+  always_ff @(posedge i_clk) begin
+    {r_key_offset_s2, r_key_offset_s1 } <= {r_key_offset_s1, w_key_offset_s0 };
+    {r_type_offset_s2,r_type_offset_s1} <= {r_type_offset_s1,w_type_offset_s0};
+    {r_headShift_s2,  r_headShift_s1  } <= {r_headShift_s1,  w_headShift_s0  };
+    {r_metaShift_s2, r_metaShift_s1   } <= {r_metaShift_s1,  w_metaShift_s0  };
+  end
 
 endmodule

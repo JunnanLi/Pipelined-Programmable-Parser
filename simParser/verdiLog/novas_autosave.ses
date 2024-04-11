@@ -19,16 +19,16 @@ Console = FALSE
 powerDumped = 0
 [hb]
 postSimFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
-syncTime = 12700000
-viewport = 70 27 1978 1088 0 0 117 1976
-activeNode = "Testbench_wrapper.HyPipe_Top.parser_top"
-activeScope = "Testbench_wrapper.HyPipe_Top.parser_top"
-activeFile = "./src/rtl/Parser_Top.sv"
+syncTime = 14300000
+viewport = 70 27 1850 1016 0 0 258 1848
+activeNode = "Testbench_wrapper"
+activeScope = "Testbench_wrapper"
+activeFile = "./testbench_example.sv"
 interactiveMode = False
 viewType = Source
 simulatorMode = False
-sourceBeginLine = 52
-baMode = True
+sourceBeginLine = 32
+baMode = False
 srcLineNum = True
 AutoWrap = True
 IdentifyFalseLogic = False
@@ -44,26 +44,23 @@ DnDtraceCrossHierOnly = True
 traceIncTopPort = False
 leadingZero = False
 signalPane = False
-Scope1 = "Testbench_wrapper.HyPipe_Top.parser_top"
-Scope2 = "Testbench_wrapper.HyPipe_Top.parser_top.parser_layer1"
-Scope3 = "Testbench_wrapper.HyPipe_Top.parser_top.parser_layer1.shift_head"
-Scope4 = "Testbench_wrapper"
-multipleSelection = 1 65 2 0 0
+Scope1 = "Testbench_wrapper"
+multipleSelection = 1 32 2 0 0
 sdfCheckUndef = FALSE
 simFlow = FALSE
 [hb.design]
 importCmd = "-sverilog" "+v2k" "-f" "file_list.f" "-top" "Testbench_wrapper" 
 invokeDir = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser
 [hb.sourceTab.1]
-scope = Testbench_wrapper.HyPipe_Top.parser_top
-File = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/src/rtl/Parser_Top.sv
-Line = 53
+scope = Testbench_wrapper
+File = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/testbench_example.sv
+Line = 33
 [nMemoryManager]
 WaveformFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
 UserActionNum = 0
 nMemWindowNum = 0
 [wave.0]
-viewPort = 0 27 1978 375 305 266
+viewPort = 0 27 1850 385 305 266
 primaryWindow = TRUE
 SessionFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/verdiLog/novas_autosave.ses.wave.0
 displayGrid = FALSE

@@ -358,8 +358,8 @@ module Testbench_wrapper(
             4'd4: r_data        <= {2'b00,4'hf,48'b0,32'd1,        8'd2,16'd2,8'd1,16'b0};
             4'd5: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd0,  8'd2,16'd3,8'd0,16'b0};  //* key offset + key id;
             4'd6: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd1,  8'd2,16'd3,8'd1,16'b0};  //* key offset + key id;
-            4'd7: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd2,  8'd2,16'd3,8'd2,16'b0};  //* key offset + key id;
-            4'd8: r_data        <= {2'b00,4'hf,48'b0,16'd1,16'd3,  8'd2,16'd3,8'd3,16'b0};  //* key offset + key id;
+            4'd7: r_data        <= {2'b00,4'hf,48'b0,32'b0,        8'd2,16'd3,8'd2,16'b0};  //* disable
+            4'd8: r_data        <= {2'b00,4'hf,48'b0,32'b0,        8'd2,16'd3,8'd3,16'b0};  //* disable
             4'd9: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,16'd3,8'd4,16'b0};  //* disable
             4'd10:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,16'd3,8'd5,16'b0};  //* disable
             4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,16'd3,8'd6,16'b0};  //* disable
@@ -367,7 +367,7 @@ module Testbench_wrapper(
             4'd13:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,16'd4,8'b0,16'b0};  //* head shift
             4'd14:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,16'd5,8'b0,16'b0};  //* meta shift
             4'd15: begin
-                  r_data        <= {2'b10,4'hf,48'b0,32'd1,        8'd1,8'd1,8'd0,8'd2,16'b0};  //* enable/disable rule;
+                  r_data        <= {2'b10,4'hf,48'b0,32'd1,        8'd2,8'd1,8'd0,8'd2,16'b0};  //* enable/disable rule;
                   state_cur     <= IDLE_S;
             end
           endcase

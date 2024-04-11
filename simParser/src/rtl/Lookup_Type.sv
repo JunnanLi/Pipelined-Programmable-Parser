@@ -36,7 +36,7 @@ module Lookup_Type
   (* mark_debug = "true"*)reg   [`RULE_NUM-1:0]                                          r_rule_valid;
   reg   [`RULE_NUM-1:0][`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]             r_rule_typeData;
   reg   [`RULE_NUM-1:0][`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]             r_rule_typeMask;
-  reg   [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]                     r_rule_typeOffset;
+  reg   [`RULE_NUM-1:0][`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]      r_rule_typeOffset;
   reg   [`RULE_NUM-1:0][`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]    r_rule_keyOffset;
   reg   [`RULE_NUM-1:0][`HEAD_SHIFT_WIDTH-1:0]                      r_rule_headShift;
   reg   [`RULE_NUM-1:0][`META_SHIFT_WIDTH-1:0]                      r_rule_metaShift;
@@ -132,7 +132,7 @@ module Lookup_Type
       for(integer j = 0; j < `TYPE_NUM; j++) begin
         w_typeOffset[j]   = 'b0;
         for(integer i = 0; i < `RULE_NUM; i++)
-          w_typeOffset[j] = {`TYPE_OFFSET_WIDTH{w_hit_rule_oneHot[i]}} & r_rule_keyOffset[i][j] | w_typeOffset[j];
+          w_typeOffset[j] = {`TYPE_OFFSET_WIDTH{w_hit_rule_oneHot[i]}} & r_rule_typeOffset[i][j] | w_typeOffset[j];
       end
       w_headShift     = 'b0;
       w_metaShift     = 'b0;
