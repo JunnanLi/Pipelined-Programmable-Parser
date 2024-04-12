@@ -1,0 +1,96 @@
+{
+    "Modules": {
+        "Testbench_wrapper": {
+            "start_perf": [
+                0.27656292915344238,
+                0.00018100000000000001,
+                0.0,
+                314080,
+                314080,
+                1712937049.460851,
+                8335454706695
+            ],
+            "child_modules": {
+                "Deparser_Layer_0000": 3,
+                "Parser_Layer_0000": 3
+            },
+            "Compiled": "Yes",
+            "Compiled Times": 1,
+            "nMops": 6650,
+            "nQuads": 2710,
+            "significant_routs": [
+                [
+                    15,
+                    "R_VCSgd_rP8k6_f",
+                    5584370,
+                    4772,
+                    383
+                ],
+                [
+                    124,
+                    "R_VCSgd_rP8k6_7c",
+                    6746580,
+                    5431,
+                    728
+                ]
+            ],
+            "nRouts": 360,
+            "end_perf": [
+                0.31180000305175781,
+                0.035416999999999997,
+                0.0,
+                315048,
+                315048,
+                8335581372879,
+                85899345921,
+                0
+            ]
+        }
+    },
+    "CompUnits": {
+        "rP8k6_d": {
+            "mod": "Testbench_wrapper",
+            "checksum": 0,
+            "out": "rP8k6_d.o",
+            "bytes": 111274,
+            "mode": 4,
+            "text": 58300,
+            "archive": "archive.0/_28418_archive_1.a"
+        }
+    },
+    "reusePaths": {},
+    "ObjArchives": [
+        {
+            "objects": [
+                [
+                    "rP8k6_d.o",
+                    111274
+                ]
+            ],
+            "archive": "archive.0/_28418_archive_1.a",
+            "size": 111274
+        }
+    ],
+    "stat": {
+        "ru_self_end": {
+            "ru_stime_sec": 0.0,
+            "ru_utime_sec": 0.035536999999999999,
+            "ru_maxrss_kb": 69676,
+            "ru_nvcsw": 0,
+            "ru_minflt": 2838,
+            "ru_majflt": 0,
+            "ru_nivcsw": 0
+        },
+        "ru_childs_end": {
+            "ru_stime_sec": 0.0,
+            "ru_utime_sec": 0.0,
+            "ru_maxrss_kb": 0,
+            "ru_nvcsw": 0,
+            "ru_minflt": 0,
+            "ru_majflt": 0,
+            "ru_nivcsw": 0
+        },
+        "cpu_cycles_end": 8335581703993,
+        "peak_mem_kb": 315048
+    }
+}

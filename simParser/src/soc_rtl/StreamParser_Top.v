@@ -74,24 +74,24 @@ module StreamParser_Top(
 
 
   //* deparser pkt;
-  // Deparser_Top deparser_top(
-  //   .i_clk                (i_clk          ),
-  //   .i_rst_n              (i_rst_n        ),
+  Deparser_Top deparser_top(
+    .i_clk                (i_clk          ),
+    .i_rst_n              (i_rst_n        ),
 
-  //   //---conf--//
-  //   .i_rule_wren          (w_rule_wren    ),
-  //   .i_rule_rden          (1'b0           ),
-  //   .i_rule_addr          (w_rule_addr    ),
-  //   .i_rule_wdata         (w_rule_wdata   ),
-  //   .o_rule_rdata_valid   (               ),
-  //   .o_rule_rdata         (               ),
+    //---conf--//
+    .i_rule_wren          (w_rule_wren    ),
+    .i_rule_rden          (1'b0           ),
+    .i_rule_addr          (w_rule_addr    ),
+    .i_rule_wdata         (w_rule_wdata   ),
+    .o_rule_rdata_valid   (               ),
+    .o_rule_rdata         (               ),
 
-  //   //--data--//
-  //   .i_head               (w_meta_in      ),
-  //   .o_head               (               ),
-  //   .i_meta               (w_phv_in       ),
-  //   .o_meta               (               )
-  // );
+    //--data--//
+    .i_head               (w_meta_in      ),
+    .o_head               (               ),
+    .i_meta               (w_phv_in       ),
+    .o_meta               (               )
+  );
 
   //* replace src mac with dst mac;
 

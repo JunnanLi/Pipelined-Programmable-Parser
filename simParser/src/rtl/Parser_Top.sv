@@ -138,7 +138,7 @@ module Parser_Top(
                   i_rule_wdata[0+:`TYPE_OFFSET_WIDTH]: r_type_offset_0[i];
         end
         3'd3: begin
-          //* type offset;
+          //* key offset;
           for(integer i=0; i<`KEY_FILED_NUM; i++)
             if(i_rule_addr[5:0] == i)
               r_key_offset_0[i] <= {i_rule_wdata[16],i_rule_wdata[0+:`KEY_OFFSET_WIDTH]};

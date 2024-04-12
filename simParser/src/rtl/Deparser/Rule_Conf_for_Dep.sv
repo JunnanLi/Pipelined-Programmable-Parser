@@ -19,7 +19,7 @@ module Rule_Conf_for_Dep (
   output  reg   [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            o_typeRule_typeMask,
   output  reg   [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]     o_typeRule_typeOffset,
   output  reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]   o_typeRule_keyOffset,
-  output  reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0] o_typeRule_keyMergeOffset,
+  output  reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0] o_typeRule_keyReplaceOffset,
   output  reg   [`HEAD_SHIFT_WIDTH-1:0]                     o_typeRule_headShift,
   output  reg   [`META_SHIFT_WIDTH-1:0]                     o_typeRule_metaShift
 );
@@ -85,7 +85,7 @@ module Rule_Conf_for_Dep (
             for(integer i=0; i<`KEY_FILED_NUM; i++)
               if(i_rule_addr[5:0] == i) begin
                 o_typeRule_keyOffset[i]       <= {i_rule_wdata[16],i_rule_wdata[0+:`KEY_OFFSET_WIDTH]};
-                o_typeRule_keyMergeOffset[i]  <= i_rule_wdata[8+:`KEY_OFFSET_WIDTH];
+                o_typeRule_keyReplaceOffset[i]<= i_rule_wdata[8+:`KEY_OFFSET_WIDTH];
               end
           end
           3'd4: o_typeRule_headShift          <= i_rule_wdata[0+:`HEAD_SHIFT_WIDTH];

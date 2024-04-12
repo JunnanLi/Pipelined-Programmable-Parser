@@ -40,6 +40,7 @@ module Deparser_Layer(
   //-exInfo-//
   input   wire  [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]   i_type_offset,
   input   wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0] i_key_offset,
+  input   wire  [`META_CANDI_NUM-1:0][`REP_OFFSET_WIDTH:0]i_key_replaceOffset,
   output  logic [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]   o_type_offset,
   output  logic [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0] o_key_offset,
   output  logic [`META_CANDI_NUM-1:0][`REP_OFFSET_WIDTH:0]o_key_replaceOffset,
@@ -68,7 +69,7 @@ module Deparser_Layer(
   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]              w_typeRule_typeMask;
   wire  [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]       w_typeRule_typeOffset;
   wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     w_typeRule_keyOffset;
-  wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0]   w_typeRule_keyMergeOffset;
+  wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0]   w_typeRule_keyReplaceOffset;
   wire  [`HEAD_SHIFT_WIDTH-1:0]                       w_typeRule_headShift;
   wire  [`META_SHIFT_WIDTH-1:0]                       w_typeRule_metaShift;
   //* format change
@@ -149,7 +150,7 @@ module Deparser_Layer(
     .i_typeRule_typeMask  (w_typeRule_typeMask    ),
     .i_typeRule_typeOffset(w_typeRule_typeOffset  ),
     .i_typeRule_keyOffset (w_typeRule_keyOffset   ),
-    .i_typeRule_keyMergeOffset(w_typeRule_keyMergeOffset),
+    .i_typeRule_keyReplaceOffset(w_typeRule_keyReplaceOffset),
     .i_typeRule_headShift (w_typeRule_headShift   ),
     .i_typeRule_metaShift (w_typeRule_metaShift   )
   );
@@ -179,7 +180,7 @@ module Deparser_Layer(
     .o_typeRule_typeMask  (w_typeRule_typeMask    ),
     .o_typeRule_typeOffset(w_typeRule_typeOffset  ),
     .o_typeRule_keyOffset (w_typeRule_keyOffset   ),
-    .o_typeRule_keyMergeOffset(w_typeRule_keyMergeOffset),
+    .o_typeRule_keyReplaceOffset(w_typeRule_keyReplaceOffset),
     .o_typeRule_headShift (w_typeRule_headShift   ),
     .o_typeRule_metaShift (w_typeRule_metaShift   )
   );
@@ -199,7 +200,7 @@ module Deparser_Layer(
     always_ff @(posedge i_clk) begin
       l_head                <= i_head;
       l_meta                <= i_meta;
-      l_replaceOffset       <= i_replaceOffset;
+      l_replaceOffset       <= i_key_replaceOffset;
       l_headShift           <= i_headShift;
       l_metaShift           <= &i_metaShift;
     end
@@ -207,7 +208,7 @@ module Deparser_Layer(
     always_comb begin
       l_head                = i_head;
       l_meta                = i_meta;
-      l_replaceOffset       = i_replaceOffset;
+      l_replaceOffset       = i_key_replaceOffset;
       l_headShift           = i_headShift;
       l_metaShift           = &i_metaShift;
     end
@@ -225,4 +226,5 @@ module Deparser_Layer(
     {r_headShift_s2,  r_headShift_s1  } <= {r_headShift_s1,  w_headShift_s0  };
     {r_metaShift_s2, r_metaShift_s1   } <= {r_metaShift_s1,  w_metaShift_s0  };
     {r_replaceOffset_s2,r_replaceOffset_s1} <= {r_replaceOffset_s1, w_replaceOffset_s0};
+  end
 endmodule

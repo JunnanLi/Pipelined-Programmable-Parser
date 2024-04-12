@@ -1,0 +1,155 @@
+0 
+42
++define+DUMP_FSDB
++itf+/home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/linux64/lib/vcsdp_lite.tab
++lint=TFIPC-L
++nospecify
++notimingcheck
++v2k
++vcsd1
++vpi
+-Mamsrun=
+-Masflags=
+-Mcc=gcc
+-Mcfl= -pipe -fPIC -O -I/home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/include
+-Mcplusplus=g++
+-Mcrt0=
+-Mcrtn=
+-Mcsrc=
+-Mexternalobj=
+-Mldflags=-L/usr/lib/x86_64-linux-gnu -L/lib/x86_64-linux-gnu -Wl,--no-as-needed -rdynamic
+-Mobjects= /home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/linux64/lib/libvirsim.so /home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/linux64/lib/liberrorinf.so /home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/linux64/lib/libsnpsmalloc.so /home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/linux64/lib/libvfs.so
+-Mout=simv_1
+-Msaverestoreobj=/home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/linux64/lib/vcs_save_restore_new.o
+-Msyslibs=/home/lijunnan/Documents/2-software/vcs_verdi2018/verdi/verdi/Verdi_O-2018.09-SP2/share/PLI/VCS/LINUX64/pli.a -ldl
+-Mvcsaceobjs=
+-Mxcflags= -pipe -fPIC -I/home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/include
+-P
+-Xufe=2steps
+-debug_acc+fsdb
+-debug_access+all
+-f file_list.f
+-fsdb
+-full64
+-gen_obj
+-kdb
+-l
+-lca
+-o simv_1
+-picarchive
+-sverilog
+-timescale=1ns/10fs
+/home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/linux64/bin/vcs1
+/home/lijunnan/Documents/2-software/vcs_verdi2018/verdi/verdi/Verdi_O-2018.09-SP2/share/PLI/VCS/LINUX64/verdi.tab
+compile.log
+79
+sysc_uni_pwd=/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser
+XMODIFIERS=@im=fcitx
+XDG_SESSION_TYPE=x11
+XDG_SESSION_DESKTOP=ubuntu
+XDG_SESSION_CLASS=user
+XDG_RUNTIME_DIR=/run/user/1000
+XDG_MENU_PREFIX=gnome-
+XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+XDG_CURRENT_DESKTOP=ubuntu:GNOME
+XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+XAUTHORITY=/run/user/1000/gdm/Xauthority
+WINDOWPATH=2
+VTE_VERSION=6800
+VMR_MODE_FLAG=64
+VERDI_HOME=/home/lijunnan/Documents/2-software/vcs_verdi2018/verdi/verdi/Verdi_O-2018.09-SP2
+VERDI_DIR=/home/lijunnan/Documents/2-software/vcs_verdi2018/verdi/verdi/Verdi_O-2018.09-SP2
+VCS_TARGET_ARCH=amd64
+VCS_MODE_FLAG=64
+VCS_LOG_FILE=compile.log
+VCS_LCAMSG_PRINT_OFF=1
+VCS_HOME=/home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2
+VCS_DEPTH=0
+VCS_ARG_ADDED_FOR_TMP=1
+VCS_ARCH=linux64
+USERNAME=lijunnan
+UNAME=/bin/uname
+TOOL_HOME=/home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/linux64
+SYSTEMD_EXEC_PID=3270
+SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
+SSH_AGENT_LAUNCHER=gnome-keyring
+SNPS_VERDI_INTERNAL_LP_XML_NEW_FLOW=1
+SNPS_VCS_INTERNAL_UBUNTU_PRE_LDFLAGS= -no-pie  -Wl,--no-as-needed 
+SNPS_VCS_INTERNAL_LINKER_NEEDS_NO_AS_NEEDED=1
+SESSION_MANAGER=local/lijunnan-Desktop:@/tmp/.ICE-unix/3246,unix/lijunnan-Desktop:/tmp/.ICE-unix/3246
+SCRNAME=vcs
+SCRIPT_NAME=vcs
+RISCV=/home/lijunnan/Documents/2-software/v1.0.16-pulp-riscv-gcc-ubuntu-18
+QT_IM_MODULE=fcitx
+QT_ACCESSIBILITY=1
+PULP_RUNTIME_GCC_TOOLCHAIN=/home/lijunnan/Documents/2-software/v1.0.16-pulp-riscv-gcc-ubuntu-18
+PULP_RISCV_GCC_TOOLCHAIN=/home/lijunnan/Documents/2-software/v1.0.16-pulp-riscv-gcc-ubuntu-18
+PAPERSIZE=a4
+OVA_UUM=0
+NPI_PLATFORM=LINUX64_GNU_472
+NOVAS_INST_DIR=/home/lijunnan/Documents/2-software/vcs_verdi2018/verdi/verdi/Verdi_O-2018.09-SP2
+NOVAS_HOME=/home/lijunnan/Documents/2-software/vcs_verdi2018/verdi/verdi/Verdi_O-2018.09-SP2
+MFLAGS=
+MAKE_TERMOUT=/dev/pts/0
+MAKE_TERMERR=/dev/pts/0
+MAKELEVEL=1
+MAKEFLAGS=
+LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
+LESSOPEN=| /usr/bin/lesspipe %s
+LESSCLOSE=/usr/bin/lesspipe %s %s
+LC_TIME=zh_CN.UTF-8
+LC_TELEPHONE=zh_CN.UTF-8
+LC_PAPER=zh_CN.UTF-8
+LC_NUMERIC=zh_CN.UTF-8
+LC_NAME=zh_CN.UTF-8
+LC_MONETARY=zh_CN.UTF-8
+LC_MEASUREMENT=zh_CN.UTF-8
+LC_IDENTIFICATION=zh_CN.UTF-8
+LC_ALL=C
+LC_ADDRESS=zh_CN.UTF-8
+IM_CONFIG_PHASE=1
+GTK_MODULES=gail:atk-bridge
+GTK_IM_MODULE=fcitx
+GPG_AGENT_INFO=/run/user/1000/gnupg/S.gpg-agent:0:1
+GNOME_TERMINAL_SERVICE=:1.105
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/8e8ce1e4_7a80_4abd_825e_23268cb7be37
+GNOME_SHELL_SESSION_MODE=ubuntu
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GDMSESSION=ubuntu
+DVE_HOME=/home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/gui/dve
+DESKTOP_SESSION=ubuntu
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+CPATH=/usr/include/x86_64-linux-gnu
+COLORTERM=truecolor
+CLUTTER_IM_MODULE=fcitx
+0
+22
+1712936068 ./testbench_deparser_example.sv
+1712848521 ./src/soc_rtl/Replace_MAC_ADDR.v
+1712936818 ./src/soc_rtl/StreamParser_Top.v
+1712936796 ./src/soc_rtl/Gen_PHV_and_Conf_Parser.v
+1712848521 ./src/sim_rtl/syncram.v
+1712848521 ./src/sim_rtl/syncfifo.v
+1712848521 ./src/sim_rtl/asyncfifo.v
+1712936901 ./src/rtl/Deparser/Rule_Conf_for_Dep.sv
+1712848521 ./src/rtl/Deparser/Shift_Replace_Head.sv
+1712850933 ./src/rtl/Deparser/Lookup_Type_for_Dep.sv
+1712936997 ./src/rtl/Deparser/Deparser_Layer.sv
+1712937045 ./src/rtl/Deparser/Deparser_Top.sv
+1712848521 ./src/rtl/Rule_Conf.sv
+1712848521 ./src/rtl/Head_Shift.sv
+1712848521 ./src/rtl/Lookup_Type.sv
+1712848521 ./src/rtl/Extract_Field.sv
+1712848521 ./src/rtl/Parser_Layer.sv
+1712934961 ./src/rtl/Parser_Top.sv
+1712848521 ./src/rtl/global_head.svh
+1712936726 file_list.f
+1550753332 /home/lijunnan/Documents/2-software/vcs_verdi2018/verdi/verdi/Verdi_O-2018.09-SP2/share/PLI/VCS/LINUX64/verdi.tab
+1551421246 /home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/linux64/lib/vcsdp_lite.tab
+4
+1551422344 /home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/linux64/lib/libvirsim.so
+1551421792 /home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/linux64/lib/liberrorinf.so
+1551421768 /home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/linux64/lib/libsnpsmalloc.so
+1551421789 /home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/linux64/lib/libvfs.so
+1712937049 simv_1.daidir
+-1 partitionlib
