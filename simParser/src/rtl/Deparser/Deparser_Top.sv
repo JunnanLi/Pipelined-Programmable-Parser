@@ -1,7 +1,11 @@
 /*************************************************************/
 //  Module name: Deparser_Top
 //  Authority @ lijunnan (lijunnan@nudt.edu.cn)
+<<<<<<< HEAD
 //  Last edited time: 2024/03/04
+=======
+//  Last edited time: 2024/04/11
+>>>>>>> three_stage_parser
 //  Function outline: Top module of Pipelined-Packet-Parser
 //  Note:
 //    1) head tag:
@@ -33,8 +37,25 @@ module Deparser_Top(
   //====================================================================//
   //*   internal reg/wire/param declarations
   //====================================================================//
+<<<<<<< HEAD
   wire          [`HEAD_WIDTH+`TAG_WIDTH-1:0]  w_head_layer1, w_head_layer2, w_head_layer3;
   wire          [`META_WIDTH+`TAG_WIDTH-1:0]  w_meta_layer1, w_meta_layer2, w_meta_layer3;
+=======
+  wire  [`HEAD_WIDTH+`TAG_WIDTH-1:0]              w_head_layer1, w_head_layer2, w_head_layer3;
+  wire  [`META_WIDTH+`TAG_WIDTH-1:0]              w_meta_layer1, w_meta_layer2, w_meta_layer3;
+  wire  [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]   w_type_offset_1,w_type_offset_2;
+  wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0] w_key_offset_1,w_key_offset_2;
+  reg   [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]   r_type_offset_0;
+  reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0] r_key_offset_0;
+  reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH-1:0] r_key_ReplaceOffset;
+  wire  [`HEAD_SHIFT_WIDTH-1:0]                   w_headShift_1,w_headShift_2;
+  wire  [`META_SHIFT_WIDTH-1:0]                   w_metaShift_1,w_metaShift_2;
+  reg   [`HEAD_SHIFT_WIDTH-1:0]                   r_headShift_0;
+  reg   [`META_SHIFT_WIDTH-1:0]                   r_metaShift_0;
+  reg   [`META_CANDI_NUM-1:0][`REP_OFFSET_WIDTH:0]w_key_replaceOffset_1,w_key_replaceOffset_2;
+  logic [`META_CANDI_NUM-1:0][`REP_OFFSET_WIDTH:0]l_key_replaceOffset;
+  reg   [`META_CANDI_NUM-1:0][`REP_OFFSET_WIDTH:0]r_key_replaceOffset_0;
+>>>>>>> three_stage_parser
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
   assign o_head = w_head_layer3;
   assign o_meta = w_meta_layer3;
@@ -44,12 +65,30 @@ module Deparser_Top(
     .i_rst_n              (i_rst_n        ),
     //---conf--//
     .i_rule_wren          (i_rule_wren & 
+<<<<<<< HEAD
                             i_rule_addr[24+:2] == 2'd0    ),
+=======
+                            i_rule_addr[24+:2] == 2'd1 ),
+>>>>>>> three_stage_parser
     .i_rule_rden          (1'b0           ),
     .i_rule_addr          (i_rule_addr    ),
     .i_rule_wdata         (i_rule_wdata   ),
     .o_rule_rdata_valid   (               ),
     .o_rule_rdata         (               ),
+<<<<<<< HEAD
+=======
+    //-exInfo-//
+    .i_type_offset        (r_type_offset_0),
+    .i_key_offset         (r_key_offset_0 ),
+    .i_key_replaceOffset  (r_key_replaceOffset_0),
+    .o_type_offset        (w_type_offset_1),
+    .o_key_offset         (w_key_offset_1 ),
+    .o_key_replaceOffset  (w_key_replaceOffset_1),
+    .i_headShift          (r_headShift_0  ),
+    .o_headShift          (w_headShift_1  ),
+    .i_metaShift          (r_metaShift_0  ),
+    .o_metaShift          (w_metaShift_1  ),
+>>>>>>> three_stage_parser
     //--data--//
     .i_head               (i_head         ),
     .o_head               (w_head_layer1  ),
@@ -62,12 +101,30 @@ module Deparser_Top(
     .i_rst_n              (i_rst_n        ),
     //---conf--//
     .i_rule_wren          (i_rule_wren & 
+<<<<<<< HEAD
                             i_rule_addr[24+:2] == 2'd1    ),
+=======
+                            i_rule_addr[24+:2] == 2'd2 ),
+>>>>>>> three_stage_parser
     .i_rule_rden          (1'b0           ),
     .i_rule_addr          (i_rule_addr    ),
     .i_rule_wdata         (i_rule_wdata   ),
     .o_rule_rdata_valid   (               ),
     .o_rule_rdata         (               ),
+<<<<<<< HEAD
+=======
+    //-exInfo-//
+    .i_type_offset        (w_type_offset_1),
+    .i_key_offset         (w_key_offset_1 ),
+    .i_key_replaceOffset  (w_key_replaceOffset_1),
+    .o_type_offset        (w_type_offset_2),
+    .o_key_offset         (w_key_offset_2 ),
+    .o_key_replaceOffset  (w_key_replaceOffset_2),
+    .i_headShift          (w_headShift_1  ),
+    .o_headShift          (w_headShift_2  ),
+    .i_metaShift          (w_metaShift_1  ),
+    .o_metaShift          (w_metaShift_2  ),
+>>>>>>> three_stage_parser
     //--data--//
     .i_head               (w_head_layer1  ),
     .o_head               (w_head_layer2  ),
@@ -80,12 +137,30 @@ module Deparser_Top(
     .i_rst_n              (i_rst_n        ),
     //---conf--//
     .i_rule_wren          (i_rule_wren & 
+<<<<<<< HEAD
                             i_rule_addr[24+:2] == 2'd2    ),
+=======
+                            i_rule_addr[24+:2] == 2'd3 ),
+>>>>>>> three_stage_parser
     .i_rule_rden          (1'b0           ),
     .i_rule_addr          (i_rule_addr    ),
     .i_rule_wdata         (i_rule_wdata   ),
     .o_rule_rdata_valid   (               ),
     .o_rule_rdata         (               ),
+<<<<<<< HEAD
+=======
+    //-exInfo-//
+    .i_type_offset        (w_type_offset_2),
+    .i_key_offset         (w_key_offset_2 ),
+    .i_key_replaceOffset  (w_key_replaceOffset_2),
+    .o_type_offset        (               ),
+    .o_key_offset         (               ),
+    .o_key_replaceOffset  (               ),
+    .i_headShift          (w_headShift_2  ),
+    .o_headShift          (               ),
+    .i_metaShift          (w_metaShift_2  ),
+    .o_metaShift          (               ),
+>>>>>>> three_stage_parser
     //--data--//
     .i_head               (w_head_layer2  ),
     .o_head               (w_head_layer3  ),
@@ -93,5 +168,46 @@ module Deparser_Top(
     .o_meta               (w_meta_layer3  )
   );
 
+<<<<<<< HEAD
+=======
+  always_ff @(posedge i_clk ) begin: layer_0
+    if(i_rule_wren == 1'b1 && i_rule_addr[24+:2] == 2'd0) begin
+      case(i_rule_addr[10:8])
+        3'd2: begin
+          //* type offset;
+          for(integer i=0; i<`TYPE_NUM; i++)
+            r_type_offset_0[i]  <= (i_rule_addr[3:0] == i)? 
+                  i_rule_wdata[0+:`TYPE_OFFSET_WIDTH]: r_type_offset_0[i];
+        end
+        3'd3: begin
+          //* key offset;
+          for(integer i=0; i<`KEY_FILED_NUM; i++)
+            if(i_rule_addr[5:0] == i) begin
+              r_key_offset_0[i]       <= {i_rule_wdata[16],i_rule_wdata[0+:`KEY_OFFSET_WIDTH]};
+              r_key_ReplaceOffset[i]  <= i_rule_wdata[8+:`KEY_OFFSET_WIDTH];
+            end
+        end
+        3'd4: r_headShift_0     <= i_rule_wdata[0+:`HEAD_SHIFT_WIDTH];
+        3'd5: r_metaShift_0     <= i_rule_wdata[0+:`META_SHIFT_WIDTH];
+      endcase
+    end
+  end
+
+  //* gen w_rule_replaceOffset
+  always_comb begin
+    for(integer j=0; j<`META_CANDI_NUM; j++) begin
+      l_key_replaceOffset[j]   = 'b0;
+      for(integer k=0; k<`KEY_FILED_NUM; k++)
+        if(r_key_ReplaceOffset[k] == j && r_key_offset_0[k][`KEY_OFFSET_WIDTH] == 1'b1) begin
+          l_key_replaceOffset[j][`REP_OFFSET_WIDTH]    = 1'b1;
+          l_key_replaceOffset[j][`REP_OFFSET_WIDTH-1:0]= l_key_replaceOffset[j][`REP_OFFSET_WIDTH-1:0] | k;
+        end
+    end
+  end
+
+  always_ff @(posedge i_clk) begin
+    r_key_replaceOffset_0       <= l_key_replaceOffset;
+  end
+>>>>>>> three_stage_parser
 
 endmodule
