@@ -52,11 +52,7 @@ module StreamParser_Top(
   );
 
 
-<<<<<<< HEAD:simParser/src/soc_rtl/HyPipe_Top.v
-  //* parser pkt;
-=======
   // //* parser pkt;
->>>>>>> three_stage_parser:simParser/src/soc_rtl/StreamParser_Top.v
   // Parser_Top parser_top(
   //   .i_clk                (i_clk          ),
   //   .i_rst_n              (i_rst_n        ),

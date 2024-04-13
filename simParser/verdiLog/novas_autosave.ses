@@ -19,29 +19,16 @@ Console = FALSE
 powerDumped = 0
 [hb]
 postSimFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
-<<<<<<< HEAD
-syncTime = 15700000
-viewport = 70 27 1850 1016 0 0 159 1848
+syncTime = 14300000
+viewport = 70 27 1850 1016 0 0 129 1848
 activeNode = "Testbench_wrapper"
 activeScope = "Testbench_wrapper"
 activeFile = "./testbench_deparser_example.sv"
 interactiveMode = False
 viewType = Source
 simulatorMode = False
-sourceBeginLine = 31
+sourceBeginLine = 33
 baMode = False
-=======
-syncTime = 6900000
-viewport = 70 27 1850 1016 0 0 238 1848
-activeNode = "Testbench_wrapper.StreamParser_Top.deparser_top"
-activeScope = "Testbench_wrapper.StreamParser_Top.deparser_top"
-activeFile = "./src/rtl/Deparser/Deparser_Top.sv"
-interactiveMode = False
-viewType = Source
-simulatorMode = False
-sourceBeginLine = 49
-baMode = True
->>>>>>> three_stage_parser
 srcLineNum = True
 AutoWrap = True
 IdentifyFalseLogic = False
@@ -57,38 +44,25 @@ DnDtraceCrossHierOnly = True
 traceIncTopPort = False
 leadingZero = False
 signalPane = False
-<<<<<<< HEAD
 Scope1 = "Testbench_wrapper"
-multipleSelection = 1 31 2 0 0
-=======
-Scope1 = "Testbench_wrapper.StreamParser_Top.deparser_top"
-multipleSelection = 1 15 2 0 0
->>>>>>> three_stage_parser
+multipleSelection = 1 33 2 0 0
 sdfCheckUndef = FALSE
 simFlow = FALSE
 [hb.design]
 importCmd = "-sverilog" "+v2k" "-f" "file_list.f" "-top" "Testbench_wrapper" 
 invokeDir = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser
 [hb.sourceTab.1]
-<<<<<<< HEAD
 scope = Testbench_wrapper
 File = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/testbench_deparser_example.sv
-Line = 32
+Line = 34
 [nMemoryManager]
 WaveformFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
 UserActionNum = 0
 nMemWindowNum = 0
 [wave.0]
-viewPort = 0 27 1850 448 305 266
-=======
-scope = Testbench_wrapper.StreamParser_Top.deparser_top
-File = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/src/rtl/Deparser/Deparser_Top.sv
-Line = 50
-[wave.0]
-viewPort = 0 27 1850 338 305 364
->>>>>>> three_stage_parser
+viewPort = 0 27 1850 359 305 364
 primaryWindow = TRUE
-Empty = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/verdiLog/novas_autosave.ses.wave.0
+SessionFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/verdiLog/novas_autosave.ses.wave.0
 displayGrid = FALSE
 hierarchicalName = FALSE
 snap = TRUE

@@ -3,32 +3,12 @@ debImport "-sverilog" "+v2k" "-f" "file_list.f" "-top" "Testbench_wrapper"
 debLoadSimResult \
            /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
 wvCreateWindow
-<<<<<<< HEAD
-wvSetCursor -win $_nWave2 5981005.586592
-=======
 wvSetCursor -win $_nWave2 5701471.861472
->>>>>>> three_stage_parser
 wvRestoreSignal -win $_nWave2 \
            "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_deparser.rc" \
            -overWriteAutoAlias on -appendSignals on
 wvScrollDown -win $_nWave2 1
 wvScrollDown -win $_nWave2 1
-<<<<<<< HEAD
-wvSetCursor -win $_nWave2 14336824.422134 -snap {("G3" 2)}
-wvSetCursor -win $_nWave2 13738838.210074 -snap {("G3" 4)}
-wvSelectSignal -win $_nWave2 {( "G3" 4 )} 
-wvSetPosition -win $_nWave2 {("G3" 4)}
-wvSetPosition -win $_nWave2 {("G3" 3)}
-wvSetPosition -win $_nWave2 {("G3" 2)}
-wvSetPosition -win $_nWave2 {("G3" 3)}
-wvMoveSelected -win $_nWave2
-wvSetPosition -win $_nWave2 {("G3" 3)}
-wvSetPosition -win $_nWave2 {("G3" 4)}
-wvScrollDown -win $_nWave2 3
-wvSelectSignal -win $_nWave2 {( "G3" 5 )} 
-wvSetCursor -win $_nWave2 14315467.771703 -snap {("G3" 5)}
-wvSetCursor -win $_nWave2 15092849.847381 -snap {("G3" 5)}
-=======
 wvScrollDown -win $_nWave2 1
 wvScrollDown -win $_nWave2 1
 wvScrollDown -win $_nWave2 1
@@ -239,5 +219,4 @@ debReload
 wvDisplayGridCount -win $_nWave2 -off
 wvGetSignalClose -win $_nWave2
 wvReloadFile -win $_nWave2
->>>>>>> three_stage_parser
 debExit

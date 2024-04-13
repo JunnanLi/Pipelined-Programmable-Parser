@@ -31,11 +31,7 @@ module Extract_Field #(
   //*   extract fields
   //====================================================================//
   assign w_extract_data = i_offset[OFFSET_WIDTH]? i_data[i_offset[OFFSET_WIDTH-1:0]]: 'b0;
-<<<<<<< HEAD
-  assign o_extract_data = (EXTRACT_NO_DELAHY)? w_extract_data: r_extract_data;
-=======
   assign o_extract_data = (INSERT_ONE_CLK)? r_extract_data: w_extract_data;
->>>>>>> three_stage_parser
 
   always @(posedge i_clk) begin
     r_extract_data  <= w_extract_data;

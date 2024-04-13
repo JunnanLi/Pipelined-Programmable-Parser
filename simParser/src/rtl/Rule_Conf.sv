@@ -17,10 +17,7 @@ module Rule_Conf (
   output  reg                                               o_typeRule_valid,
   output  reg   [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            o_typeRule_typeData,
   output  reg   [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            o_typeRule_typeMask,
-<<<<<<< HEAD
-=======
   output  reg   [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]     o_typeRule_typeOffset,
->>>>>>> three_stage_parser
   output  reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]   o_typeRule_keyOffset,
   output  reg   [`HEAD_SHIFT_WIDTH-1:0]                     o_typeRule_headShift,
   output  reg   [`META_SHIFT_WIDTH-1:0]                     o_typeRule_metaShift
@@ -32,22 +29,6 @@ module Rule_Conf (
   
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
-<<<<<<< HEAD
-  /*------------------------------------------------------------------------------------
-   *     name    | offset  |  description
-   *------------------------------------------------------------------------------------
-   * i_rule_addr |  [16]   | 1: conf type_offset, 0: conf rules
-   *------------------------------------------------------------------------------------
-   * [16] is 1   |  [3:0]  | type id, e.g., 2; while i_rule_wdata is offset;
-   *------------------------------------------------------------------------------------
-   *             |         | 0: write rules; while i_rule_wdata[0] is valid info
-   * [16] is 0   |  [10:8] | 1: conf type data & type mask; while i_rule_addr[3:0] is type id
-   *             |         | 2: conf key offset; while i_rule_addr[5:0] is keyField id; 
-   *             |         |     while i_rule_wdata[16] is valid info
-   *             |         | 3: conf head shift; while i_rule_addr[5:0] is keyField id
-   *             |         | 4: conf meta shift; while i_rule_addr[5:0] is keyField id
-   *------------------------------------------------------------------------------------*/
-=======
   /*--------------------------------------------------------------------------------------*
    *  rule_addr (offset)   |  description                                                 *
    *--------------------------------------------------------------------------------------*
@@ -64,7 +45,6 @@ module Rule_Conf (
    *--------------------------------------------------------------------------------------*
    * [10:8] is 5 |         | conf meta shift                                              *
    *--------------------------------------------------------------------------------------*/
->>>>>>> three_stage_parser
    
   //====================================================================//
   //*   configure rules & type_offset
@@ -91,27 +71,6 @@ module Rule_Conf (
                 o_typeRule_typeData[i]        <= i_rule_wdata[16+:`TYPE_WIDTH];
                 o_typeRule_typeMask[i]        <= i_rule_wdata[0+:`TYPE_WIDTH];
               end
-<<<<<<< HEAD
-            end
-            3'd1: begin
-              for(integer i=0; i<`TYPE_NUM; i++)
-                if(i_rule_addr[3:0] == i) begin
-                  o_typeRule_typeData[i]        <= i_rule_wdata[16+:`TYPE_WIDTH];
-                  o_typeRule_typeMask[i]        <= i_rule_wdata[0+:`TYPE_WIDTH];
-                end
-            end
-            3'd2: begin
-              for(integer i=0; i<`KEY_FILED_NUM; i++)
-                if(i_rule_addr[5:0] == i) begin
-                  o_typeRule_keyOffset[i]       <= {i_rule_wdata[16],i_rule_wdata[0+:`KEY_OFFSET_WIDTH]};
-                end
-            end
-            3'd3: o_typeRule_headShift          <= i_rule_wdata[0+:`HEAD_SHIFT_WIDTH];
-            3'd4: o_typeRule_metaShift          <= i_rule_wdata[0+:`META_SHIFT_WIDTH];
-            default: begin end
-          endcase
-        end
-=======
           end
           3'd2: begin
           //* conf type_offset;
@@ -129,7 +88,6 @@ module Rule_Conf (
           3'd5: o_typeRule_metaShift          <= i_rule_wdata[0+:`META_SHIFT_WIDTH];
           default: begin end
         endcase
->>>>>>> three_stage_parser
       end
     end
   end

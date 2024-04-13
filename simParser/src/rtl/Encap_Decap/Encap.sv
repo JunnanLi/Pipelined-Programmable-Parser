@@ -21,11 +21,13 @@ module Encap_Head(
   //--data--//
   input   wire  [`HEAD_WIDTH+`TAG_WIDTH-1:0]  i_head,
   output  wire  [`HEAD_WIDTH+`TAG_WIDTH-1:0]  o_head,
-  input   wire  [                       3:0]  i_headSliceOffset,
-  input   wire  [`HEAD_SHIFT_WIDTH-1:0]       i_headDataOffset,
+  input   wire  [`HEAD_SHIFT_WIDTH-1:0]       i_headShift,
   input   wire  [`META_WIDTH+`TAG_WIDTH-1:0]  i_meta,
   output  wire  [`META_WIDTH+`TAG_WIDTH-1:0]  o_meta,
-  input   wire  [`META_SHIFT_WIDTH-1:0]       i_metaShift
+  input   wire  [                       3:0]  i_metaSliceOffset,
+  input   wire  [`HEAD_SHIFT_WIDTH-1:0]       i_metaDataOffset,
+  input   wire  [`META_SHIFT_WIDTH-1:0]       i_encapLength,
+  input   wire  [`ENCAP_WIDTH-1:0]            i_encapField
 );
 
   //====================================================================//
@@ -38,14 +40,17 @@ module Encap_Head(
   //* r_extMeta is part of i_metaShift
   //* w_2head/w_2meta is used to shift
   reg   [`META_WIDTH-1:0]               r_extMeta;
+  wire  [2*`HEAD_WIDTH-1:0]             w_2head;
   wire  [2*`META_WIDTH-1:0]             w_2meta;
-  //* r_metaShift is record of i_metaShift
+  //* r_headShift/r_metaShift is record of i_headShift/w_metaShift
+  reg   [`HEAD_SHIFT_WIDTH-1:0]         r_headShift;
   wire                                  w_startBit_headTag, w_validBit_headTag;
   reg   [`META_SHIFT_WIDTH-1:0]         r_metaShift;
   reg   [                       3:0]    r_cnt_slice;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//  
   assign w_startBit_headTag = i_head[`HEAD_WIDTH+`TAG_START_BIT];
   assign w_validBit_headTag = r_preHead[`HEAD_WIDTH+`TAG_VALID_BIT];
+  assign w_2head    = {r_preHead[0+:`HEAD_WIDTH], i_head[0+:`HEAD_WIDTH]};
   assign w_2meta    = {r_preMeta[0+:`META_WIDTH], i_meta[0+:`META_WIDTH]};
   assign o_head     = r_head;
   assign o_meta     = r_meta;
@@ -65,6 +70,15 @@ module Encap_Head(
     end
     else if(w_validBit_headTag && r_cnt_slice > r_cnt_slice) begin
       r_head                                    <= r_prePreHead;
+    end
+
+    r_headShift   <= w_startBit_headTag? i_headShift: r_headShift;
+    if(w_validBit_headTag) begin
+      for(integer idx=0; idx<`HEAD_CANDI_NUM; idx=idx+1) begin
+        if(r_headShift == idx)
+          r_head[0+:`HEAD_WIDTH]                <= w_2head[2*`HEAD_WIDTH-idx*`SHIFT_WIDTH-1-:`HEAD_WIDTH];
+      end
+      r_head[`TAG_START_BIT+`HEAD_WIDTH]        <= r_preHead[`TAG_START_BIT+`HEAD_WIDTH];
     end
 
     if(r_preMeta[`META_WIDTH+`TAG_VALID_BIT]) begin

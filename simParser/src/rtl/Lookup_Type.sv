@@ -15,22 +15,15 @@ module Lookup_Type
   input   wire                                              i_clk,
   input   wire                                              i_rst_n,
   input   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            i_type,
-<<<<<<< HEAD
-  output  wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]   o_result,
-=======
   output  reg   [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]     o_typeOffset,
   output  wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]   o_keyOffset,
->>>>>>> three_stage_parser
   output  wire  [`HEAD_SHIFT_WIDTH-1:0]                     o_headShift,
   output  wire  [`META_SHIFT_WIDTH-1:0]                     o_metaShift,
   input   wire  [`RULE_NUM-1:0]                             i_rule_wren,
   input   wire                                              i_typeRule_valid,
   input   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            i_typeRule_typeData,
   input   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            i_typeRule_typeMask,
-<<<<<<< HEAD
-=======
   input   wire  [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]     i_typeRule_typeOffset,
->>>>>>> three_stage_parser
   input   wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]   i_typeRule_keyOffset,
   input   wire  [`HEAD_SHIFT_WIDTH-1:0]                     i_typeRule_headShift,
   input   wire  [`META_SHIFT_WIDTH-1:0]                     i_typeRule_metaShift
@@ -43,28 +36,18 @@ module Lookup_Type
   (* mark_debug = "true"*)reg   [`RULE_NUM-1:0]                                          r_rule_valid;
   reg   [`RULE_NUM-1:0][`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]             r_rule_typeData;
   reg   [`RULE_NUM-1:0][`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]             r_rule_typeMask;
-<<<<<<< HEAD
-=======
   reg   [`RULE_NUM-1:0][`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]      r_rule_typeOffset;
->>>>>>> three_stage_parser
   reg   [`RULE_NUM-1:0][`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]    r_rule_keyOffset;
   reg   [`RULE_NUM-1:0][`HEAD_SHIFT_WIDTH-1:0]                      r_rule_headShift;
   reg   [`RULE_NUM-1:0][`META_SHIFT_WIDTH-1:0]                      r_rule_metaShift;
   (* mark_debug = "true"*)logic [`RULE_NUM-1:0]                                          w_hit_rule;
   logic [`TYPE_NUM*`TYPE_WIDTH-1:0]                                 w_type;
-<<<<<<< HEAD
-  logic [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]                   w_result;
-  logic [`HEAD_SHIFT_WIDTH-1:0]                                     w_headShift;
-  logic [`META_SHIFT_WIDTH-1:0]                                     w_metaShift;
-  reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]                   r_result;
-=======
   logic [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]                     w_typeOffset;
   logic [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]                   w_keyOffset;
   logic [`HEAD_SHIFT_WIDTH-1:0]                                     w_headShift;
   logic [`META_SHIFT_WIDTH-1:0]                                     w_metaShift;
   reg   [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]                     r_typeOffset;
   reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]                   r_keyOffset;
->>>>>>> three_stage_parser
   reg   [`HEAD_SHIFT_WIDTH-1:0]                                     r_headShift;
   reg   [`META_SHIFT_WIDTH-1:0]                                     r_metaShift;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
@@ -113,16 +96,10 @@ module Lookup_Type
   //====================================================================//
   //*   output result
   //====================================================================//
-<<<<<<< HEAD
-  assign o_result     = (LOOKUP_NO_DELAHY)? w_result: r_result;
-  assign o_headShift  = (LOOKUP_NO_DELAHY)? w_headShift: r_headShift;
-  assign o_metaShift  = (LOOKUP_NO_DELAHY)? w_metaShift: r_metaShift;
-=======
   assign o_typeOffset = (INSERT_ONE_CLK)? r_typeOffset:  w_typeOffset;
   assign o_keyOffset  = (INSERT_ONE_CLK)? r_keyOffset:  w_keyOffset;
   assign o_headShift  = (INSERT_ONE_CLK)? r_headShift:  w_headShift;
   assign o_metaShift  = (INSERT_ONE_CLK)? r_metaShift:  w_metaShift;
->>>>>>> three_stage_parser
   `ifdef RULE_W_PRIORITY
     logic [7:0]  w_hit_rule_8b, w_hit_rule_oneHot;
     generate 
@@ -148,11 +125,6 @@ module Lookup_Type
     //* get result
     always_comb begin
       for(integer j = 0; j < `KEY_FILED_NUM; j++) begin
-<<<<<<< HEAD
-        w_result[j]   = 'b0;
-        for(integer i = 0; i < `RULE_NUM; i++)
-          w_result[j] = {(`KEY_OFFSET_WIDTH+1){w_hit_rule_oneHot[i]}} & r_rule_keyOffset[i][j] | w_result[j];
-=======
         w_keyOffset[j]   = 'b0;
         for(integer i = 0; i < `RULE_NUM; i++)
           w_keyOffset[j] = {(`KEY_OFFSET_WIDTH+1){w_hit_rule_oneHot[i]}} & r_rule_keyOffset[i][j] | w_keyOffset[j];
@@ -161,7 +133,6 @@ module Lookup_Type
         w_typeOffset[j]   = 'b0;
         for(integer i = 0; i < `RULE_NUM; i++)
           w_typeOffset[j] = {`TYPE_OFFSET_WIDTH{w_hit_rule_oneHot[i]}} & r_rule_typeOffset[i][j] | w_typeOffset[j];
->>>>>>> three_stage_parser
       end
       w_headShift     = 'b0;
       w_metaShift     = 'b0;
@@ -173,11 +144,6 @@ module Lookup_Type
   `else
     always_comb begin
       for(integer j = 0; j < `KEY_FILED_NUM; j++) begin
-<<<<<<< HEAD
-        w_result[j]   = 'b0;
-        for(integer i = 0; i < `RULE_NUM; i++)
-          w_result[j] = {(`KEY_OFFSET_WIDTH+1){w_hit_rule[i]}} & r_rule_keyOffset[i][j] | w_result[j];
-=======
         w_keyOffset[j]   = 'b0;
         for(integer i = 0; i < `RULE_NUM; i++)
           w_keyOffset[j] = {(`KEY_OFFSET_WIDTH+1){w_hit_rule[i]}} & r_rule_keyOffset[i][j] | w_keyOffset[j];
@@ -186,7 +152,6 @@ module Lookup_Type
         w_typeOffset[j]   = 'b0;
         for(integer i = 0; i < `RULE_NUM; i++)
           w_typeOffset[j] = {`TYPE_OFFSET_WIDTH{w_hit_rule[i]}} & r_rule_keyOffset[i][j] | w_typeOffset[j];
->>>>>>> three_stage_parser
       end
       w_headShift     = 'b0;
       w_metaShift     = 'b0;
@@ -197,12 +162,8 @@ module Lookup_Type
     end
   `endif
   always_ff @(posedge i_clk) begin
-<<<<<<< HEAD
-    r_result          <= w_result;
-=======
     r_typeOffset      <= w_typeOffset;
     r_keyOffset       <= w_keyOffset;
->>>>>>> three_stage_parser
     r_headShift       <= w_headShift;
     r_metaShift       <= w_metaShift;
   end

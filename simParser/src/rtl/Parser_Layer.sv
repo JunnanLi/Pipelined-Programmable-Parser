@@ -56,41 +56,16 @@ module Parser_Layer(
   //====================================================================//
   //*   internal reg/wire/param declarations
   //====================================================================//
-<<<<<<< HEAD
-  //* extract type & keyField: w_type_field, w_key_field
-  //* lookup result: w_key_offset & w_headShift & w_metaShift
-=======
   //* lookup result: o_type_offset & o_key_offset & o_headShift & o_metaShift
   //* extract field: type & keyField: w_type_field, w_key_field
->>>>>>> three_stage_parser
   (* mark_debug = "true"*)wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]              w_type_field;
   (* mark_debug = "true"*)wire  [`KEY_FILED_NUM-1:0][`KEY_FIELD_WIDTH-1:0]    w_key_field;
-<<<<<<< HEAD
-  (* mark_debug = "true"*)wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     w_key_offset;
-=======
   wire  [`KEY_FILED_NUM*`KEY_FIELD_WIDTH-1:0]         w_extField;
->>>>>>> three_stage_parser
   //* conf rules
   (* mark_debug = "true"*)wire  [`RULE_NUM-1:0]                               w_typeRule_wren;
   wire                                                w_typeRule_valid;
   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]              w_typeRule_typeData;
   wire  [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]              w_typeRule_typeMask;
-<<<<<<< HEAD
-  wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     w_typeRule_keyOffset;
-  //* format change
-  logic [`TYPE_CANDI_NUM-1:0][`TYPE_WIDTH-1:0]        w_headType;
-  logic [`KEY_CANDI_NUM-1:0][`KEY_FIELD_WIDTH-1:0]    w_headKey;
-  wire  [`HEAD_SHIFT_WIDTH-1:0]                       w_headShift, w_typeRule_headShift;
-  wire  [`META_SHIFT_WIDTH-1:0]                       w_metaShift, w_typeRule_metaShift;
-  //* insert 1 clk
-  logic [`KEY_CANDI_NUM-1:0][`KEY_FIELD_WIDTH-1:0]    l_head; //* TODO, insert more clks
-  logic [`HEAD_WIDTH+`TAG_WIDTH-1:0]                  l_head_w_tag;
-  logic [`HEAD_WIDTH+`TAG_WIDTH-1:0]                  l_meta_w_tag;
-  logic [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     l_key_offset;
-  logic [`HEAD_SHIFT_WIDTH-1:0]                       l_headShift;
-  logic [`META_SHIFT_WIDTH-1:0]                       l_metaShift;
-  wire  [`KEY_FILED_NUM*`KEY_FIELD_WIDTH-1:0]         w_extField;
-=======
   wire  [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]       w_typeRule_typeOffset;
   wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     w_typeRule_keyOffset;
   wire  [`HEAD_SHIFT_WIDTH-1:0]                       w_typeRule_headShift;
@@ -111,7 +86,6 @@ module Parser_Layer(
   reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]     r_key_offset_s1, r_key_offset_s2;
   reg   [`HEAD_SHIFT_WIDTH-1:0]                       r_headShift_s1,  r_headShift_s2;
   reg   [`META_SHIFT_WIDTH-1:0]                       r_metaShift_s1,  r_metaShift_s2;
->>>>>>> three_stage_parser
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
   genvar idx;
@@ -130,11 +104,7 @@ module Parser_Layer(
       .i_rst_n          (i_rst_n            ),
       .i_data           (w_headType         ),
       .o_extract_data   (w_type_field[idx]  ),
-<<<<<<< HEAD
-      .i_offset         ({1'b1,w_type_offset[idx]} )
-=======
       .i_offset         ({1'b1,i_type_offset[idx]} )
->>>>>>> three_stage_parser
     );
     end
   endgenerate
@@ -184,11 +154,7 @@ module Parser_Layer(
     .i_head               (l_head                 ),
     .o_head               (o_head                 ),
     .i_headShift          (l_headShift            ),
-<<<<<<< HEAD
-    .i_meta               (l_meta_w_tag           ),
-=======
     .i_meta               (l_meta                 ),
->>>>>>> three_stage_parser
     .o_meta               (o_meta                 ),
     .i_extField           (w_extField             ),
     .i_metaShift          (l_metaShift            )
