@@ -297,10 +297,9 @@ module Testbench_wrapper(
         IDLE_S: begin
           case(state_pre)
             IDLE_S:             state_cur   <= CONF_LAYER_0;
-            CONF_LAYER_0:       state_cur   <= SEND_ARP_S;
-            // CONF_LAYER_0:       state_cur   <= CONF_LAYER_1;
-            // CONF_LAYER_1:       state_cur   <= CONF_LAYER_2;
-            // CONF_LAYER_2:       state_cur   <= SEND_ARP_S;
+            CONF_LAYER_0:       state_cur   <= CONF_LAYER_1;
+            CONF_LAYER_1:       state_cur   <= CONF_LAYER_2;
+            CONF_LAYER_2:       state_cur   <= SEND_ARP_S;
             SEND_ARP_S:         state_cur   <= SEND_TCP_S;
             // SEND_TCP_S:         state_cur   <= SEND_UDP_S;
           endcase
@@ -326,78 +325,54 @@ module Testbench_wrapper(
             end
           endcase
         end
-        // CONF_LAYER_1: begin
-        //   r_data_valid          <= 1'b1;
-        //   case(r_cnt_pktData)
-        //     4'd0: r_data        <= {2'b01,4'h0,CONF_PKT_DATA0};  
-        //     4'd1: r_data        <= {2'b00,4'hf,48'b0,32'd1,      32'd0,          16'b0};  //* type offset + type id
-        //     4'd2: r_data        <= {2'b00,4'hf,48'b0,32'd2,      32'd1,          16'b0}; 
-        //     4'd3: r_data        <= {2'b00,4'hf,48'b0,16'h0,16'h0,16'd1,8'd1,8'd0,16'b0};  //* type + mask + type id
-        //     4'd4: r_data        <= {2'b00,4'hf,48'b0,16'h0,16'h0,16'd1,8'd1,8'd1,16'b0}; 
-        //     4'd5,4'd6,4'd7,4'd8,4'd9,4'd10: 
-        //           r_data        <= {2'b00,4'hf,48'b0,
-        //                               16'd1,4'd0,r_cnt_pktData[3:0]-4'd5,4'b0,r_cnt_pktData[3:0]-4'd5,
-        //                               16'd1,8'd2,4'b0,r_cnt_pktData[3:0]-4'd5,16'b0};     //* replace offset + key offset + key id;
-        //     4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,      8'd0,8'd1,8'd2,8'd6,16'b0};  //* disable
-        //     4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,      8'd0,8'd1,8'd2,8'd7,16'b0};  //* disable
-        //     4'd13:r_data        <= {2'b00,4'hf,48'b0,32'd6,      16'd1,8'd3,8'b0,16'b0};  //* head shift
-        //     4'd14:r_data        <= {2'b00,4'hf,48'b0,32'd0,      16'd1,8'd4,8'b0,16'b0};  //* meta shift
-        //     4'd15: begin
-        //           r_data        <= {2'b10,4'hf,48'b0,32'd1,      16'd1,8'd0,8'd2,16'b0};  //* enable/disable rule;
-        //           state_cur     <= IDLE_S;
-        //     end
-        //   endcase
-        // end
-        // CONF_LAYER_2: begin
-        //   r_data_valid          <= 1'b1;
-        //   case(r_cnt_pktData)
-        //     4'd0: r_data        <= {2'b01,4'h0,CONF_PKT_DATA0};  
-        //     4'd1: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,24'd0,         16'b0};  //* type offset + type id
-        //     4'd2: r_data        <= {2'b00,4'hf,48'b0,32'd1,        8'd1,24'd1,         16'b0};
-        //     4'd3: r_data        <= {2'b00,4'hf,48'b0,16'h00,16'h0, 8'd1,8'd1,8'd1,8'd0,16'b0};  //* type + mask + type id
-        //     4'd4: r_data        <= {2'b00,4'hf,48'b0,16'h00,16'h0, 8'd1,8'd1,8'd1,8'd1,16'b0}; 
-        //     4'd5: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'hd, 8'h0, 8'd1,8'd1,8'd2,8'd0,16'b0};  //* replace offset + key offset + key id;
-        //     4'd6: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'he, 8'h1, 8'd1,8'd1,8'd2,8'd1,16'b0};  //* replace offset + key offset + key id;
-        //     4'd7: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'hf, 8'h2, 8'd1,8'd1,8'd2,8'd2,16'b0};  //* replace offset + key offset + key id;
-        //     4'd8: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'h10,8'h3, 8'd1,8'd1,8'd2,8'd3,16'b0};  //* replace offset + key offset + key id;
-        //     4'd9: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd4,16'b0};  //* disable
-        //     4'd10:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd5,16'b0};  //* disable
-        //     4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd6,16'b0};  //* disable
-        //     4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd2,8'd7,16'b0};  //* disable
-        //     4'd13:r_data        <= {2'b00,4'hf,48'b0,32'd4,        8'd1,8'd1,8'd3,8'b0,16'b0};  //* head shift
-        //     4'd14:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,8'd1,8'd4,8'b0,16'b0};  //* meta shift
-        //     4'd15: begin
-        //           r_data        <= {2'b10,4'hf,48'b0,32'd1,        8'd1,8'd1,8'd0,8'd2,16'b0};  //* enable/disable rule;
-        //           state_cur     <= IDLE_S;
-        //     end
-        //   endcase
-        // end
-        // CONF_LAYER_3: begin
-        //   r_data_valid          <= 1'b1;
-        //   case(r_cnt_pktData)
-        //     4'd0: r_data        <= {2'b01,4'h0,CONF_PKT_DATA0};  
-        //     4'd1: r_data        <= {2'b00,4'hf,48'b0,32'd9,        8'd2,24'd0,         16'b0};  //* type offset + type id
-        //     4'd2: r_data        <= {2'b00,4'hf,48'b0,32'd10,       8'd2,24'd1,         16'b0};
-        //     4'd3: r_data        <= {2'b00,4'hf,48'b0,16'h00,16'h00,8'd2,8'd1,8'd1,8'd0,16'b0};  //* type + mask + type id
-        //     4'd4: r_data        <= {2'b00,4'hf,48'b0,16'h00,16'h00,8'd2,8'd1,8'd1,8'd1,16'b0}; 
-        //     4'd5: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'h11,8'd0, 8'd2,8'd1,8'd2,8'd0,16'b0};  //* replace offset + key offset + key id;
-        //     4'd6: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'h12,8'd1, 8'd2,8'd1,8'd2,8'd1,16'b0};  //* replace offset + key offset + key id;
-        //     4'd7: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd6,16'b0};  //* disable
-        //     4'd8: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd7,16'b0};  //* disable
-        //     // 4'd7: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'd12, 8'd2,8'd1,8'd2,8'd2,16'b0};  //* replace offset + key offset + key id;
-        //     // 4'd8: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'd13, 8'd2,8'd1,8'd2,8'd3,16'b0};  //* replace offset + key offset + key id;
-        //     4'd9: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd4,16'b0};  //* disable
-        //     4'd10:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd5,16'b0};  //* disable
-        //     4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd6,16'b0};  //* disable
-        //     4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd2,8'd7,16'b0};  //* disable
-        //     4'd13:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd3,8'b0,16'b0};  //* head shift
-        //     4'd14:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,8'd1,8'd4,8'b0,16'b0};  //* meta shift
-        //     4'd15: begin
-        //           r_data        <= {2'b10,4'hf,48'b0,32'd1,        8'd2,8'd1,8'd0,8'd2,16'b0};  //* enable/disable rule;
-        //           state_cur     <= IDLE_S;
-        //     end
-        //   endcase
-        // end
+        CONF_LAYER_1: begin
+          r_data_valid          <= 1'b1;
+          case(r_cnt_pktData)
+            4'd0: r_data        <= {2'b01,4'h0,CONF_PKT_DATA0};   
+            4'd1: r_data        <= {2'b00,4'hf,48'b0,16'h0,16'h0  ,8'd1,16'd1,8'd0,16'b0};  //* type + mask + type id
+            4'd2: r_data        <= {2'b00,4'hf,48'b0,16'h0,16'h0  ,8'd1,16'd1,8'd1,16'b0}; 
+            4'd3: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,16'd2,8'd0,16'b0};  //* type offset + type id
+            4'd4: r_data        <= {2'b00,4'hf,48'b0,32'd1,        8'd1,16'd2,8'd1,16'b0};
+            4'd5: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'hd, 8'd0,  8'd1,16'd3,8'd0,16'b0};  //* key offset + key id;
+            4'd6: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'he, 8'd1,  8'd1,16'd3,8'd1,16'b0};  //* key offset + key id;
+            4'd7: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'hf, 8'd2,  8'd1,16'd3,8'd2,16'b0};  //* key offset + key id;
+            4'd8: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'h10,8'd3,  8'd1,16'd3,8'd3,16'b0};  //* key offset + key id;
+            4'd9: r_data        <= {2'b00,4'hf,48'b0,32'b0,        8'd1,16'd3,8'd4,16'b0};  //* key offset + key id;
+            4'd10:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,16'd3,8'd5,16'b0};  //* disable
+            4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,16'd3,8'd6,16'b0};  //* disable
+            4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,16'd3,8'd7,16'b0};  //* disable
+            4'd13:r_data        <= {2'b00,4'hf,48'b0,32'd4,       8'd1,16'd4,8'b0,16'b0};  //* head shift
+            4'd14:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd1,16'd5,8'b0,16'b0};  //* meta shift
+            4'd15: begin
+                  r_data        <= {2'b10,4'hf,48'b0,32'd1,        8'd1,16'd0,8'd2,16'b0};  //* enable/disable rule;
+                  state_cur     <= IDLE_S;
+            end
+          endcase
+        end
+        CONF_LAYER_2: begin
+          r_data_valid          <= 1'b1;
+          case(r_cnt_pktData)
+            4'd0: r_data        <= {2'b01,4'h0,CONF_PKT_DATA0};  
+            4'd1: r_data        <= {2'b00,4'hf,48'b0,16'h0,16'h0  ,8'd2,16'd1,8'd0,16'b0};  //* type + mask + type id
+            4'd2: r_data        <= {2'b00,4'hf,48'b0,16'h0,16'h0  ,8'd2,16'd1,8'd1,16'b0}; 
+            4'd3: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,16'd2,8'd0,16'b0};  //* type offset + type id
+            4'd4: r_data        <= {2'b00,4'hf,48'b0,32'd1,        8'd2,16'd2,8'd1,16'b0};
+            4'd5: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'h11,8'd0,  8'd2,16'd3,8'd0,16'b0};  //* key offset + key id;
+            4'd6: r_data        <= {2'b00,4'hf,48'b0,16'd1,8'h12,8'd1,  8'd2,16'd3,8'd1,16'b0};  //* key offset + key id;
+            4'd7: r_data        <= {2'b00,4'hf,48'b0,32'b0,        8'd2,16'd3,8'd2,16'b0};  //* disable
+            4'd8: r_data        <= {2'b00,4'hf,48'b0,32'b0,        8'd2,16'd3,8'd3,16'b0};  //* disable
+            4'd9: r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,16'd3,8'd4,16'b0};  //* disable
+            4'd10:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,16'd3,8'd5,16'b0};  //* disable
+            4'd11:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,16'd3,8'd6,16'b0};  //* disable
+            4'd12:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,16'd3,8'd7,16'b0};  //* disable
+            4'd13:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,16'd4,8'b0,16'b0};  //* head shift
+            4'd14:r_data        <= {2'b00,4'hf,48'b0,32'd0,        8'd2,16'd5,8'b0,16'b0};  //* meta shift
+            4'd15: begin
+                  r_data        <= {2'b10,4'hf,48'b0,32'd1,        8'd2,8'd1,8'd0,8'd2,16'b0};  //* enable/disable rule;
+                  state_cur     <= IDLE_S;
+            end
+          endcase
+        end
         SEND_ARP_S: begin
           r_data_valid          <= 1'b1;
           case(r_cnt_pktData)

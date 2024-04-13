@@ -19,16 +19,16 @@ Console = FALSE
 powerDumped = 0
 [hb]
 postSimFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
-syncTime = 15100000
-viewport = 70 27 1978 1088 0 0 58 1976
-activeNode = "Testbench_wrapper.StreamParser_Top.parser_top.parser_layer3.lookup_type"
-activeScope = "Testbench_wrapper.StreamParser_Top.parser_top.parser_layer3.lookup_type"
-activeFile = "./src/rtl/Deparser/Lookup_Type_w_Merge.sv"
+syncTime = 6900000
+viewport = 70 27 1850 1016 0 0 238 1848
+activeNode = "Testbench_wrapper.StreamParser_Top.deparser_top"
+activeScope = "Testbench_wrapper.StreamParser_Top.deparser_top"
+activeFile = "./src/rtl/Deparser/Deparser_Top.sv"
 interactiveMode = False
 viewType = Source
 simulatorMode = False
-sourceBeginLine = 19
-baMode = False
+sourceBeginLine = 49
+baMode = True
 srcLineNum = True
 AutoWrap = True
 IdentifyFalseLogic = False
@@ -44,26 +44,21 @@ DnDtraceCrossHierOnly = True
 traceIncTopPort = False
 leadingZero = False
 signalPane = False
-Scope1 = "Testbench_wrapper.StreamParser_Top.parser_top.parser_layer3.lookup_type"
-Scope2 = "Testbench_wrapper.StreamParser_Top.parser_top.parser_layer3.shift_head"
-Scope3 = "Testbench_wrapper"
+Scope1 = "Testbench_wrapper.StreamParser_Top.deparser_top"
+multipleSelection = 1 15 2 0 0
 sdfCheckUndef = FALSE
 simFlow = FALSE
 [hb.design]
 importCmd = "-sverilog" "+v2k" "-f" "file_list.f" "-top" "Testbench_wrapper" 
 invokeDir = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser
 [hb.sourceTab.1]
-scope = Testbench_wrapper.StreamParser_Top.parser_top.parser_layer3.lookup_type
-File = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/src/rtl/Deparser/Lookup_Type_w_Merge.sv
-Line = 20
-[nMemoryManager]
-WaveformFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
-UserActionNum = 0
-nMemWindowNum = 0
+scope = Testbench_wrapper.StreamParser_Top.deparser_top
+File = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/src/rtl/Deparser/Deparser_Top.sv
+Line = 50
 [wave.0]
-viewPort = 0 27 1978 421 305 266
+viewPort = 0 27 1850 338 305 364
 primaryWindow = TRUE
-SessionFile = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/verdiLog/novas_autosave.ses.wave.0
+Empty = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/verdiLog/novas_autosave.ses.wave.0
 displayGrid = FALSE
 hierarchicalName = FALSE
 snap = TRUE

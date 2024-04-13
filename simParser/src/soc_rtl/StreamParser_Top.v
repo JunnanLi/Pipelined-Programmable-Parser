@@ -52,25 +52,25 @@ module StreamParser_Top(
   );
 
 
-  //* parser pkt;
-  Parser_Top parser_top(
-    .i_clk                (i_clk          ),
-    .i_rst_n              (i_rst_n        ),
+  // //* parser pkt;
+  // Parser_Top parser_top(
+  //   .i_clk                (i_clk          ),
+  //   .i_rst_n              (i_rst_n        ),
 
-    //---conf--//
-    .i_rule_wren          (w_rule_wren    ),
-    .i_rule_rden          (1'b0           ),
-    .i_rule_addr          (w_rule_addr    ),
-    .i_rule_wdata         (w_rule_wdata   ),
-    .o_rule_rdata_valid   (               ),
-    .o_rule_rdata         (               ),
+  //   //---conf--//
+  //   .i_rule_wren          (w_rule_wren    ),
+  //   .i_rule_rden          (1'b0           ),
+  //   .i_rule_addr          (w_rule_addr    ),
+  //   .i_rule_wdata         (w_rule_wdata   ),
+  //   .o_rule_rdata_valid   (               ),
+  //   .o_rule_rdata         (               ),
 
-    //--data--//
-    .i_head               (w_phv_in       ),
-    .o_head               (               ),
-    .i_meta               (w_meta_in      ),
-    .o_meta               (w_wdata_meta   )
-  );
+  //   //--data--//
+  //   .i_head               (w_phv_in       ),
+  //   .o_head               (               ),
+  //   .i_meta               (w_meta_in      ),
+  //   .o_meta               (w_wdata_meta   )
+  // );
 
 
   //* deparser pkt;
