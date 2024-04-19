@@ -8,65 +8,31 @@
 #include <libnet.h>
 #include <pthread.h>
 
-#define BUFSIZE 1514
+#define DBUG_PRINT
 
-#ifndef SEND_RECV_H__
-#define SEND_RECV_H__
+#ifndef PARSER_H__
+#define PARSER_H__
 
-typedef unsigned short u16;
-typedef unsigned char u8;
-typedef unsigned int u32;
-
-#define NET_INTERFACE "eno1"
-// #define NET_INTERFACE "enx00e04d6da7b3"
+#define NUM_LAYER 3
+#define NUM_RULE  8
+#define NUM_TYPE  2
+#define NUM_KEY   8
 
 
-#if(DP4C==1)
-	struct one_128b{
-		u16 conf_type[2];	//* 01 is write sel, 02 is read sel;
-							//* 03 is write proc,04 is read proc;
-							//* 
-		u32 pad;
-		u32 tcm_data;
-		u32 addr;
-	};
+struct parse_rule{
+	uint32_t valid;
+	uint8_t  type_data[NUM_TYPE];
+	uint8_t  type_mask[NUM_TYPE];
+	uint32_t type_offset[NUM_TYPE];
+	uint32_t key_offset[NUM_KEY];
+	uint32_t head_shift;
+	uint32_t meta_shift;
+};
 
-	struct context{
-		struct one_128b one128b[100];
-	};
-
-	struct send_ctx{
-		u16 type;
-		int lens;
-		struct context payload;
-	};
-
-#else 
-	struct context{
-		u16 conf_type;	//* 01 is write sel, 02 is read sel;
-						//* 03 is write proc,04 is read proc;
-						//* 
-		u16 tcm_addr;
-		u32 check_sum;
-		u32 pad[2];
-		u32 tcm_data[400];	
-	};
-
-	struct send_ctx{
-		u16 type;
-		int lens;
-		struct context payload;
-	};
+#ifdef DBUG_PRINT
+    #define __DBUG_PRINT(fmt, ...) printf(fmt, ##__VA_ARGS__)
+#else
+    #define __DBUG_PRINT(fmt, ...)
 #endif
-
-#if(DP4C==1)
-	void read_tcm(int lineNum);
-	void open_backPressure(int value);
-#endif
-	void set_read_sel(int read, u32 value);
-	void write_tcm(char *fileName, int lineNum);
-	void send_packet(struct send_ctx *sendCtx);
-	void recv_packet(int num, char *bpf_recv_s);
-	void recv_print_value();
 
 #endif
