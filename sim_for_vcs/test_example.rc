@@ -1,0 +1,66 @@
+Magic 271485
+Revision Verdi_O-2018.09-SP2
+
+; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
+viewPort 0 27 1850 412 305 266
+
+; File list:
+; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
+openDirFile -d / "" "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb"
+
+; file time scale:
+; fileTimeScale ### s|ms|us|ns|ps
+
+; signal spacing:
+signalSpacing 5
+
+; windowTimeUnit is used for zoom, cursor & marker
+; waveform viewport range
+zoom 13042218.218243 15494166.569499
+cursor 15100000.000000
+marker 0.000000
+
+; user define markers
+; userMarker time_pos marker_name color linestyle
+userMarker 12500000 1st_pkt ID_GREEN5 long_dashed
+
+; visible top row signal index
+top 0
+; marker line index
+markerPos 8
+
+; event list
+; addEvent event_name event_expression
+; curEvent event_name
+
+
+
+COMPLEX_EVENT_BEGIN
+
+
+COMPLEX_EVENT_END
+
+
+
+; toolbar current search type
+; curSTATUS search_type
+curSTATUS ByChange
+
+
+addGroup "G1"
+activeDirFile "" "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb"
+addSignal -h 15 /Testbench_wrapper/StreamParser_Top/parser_top/w_head_layer1[520:0]
+addSignal -h 15 -holdScope w_head_layer2[520:0]
+addSignal -h 15 -holdScope w_head_layer3[520:0]
+addSignal -h 15 -holdScope w_meta_layer1[520:0]
+addSignal -h 15 -holdScope w_meta_layer2[520:0]
+addSignal -h 15 -holdScope w_meta_layer3[520:0]
+addGroup "G2"
+addSignal -h 15 /Testbench_wrapper/StreamParser_Top/parser_top/i_head[520:0]
+addGroup "G3"
+addGroup "G4"
+addGroup "G5"
+
+; getSignalForm Scope Hierarchy Status
+; active file of getSignalForm
+
