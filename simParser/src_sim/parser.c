@@ -3,7 +3,7 @@
 struct parse_rule parse_rules[NUM_LAYER][NUM_RULE];
 
 void parser_layer(uint32_t *type_offset, uint32_t *key_offset, uint32_t *head_shift, uint32_t *meta_shift,
-  uint16_t *pHead, uint16_t *meta, uint32_t layerID)
+  uint16_t **pHead, uint16_t *meta, uint32_t layerID)
 {
   uint16_t *head = *pHead;
   //* extract type & key fields;
@@ -15,8 +15,8 @@ void parser_layer(uint32_t *type_offset, uint32_t *key_offset, uint32_t *head_sh
     keyField_data[i]  = head[key_offset[i]];
 
   //* shift;
-  pHead = &head[*head_shift];
-  __DBUG_PRINT("pHead: %u\n",pHead);
+  *pHead = &head[*head_shift];
+  __DBUG_PRINT("pHead: %p\n",pHead);
   for(int i=0; i<NUM_KEY; i++){
     meta[*meta_shift+i] = keyField_data[i];
     __DBUG_PRINT("%04x_",keyField_data[i]);
@@ -75,9 +75,9 @@ int main(){
   for(int i=0; i<NUM_KEY; i++)
     key_offset[i] = i;
   
-  __DBUG_PRINT("head: %u\n",pHead);
-  parser_layer(type_offset, key_offset, &head_shift, &meta_shift, &pHead, pMeta, 0);
-  __DBUG_PRINT("head: %u\n",pHead);
+  __DBUG_PRINT("head: %p\n",pHead);
+  parser_layer(type_offset, key_offset, &head_shift, &meta_shift, (uint16_t **) &pHead, pMeta, 0);
+  __DBUG_PRINT("head: %p\n",pHead);
   __DBUG_PRINT("head[0]: %04x\n",pHead[0]);
   
   //* echo result
