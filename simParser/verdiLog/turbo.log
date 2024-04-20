@@ -1,3 +1,0 @@
-Command Line: /home/lijunnan/Documents/2-software/vcs_verdi2018/verdi/verdi/Verdi_O-2018.09-SP2/platform/LINUXAMD64/bin/Novas -sverilog +v2k -f file_list.f -ssf wave.fsdb -top Testbench_wrapper
-uname(Linux lijunnan-uPan 6.5.0-25-generic #25~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue Feb 20 16:09:15 UTC 2 x86_64)
-au time 501.427387 11.001495 6.305504 delta 840757248 840757248 total 1212149760 1212149760
