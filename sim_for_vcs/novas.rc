@@ -220,7 +220,8 @@ Selection-LineWidth = 1
 [FSM_Dlg-Print]
 Orientation = Landscape
 [FileBrowser]
-nWaveRestoreRCDirHistory = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test.rc\"" "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_example.rc\"" "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_deparser.rc\""
+nWaveRestoreRCDirHistory = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test.rc\"" "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_example.rc\"" "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_deparser.rc\"" "\"/home/lijunnan\
+/Documents/0-code/vcs_prj/Programmable-Parser/test_decap.rc\""
 [Form]
 version = Verdi_O-2018.09-SP2
 wave/unknownSave.fm = 100,211,520,275
@@ -373,19 +374,19 @@ saveWaveformStat = TRUE
 savePropStat = FALSE
 savePropDtl = TRUE
 [QtDialog]
-saveSigDlg = 719,379,551,386
 QwWarnMsgDlg = 685,758,600,250
-restoreSigDlg = 719,353,551,438
-QwUserAskDlg = 833,542,324,134
 usrMarkerDialog = 595,422,800,300
+saveSigDlg = 783,415,551,386
+restoreSigDlg = 783,389,551,438
+QwUserAskDlg = 897,541,324,134
 [Relationship]
 hideRecursiceNode = FALSE
 [Session Cache]
 3 = string (session file name)
 4 = string (session file name)
 5 = string (session file name)
-1 = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/verdiLog/novas_autosave.ses
 2 = /home/lijunnan/verdiLog/novas_autosave.ses
+1 = /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/verdiLog/novas_autosave.ses
 [Simulation]
 scsPath = scsim
 scsOption = 
@@ -564,7 +565,7 @@ pdmlMacro = ID_BLACK
 font = COURIER12
 annotFont = Helvetica_M_R_10
 [Text.1]
-viewport = 70 27 1850 1016 45
+viewport = 70 27 1978 1088 45
 [TextPrinter]
 Orientation = Landscape
 Indicator = FALSE
@@ -654,34 +655,34 @@ DefaultLogTimeUnit = "1.000000ns"
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0]
 parRuleSets = ""
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column0]
-name = Message
-width = 2000
-visualIndex = 4
-isHidden = FALSE
-isUserChangeColumnVisible = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column1]
 name = Severity
 width = 60
 visualIndex = 1
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column2]
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column1]
 name = Time
 width = 60
 visualIndex = 0
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column3]
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column2]
 name = Code
 width = 60
 visualIndex = 2
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column3]
 name = Type
 width = 60
 visualIndex = 3
 isHidden = TRUE
+isUserChangeColumnVisible = FALSE
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
+name = Message
+width = 2000
+visualIndex = 4
+isHidden = FALSE
 isUserChangeColumnVisible = FALSE
 [Vi]
 ViFont = "Clean 14"
@@ -702,7 +703,7 @@ scope_to_save_with_macro
 open_file_dir
 open_rc_file_dir
 getSignalForm = 0 0 800 479 100 30 100 30
-viewPort = 0 27 1850 359 305 364
+viewPort = 0 27 1978 418 305 364
 signalSpacing = 5
 digitalSignalHeight = 15
 analogSignalHeight = 98
@@ -973,10 +974,11 @@ curveWindow_Drag&Drop_Mode = TRUE
 hspiceIncOpenMode = TRUE
 pcSelectMode = TRUE
 hierarchyDelimiter = /
-RecentFile1 = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_deparser.rc\""
+RecentFile1 = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_decap.rc\""
 RecentFile2 = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb\""
-RecentFile3 = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_example.rc\""
-RecentFile4 = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test.rc\""
+RecentFile3 = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_deparser.rc\""
+RecentFile4 = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_example.rc\""
+RecentFile5 = "\"/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test.rc\""
 open_file_time_range = FALSE
 value_window_aligment = Right
 signal_window_alignment = Auto
@@ -1302,7 +1304,7 @@ AddImportArgument = FALSE
 LineBreakWithScope = TRUE
 StopAfterCompileOption = -s
 [wave.0]
-viewPort = 0 27 1850 359 305 364
+viewPort = 0 27 1978 418 305 364
 [wave.1]
 viewPort = 127 219 960 332 100 65
 [wave.2]

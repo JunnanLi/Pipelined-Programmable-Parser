@@ -1,0 +1,3 @@
+./testbench_encap.sv
+./src/rtl/Encap_Decap/Decap.sv
+./src/rtl/global_head.svh
