@@ -12,6 +12,7 @@
 //      e) TAG_OFFSET:    last valid data of head/meta's slice
 //    2) rule's addr [31:24] is used to choose parser layer
 /*************************************************************/
+import parser_pkg::*;
 
 module Parser_Top(
   input   wire                                i_clk,
@@ -24,28 +25,31 @@ module Parser_Top(
   output  wire                                o_rule_rdata_valid,
   output  wire  [31:0]                        o_rule_rdata,
   //--data--//
-  input   wire  [`HEAD_WIDTH+`TAG_WIDTH-1:0]  i_head,
-  output  wire  [`HEAD_WIDTH+`TAG_WIDTH-1:0]  o_head,
-  input   wire  [`META_WIDTH+`TAG_WIDTH-1:0]  i_meta,
-  output  wire  [`META_WIDTH+`TAG_WIDTH-1:0]  o_meta
+  input   wire  [HEAD_WIDTH+TAG_WIDTH-1:0]  i_head,
+  output  wire  [HEAD_WIDTH+TAG_WIDTH-1:0]  o_head,
+  input   wire  [META_WIDTH+TAG_WIDTH-1:0]  i_meta,
+  output  wire  [META_WIDTH+TAG_WIDTH-1:0]  o_meta
 );
 
   //====================================================================//
   //*   internal reg/wire/param declarations
   //====================================================================//
-  wire  [`HEAD_WIDTH+`TAG_WIDTH-1:0]              w_head_layer1, w_head_layer2, w_head_layer3;
-  wire  [`META_WIDTH+`TAG_WIDTH-1:0]              w_meta_layer1, w_meta_layer2, w_meta_layer3;
-  wire  [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]   w_type_offset_1,w_type_offset_2;
-  wire  [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0] w_key_offset_1,w_key_offset_2;
-  reg   [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]   r_type_offset_0;
-  reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0] r_key_offset_0;
-  wire  [`HEAD_SHIFT_WIDTH-1:0]                   w_headShift_1,w_headShift_2;
-  wire  [`META_SHIFT_WIDTH-1:0]                   w_metaShift_1,w_metaShift_2;
-  reg   [`HEAD_SHIFT_WIDTH-1:0]                   r_headShift_0;
-  reg   [`META_SHIFT_WIDTH-1:0]                   r_metaShift_0;
+  layer_info_t  layer_info_0, layer_info_1, layer_info_2, layer_info_3;
+  // wire  [HEAD_WIDTH+TAG_WIDTH-1:0]              w_head_layer1, w_head_layer2, w_head_layer3;
+  // wire  [META_WIDTH+TAG_WIDTH-1:0]              w_meta_layer1, w_meta_layer2, w_meta_layer3;
+  // wire  [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]   w_type_offset_1,w_type_offset_2;
+  // wire  [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0] w_key_offset_1,w_key_offset_2;
+  // reg   [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]   r_type_offset_0;
+  // reg   [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0] r_key_offset_0;
+  // wire  [HEAD_SHIFT_WIDTH-1:0]                   w_headShift_1,w_headShift_2;
+  // wire  [META_SHIFT_WIDTH-1:0]                   w_metaShift_1,w_metaShift_2;
+  // reg   [HEAD_SHIFT_WIDTH-1:0]                   r_headShift_0;
+  // reg   [META_SHIFT_WIDTH-1:0]                   r_metaShift_0;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
-  assign o_head = w_head_layer3;
-  assign o_meta = w_meta_layer3;
+  assign layer_info_0.head = i_head;
+  assign layer_info_0.meta = i_meta;
+  assign o_head = layer_info_3.head;
+  assign o_meta = layer_info_3.meta;
   //* layer 1: ethernet
   Parser_Layer parser_layer1(
     .i_clk                (i_clk          ),
@@ -58,20 +62,9 @@ module Parser_Top(
     .i_rule_wdata         (i_rule_wdata   ),
     .o_rule_rdata_valid   (               ),
     .o_rule_rdata         (               ),
-    //-exInfo-//
-    .i_type_offset        (r_type_offset_0),
-    .i_key_offset         (r_key_offset_0 ),
-    .o_type_offset        (w_type_offset_1),
-    .o_key_offset         (w_key_offset_1 ),
-    .i_headShift          (r_headShift_0  ),
-    .o_headShift          (w_headShift_1  ),
-    .i_metaShift          (r_metaShift_0  ),
-    .o_metaShift          (w_metaShift_1  ),
-    //--data--//
-    .i_head               (i_head         ),
-    .o_head               (w_head_layer1  ),
-    .i_meta               (i_meta         ),
-    .o_meta               (w_meta_layer1  )
+    
+    .i_layer_info         (layer_info_0   ),
+    .o_layer_info         (layer_info_1   )
   );
   //* layer 2: ip/arp
   Parser_Layer parser_layer2(
@@ -85,20 +78,9 @@ module Parser_Top(
     .i_rule_wdata         (i_rule_wdata   ),
     .o_rule_rdata_valid   (               ),
     .o_rule_rdata         (               ),
-    //-exInfo-//
-    .i_type_offset        (w_type_offset_1),
-    .i_key_offset         (w_key_offset_1 ),
-    .o_type_offset        (w_type_offset_2),
-    .o_key_offset         (w_key_offset_2 ),
-    .i_headShift          (w_headShift_1  ),
-    .o_headShift          (w_headShift_2  ),
-    .i_metaShift          (w_metaShift_1  ),
-    .o_metaShift          (w_metaShift_2  ),
-    //--data--//
-    .i_head               (w_head_layer1  ),
-    .o_head               (w_head_layer2  ),
-    .i_meta               (w_meta_layer1  ),
-    .o_meta               (w_meta_layer2  )
+
+    .i_layer_info         (layer_info_1   ),
+    .o_layer_info         (layer_info_2   )
   );  
   //* layer 3: tcp/udp
   Parser_Layer parser_layer3(
@@ -112,20 +94,9 @@ module Parser_Top(
     .i_rule_wdata         (i_rule_wdata   ),
     .o_rule_rdata_valid   (               ),
     .o_rule_rdata         (               ),
-    //-exInfo-//
-    .i_type_offset        (w_type_offset_2),
-    .i_key_offset         (w_key_offset_2 ),
-    .o_type_offset        (               ),
-    .o_key_offset         (               ),
-    .i_headShift          (w_headShift_2  ),
-    .o_headShift          (               ),
-    .i_metaShift          (w_metaShift_2  ),
-    .o_metaShift          (               ),
-    //--data--//
-    .i_head               (w_head_layer2  ),
-    .o_head               (w_head_layer3  ),
-    .i_meta               (w_meta_layer2  ),
-    .o_meta               (w_meta_layer3  )
+
+    .i_layer_info         (layer_info_2   ),
+    .o_layer_info         (layer_info_3   )
   );
 
   always_ff @(posedge i_clk ) begin: layer_0
@@ -133,18 +104,18 @@ module Parser_Top(
       case(i_rule_addr[10:8])
         3'd2: begin
           //* type offset;
-          for(integer i=0; i<`TYPE_NUM; i++)
-            r_type_offset_0[i]  <= (i_rule_addr[3:0] == i)? 
-                  i_rule_wdata[0+:`TYPE_OFFSET_WIDTH]: r_type_offset_0[i];
+          for(integer i=0; i<TYPE_NUM; i++)
+            layer_info_0.type_offset[i]  <= (i_rule_addr[3:0] == i)? 
+                  i_rule_wdata[0+:TYPE_OFFSET_WIDTH]: layer_info_0.type_offset[i];
         end
         3'd3: begin
           //* key offset;
-          for(integer i=0; i<`KEY_FILED_NUM; i++)
+          for(integer i=0; i<KEY_FILED_NUM; i++)
             if(i_rule_addr[5:0] == i)
-              r_key_offset_0[i] <= {i_rule_wdata[16],i_rule_wdata[0+:`KEY_OFFSET_WIDTH]};
+              layer_info_0.key_offset[i] <= {i_rule_wdata[16],i_rule_wdata[0+:KEY_OFFSET_WIDTH]};
         end
-        3'd4: r_headShift_0     <= i_rule_wdata[0+:`HEAD_SHIFT_WIDTH];
-        3'd5: r_metaShift_0     <= i_rule_wdata[0+:`META_SHIFT_WIDTH];
+        3'd4: layer_info_0.headShift     <= i_rule_wdata[0+:HEAD_SHIFT_WIDTH];
+        3'd5: layer_info_0.metaShift     <= i_rule_wdata[0+:META_SHIFT_WIDTH];
       endcase
     end
   end

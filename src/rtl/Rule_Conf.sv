@@ -6,21 +6,23 @@
 //  Note:
 //    1) top bit of o_typeRule_keyOffset is valid info
 /****************************************************/
+import parser_pkg::*;
 
 module Rule_Conf (
-  input   wire                                              i_clk,
-  input   wire                                              i_rst_n,
-  input   wire                                              i_rule_wren,
-  input   wire  [31:0]                                      i_rule_wdata,
-  input   wire  [31:0]                                      i_rule_addr,
-  output  reg   [`RULE_NUM-1:0]                             o_typeRule_wren,
-  output  reg                                               o_typeRule_valid,
-  output  reg   [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            o_typeRule_typeData,
-  output  reg   [`TYPE_NUM-1:0][`TYPE_WIDTH-1:0]            o_typeRule_typeMask,
-  output  reg   [`TYPE_NUM-1:0][`TYPE_OFFSET_WIDTH-1:0]     o_typeRule_typeOffset,
-  output  reg   [`KEY_FILED_NUM-1:0][`KEY_OFFSET_WIDTH:0]   o_typeRule_keyOffset,
-  output  reg   [`HEAD_SHIFT_WIDTH-1:0]                     o_typeRule_headShift,
-  output  reg   [`META_SHIFT_WIDTH-1:0]                     o_typeRule_metaShift
+  input   wire                    i_clk,
+  input   wire                    i_rst_n,
+  input   wire                    i_rule_wren,
+  input   wire  [31:0]            i_rule_wdata,
+  input   wire  [31:0]            i_rule_addr,
+  output  reg   [RULE_NUM-1:0]    o_typeRule_wren,
+  output  type_rule_t             o_type_rule
+  // output  reg                                               o_typeRule_valid,
+  // output  reg   [TYPE_NUM-1:0][TYPE_WIDTH-1:0]            o_typeRule_typeData,
+  // output  reg   [TYPE_NUM-1:0][TYPE_WIDTH-1:0]            o_typeRule_typeMask,
+  // output  reg   [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]     o_typeRule_typeOffset,
+  // output  reg   [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0]   o_typeRule_keyOffset,
+  // output  reg   [HEAD_SHIFT_WIDTH-1:0]                     o_typeRule_headShift,
+  // output  reg   [META_SHIFT_WIDTH-1:0]                     o_typeRule_metaShift
 );
 
   //====================================================================//
@@ -58,34 +60,34 @@ module Rule_Conf (
         case(i_rule_addr[10:8])
           3'd0: begin
             //* rule_valid_bit
-            o_typeRule_valid                  <= i_rule_wdata[0];
-            for (integer i = 0; i < `RULE_NUM; i++) begin: gen_rule_wren
+            o_type_rule.typeRule_valid        <= i_rule_wdata[0];
+            for (integer i = 0; i < RULE_NUM; i++) begin: gen_rule_wren
               if(i_rule_addr[5:0] == i)
                 //* ruleID
                 o_typeRule_wren[i]            <= 1'b1;
             end
           end
           3'd1: begin
-            for(integer i=0; i<`TYPE_NUM; i++)
+            for(integer i=0; i<TYPE_NUM; i++)
               if(i_rule_addr[3:0] == i) begin
-                o_typeRule_typeData[i]        <= i_rule_wdata[16+:`TYPE_WIDTH];
-                o_typeRule_typeMask[i]        <= i_rule_wdata[0+:`TYPE_WIDTH];
+                o_type_rule.typeRule_typeData[i]  <= i_rule_wdata[16+:TYPE_WIDTH];
+                o_type_rule.typeRule_typeMask[i]  <= i_rule_wdata[0+:TYPE_WIDTH];
               end
           end
           3'd2: begin
           //* conf type_offset;
-            for(integer i=0; i<`TYPE_NUM; i++)
-              o_typeRule_typeOffset[i]  <= (i_rule_addr[3:0] == i)? 
-                    i_rule_wdata[0+:`TYPE_OFFSET_WIDTH]: o_typeRule_typeOffset[i];
+            for(integer i=0; i<TYPE_NUM; i++)
+              o_type_rule.typeRule_typeOffset[i]  <= (i_rule_addr[3:0] == i)? 
+                    i_rule_wdata[0+:TYPE_OFFSET_WIDTH]: o_type_rule.typeRule_typeOffset[i];
           end
           3'd3: begin
-            for(integer i=0; i<`KEY_FILED_NUM; i++)
+            for(integer i=0; i<KEY_FILED_NUM; i++)
               if(i_rule_addr[5:0] == i) begin
-                o_typeRule_keyOffset[i]       <= {i_rule_wdata[16],i_rule_wdata[0+:`KEY_OFFSET_WIDTH]};
+                o_type_rule.typeRule_keyOffset[i] <= {i_rule_wdata[16],i_rule_wdata[0+:KEY_OFFSET_WIDTH]};
               end
           end
-          3'd4: o_typeRule_headShift          <= i_rule_wdata[0+:`HEAD_SHIFT_WIDTH];
-          3'd5: o_typeRule_metaShift          <= i_rule_wdata[0+:`META_SHIFT_WIDTH];
+          3'd4: o_type_rule.typeRule_headShift    <= i_rule_wdata[0+:HEAD_SHIFT_WIDTH];
+          3'd5: o_type_rule.typeRule_metaShift    <= i_rule_wdata[0+:META_SHIFT_WIDTH];
           default: begin end
         endcase
       end

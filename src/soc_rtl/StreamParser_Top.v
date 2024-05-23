@@ -10,6 +10,7 @@
 //      [127:0]   pkt data, invalid part is padded with x;
 //    2) 1024 phv defination 134b pkt data definition: 
 /*******************************************************************/
+import parser_pkg::*;
 
 module StreamParser_Top(
    input  wire              i_clk
@@ -27,10 +28,10 @@ module StreamParser_Top(
   wire  [31:0]              w_rule_addr;
   wire  [31:0]              w_rule_wdata;
   wire                      w_phv_in_valid;
-  wire  [`HEAD_WIDTH+`TAG_WIDTH-1:0]   w_phv_in;
+  wire  [HEAD_WIDTH+TAG_WIDTH-1:0]   w_phv_in;
   wire  [133:0]             w_wdata_pktIn, w_dout_pktIn;
   wire                      w_wren_pktIn, w_rden_pktIn, w_wren_meta, w_rden_meta;
-  wire  [`META_WIDTH+`TAG_WIDTH-1:0]   w_meta_in, w_wdata_meta, w_dout_meta;
+  wire  [META_WIDTH+TAG_WIDTH-1:0]   w_meta_in, w_wdata_meta, w_dout_meta;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
   //* recv pkt, and gen phv;
@@ -53,28 +54,7 @@ module StreamParser_Top(
 
 
   // //* parser pkt;
-  // Parser_Top parser_top(
-  //   .i_clk                (i_clk          ),
-  //   .i_rst_n              (i_rst_n        ),
-
-  //   //---conf--//
-  //   .i_rule_wren          (w_rule_wren    ),
-  //   .i_rule_rden          (1'b0           ),
-  //   .i_rule_addr          (w_rule_addr    ),
-  //   .i_rule_wdata         (w_rule_wdata   ),
-  //   .o_rule_rdata_valid   (               ),
-  //   .o_rule_rdata         (               ),
-
-  //   //--data--//
-  //   .i_head               (w_phv_in       ),
-  //   .o_head               (               ),
-  //   .i_meta               (w_meta_in      ),
-  //   .o_meta               (w_wdata_meta   )
-  // );
-
-
-  //* deparser pkt;
-  Deparser_Top deparser_top(
+  Parser_Top parser_top(
     .i_clk                (i_clk          ),
     .i_rst_n              (i_rst_n        ),
 
@@ -87,11 +67,32 @@ module StreamParser_Top(
     .o_rule_rdata         (               ),
 
     //--data--//
-    .i_head               (w_meta_in      ),
+    .i_head               (w_phv_in       ),
     .o_head               (               ),
-    .i_meta               (w_phv_in       ),
-    .o_meta               (               )
+    .i_meta               (w_meta_in      ),
+    .o_meta               (w_wdata_meta   )
   );
+
+
+  // //* deparser pkt;
+  // Deparser_Top deparser_top(
+  //   .i_clk                (i_clk          ),
+  //   .i_rst_n              (i_rst_n        ),
+
+  //   //---conf--//
+  //   .i_rule_wren          (w_rule_wren    ),
+  //   .i_rule_rden          (1'b0           ),
+  //   .i_rule_addr          (w_rule_addr    ),
+  //   .i_rule_wdata         (w_rule_wdata   ),
+  //   .o_rule_rdata_valid   (               ),
+  //   .o_rule_rdata         (               ),
+
+  //   //--data--//
+  //   .i_head               (w_meta_in      ),
+  //   .o_head               (               ),
+  //   .i_meta               (w_phv_in       ),
+  //   .o_meta               (               )
+  // );
 
   //* replace src mac with dst mac;
 
