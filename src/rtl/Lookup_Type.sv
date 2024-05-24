@@ -58,7 +58,7 @@ module Lookup_Type
       end
     end else begin
       for (integer i = 0; i < RULE_NUM; i++) begin
-         r_type_rule[i]         <= i_rule_wren[i]? i_type_rule[i]: r_type_rule[i];
+         r_type_rule[i]         <= i_rule_wren[i]? i_type_rule: r_type_rule[i];
          // r_rule_valid[i]        <= i_rule_wren[i]? i_typeRule_valid:      r_rule_valid[i];
          // r_rule_typeData[i]     <= i_rule_wren[i]? i_typeRule_typeData:   r_rule_typeData[i];
          // r_rule_typeMask[i]     <= i_rule_wren[i]? i_typeRule_typeMask:   r_rule_typeMask[i];
