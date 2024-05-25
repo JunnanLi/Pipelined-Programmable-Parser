@@ -17,6 +17,11 @@
   `define TWO_CYCLE_PER_LAYER //* one cycle for identification, one for extraction
   `define RULE_W_PRIORITY     //* note: no more than 8 rules!!!
   //=========================//
+  //* BIT_A:BIT_B
+  `define B_LAYER_ID  24+:2
+  `define B_INFO_TYPE 8+:3
+  `define B_EXTR_ID   0+:5
+  //=========================//
   //* Using Xilinx's FIFO/SRAM IP cores
   // `define XILINX_FIFO_RAM
   `define SIM_FIFO_RAM

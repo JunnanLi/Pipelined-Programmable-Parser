@@ -10,7 +10,8 @@ import parser_pkg::*;
 
 module Lookup_Type
 #(
-  parameter     INSERT_ONE_CLK = 0
+  parameter     INSERT_ONE_CLK = 0,
+  parameter     DEPARSER = 0
 )
 (
   input   wire                                            i_clk,
@@ -42,6 +43,7 @@ module Lookup_Type
   logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0]                   w_keyOffset;
   logic [HEAD_SHIFT_WIDTH-1:0]                                    w_headShift;
   logic [META_SHIFT_WIDTH-1:0]                                    w_metaShift;
+  logic [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH:0]                  w_rule_replaceOffset;
   reg   [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]                     r_typeOffset;
   reg   [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0]                   r_keyOffset;
   reg   [HEAD_SHIFT_WIDTH-1:0]                                    r_headShift;

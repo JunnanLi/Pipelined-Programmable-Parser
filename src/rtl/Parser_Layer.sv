@@ -28,7 +28,7 @@
 
 import parser_pkg::*;
 
-module Parser_Layer(
+module Parser_Layer (
   input   wire            i_clk,
   input   wire            i_rst_n,
   //---conf--//

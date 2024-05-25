@@ -25,27 +25,18 @@ module Parser_Top(
   output  wire                                o_rule_rdata_valid,
   output  wire  [31:0]                        o_rule_rdata,
   //--data--//
-  input   wire  [HEAD_WIDTH+TAG_WIDTH-1:0]  i_head,
-  output  wire  [HEAD_WIDTH+TAG_WIDTH-1:0]  o_head,
-  input   wire  [META_WIDTH+TAG_WIDTH-1:0]  i_meta,
-  output  wire  [META_WIDTH+TAG_WIDTH-1:0]  o_meta
+  input   wire  [HEAD_WIDTH+TAG_WIDTH-1:0]    i_head,
+  output  wire  [HEAD_WIDTH+TAG_WIDTH-1:0]    o_head,
+  input   wire  [META_WIDTH+TAG_WIDTH-1:0]    i_meta,
+  output  wire  [META_WIDTH+TAG_WIDTH-1:0]    o_meta
 );
 
   //====================================================================//
   //*   internal reg/wire/param declarations
   //====================================================================//
   layer_info_t  layer_info_0, layer_info_1, layer_info_2, layer_info_3;
-  // wire  [HEAD_WIDTH+TAG_WIDTH-1:0]              w_head_layer1, w_head_layer2, w_head_layer3;
-  // wire  [META_WIDTH+TAG_WIDTH-1:0]              w_meta_layer1, w_meta_layer2, w_meta_layer3;
-  // wire  [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]   w_type_offset_1,w_type_offset_2;
-  // wire  [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0] w_key_offset_1,w_key_offset_2;
-  // reg   [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]   r_type_offset_0;
-  // reg   [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0] r_key_offset_0;
-  // wire  [HEAD_SHIFT_WIDTH-1:0]                   w_headShift_1,w_headShift_2;
-  // wire  [META_SHIFT_WIDTH-1:0]                   w_metaShift_1,w_metaShift_2;
-  // reg   [HEAD_SHIFT_WIDTH-1:0]                   r_headShift_0;
-  // reg   [META_SHIFT_WIDTH-1:0]                   r_metaShift_0;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+  
   assign layer_info_0.head = i_head;
   assign layer_info_0.meta = i_meta;
   assign o_head = layer_info_3.head;
@@ -56,7 +47,7 @@ module Parser_Top(
     .i_rst_n              (i_rst_n        ),
     //---conf--//
     .i_rule_wren          (i_rule_wren & 
-                            i_rule_addr[24+:2] == 2'd1 ),
+                            i_rule_addr[`B_LAYER_ID] == LAYER_1 ),
     .i_rule_rden          (1'b0           ),
     .i_rule_addr          (i_rule_addr    ),
     .i_rule_wdata         (i_rule_wdata   ),
@@ -72,7 +63,7 @@ module Parser_Top(
     .i_rst_n              (i_rst_n        ),
     //---conf--//
     .i_rule_wren          (i_rule_wren & 
-                            i_rule_addr[24+:2] == 2'd2 ),
+                            i_rule_addr[`B_LAYER_ID] == LAYER_2 ),
     .i_rule_rden          (1'b0           ),
     .i_rule_addr          (i_rule_addr    ),
     .i_rule_wdata         (i_rule_wdata   ),
@@ -88,7 +79,7 @@ module Parser_Top(
     .i_rst_n              (i_rst_n        ),
     //---conf--//
     .i_rule_wren          (i_rule_wren & 
-                            i_rule_addr[24+:2] == 2'd3 ),
+                            i_rule_addr[`B_LAYER_ID] == LAYER_3 ),
     .i_rule_rden          (1'b0           ),
     .i_rule_addr          (i_rule_addr    ),
     .i_rule_wdata         (i_rule_wdata   ),
@@ -100,18 +91,18 @@ module Parser_Top(
   );
 
   always_ff @(posedge i_clk ) begin: layer_0
-    if(i_rule_wren == 1'b1 && i_rule_addr[24+:2] == 2'd0) begin
-      case(i_rule_addr[10:8])
+    if(i_rule_wren == 1'b1 && i_rule_addr[`B_LAYER_ID] == LAYER_0) begin
+      case(i_rule_addr[`B_INFO_TYPE])
         3'd2: begin
           //* type offset;
           for(integer i=0; i<TYPE_NUM; i++)
-            layer_info_0.type_offset[i]  <= (i_rule_addr[3:0] == i)? 
+            layer_info_0.type_offset[i]  <= (i_rule_addr[`B_EXTR_ID] == i)? 
                   i_rule_wdata[0+:TYPE_OFFSET_WIDTH]: layer_info_0.type_offset[i];
         end
         3'd3: begin
           //* key offset;
           for(integer i=0; i<KEY_FILED_NUM; i++)
-            if(i_rule_addr[5:0] == i)
+            if(i_rule_addr[`B_EXTR_ID] == i)
               layer_info_0.key_offset[i] <= {i_rule_wdata[16],i_rule_wdata[0+:KEY_OFFSET_WIDTH]};
         end
         3'd4: layer_info_0.headShift     <= i_rule_wdata[0+:HEAD_SHIFT_WIDTH];
