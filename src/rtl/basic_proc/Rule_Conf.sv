@@ -19,13 +19,6 @@ module Rule_Conf #(
   input   wire  [31:0]            i_rule_addr,
   output  reg   [RULE_NUM-1:0]    o_typeRule_wren,
   output  type_rule_t             o_type_rule
-  // output  reg                                               o_typeRule_valid,
-  // output  reg   [TYPE_NUM-1:0][TYPE_WIDTH-1:0]            o_typeRule_typeData,
-  // output  reg   [TYPE_NUM-1:0][TYPE_WIDTH-1:0]            o_typeRule_typeMask,
-  // output  reg   [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]     o_typeRule_typeOffset,
-  // output  reg   [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0]   o_typeRule_keyOffset,
-  // output  reg   [HEAD_SHIFT_WIDTH-1:0]                     o_typeRule_headShift,
-  // output  reg   [META_SHIFT_WIDTH-1:0]                     o_typeRule_metaShift
 );
 
   //====================================================================//

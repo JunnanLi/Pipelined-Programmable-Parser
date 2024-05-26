@@ -73,6 +73,14 @@ package parser_pkg;
     logic [META_SHIFT_WIDTH-1:0]                    typeRule_metaShift;
   } type_rule_t;
 
+  typedef struct packed {
+    logic [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]     typeOffset;
+    logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0]   keyOffset;
+    logic [HEAD_SHIFT_WIDTH-1:0]                    headShift;
+    logic [META_SHIFT_WIDTH-1:0]                    metaShift;
+    logic [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH:0]  replaceOffset;
+  } lookup_rst_t;
+
   localparam  LAYER_0 = 0,
               LAYER_1 = 1,
               LAYER_2 = 2,

@@ -25,10 +25,10 @@ module Parser_Top(
   output  wire                                o_rule_rdata_valid,
   output  wire  [31:0]                        o_rule_rdata,
   //--data--//
-  input   wire  [HEAD_WIDTH+TAG_WIDTH-1:0]  i_head,
-  output  wire  [HEAD_WIDTH+TAG_WIDTH-1:0]  o_head,
-  input   wire  [META_WIDTH+TAG_WIDTH-1:0]  i_meta,
-  output  wire  [META_WIDTH+TAG_WIDTH-1:0]  o_meta
+  input   wire  [HEAD_WIDTH+TAG_WIDTH-1:0]    i_head,
+  output  wire  [HEAD_WIDTH+TAG_WIDTH-1:0]    o_head,
+  input   wire  [META_WIDTH+TAG_WIDTH-1:0]    i_meta,
+  output  wire  [META_WIDTH+TAG_WIDTH-1:0]    o_meta
 );
 
   //====================================================================//

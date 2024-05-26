@@ -14,39 +14,28 @@ module Lookup_Type
   parameter     DEPARSER = 0
 )
 (
-  input   wire                                            i_clk,
-  input   wire                                            i_rst_n,
-  input   wire  [TYPE_NUM-1:0][TYPE_WIDTH-1:0]            i_type,
-  output  reg   [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]     o_typeOffset,
-  output  wire  [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0]   o_keyOffset,
-  output  wire  [HEAD_SHIFT_WIDTH-1:0]                    o_headShift,
-  output  wire  [META_SHIFT_WIDTH-1:0]                    o_metaShift,
-  input   wire  [RULE_NUM-1:0]                            i_rule_wren,
-  input   type_rule_t                                     i_type_rule
+  input   wire                                    i_clk,
+  input   wire                                    i_rst_n,
+  input   wire  [TYPE_NUM-1:0][TYPE_WIDTH-1:0]    i_type,
+  output  lookup_rst_t                            o_lookup_rst,
+  input   wire  [RULE_NUM-1:0]                    i_rule_wren,
+  input   type_rule_t                             i_type_rule
 );
 
 
   //====================================================================//
   //*   internal reg/wire/param declarations
   //====================================================================//
-  (* mark_debug = "true"*)reg   [RULE_NUM-1:0]                                          r_rule_valid;
-  type_rule_t   r_type_rule[RULE_NUM-1:0];
-  // reg   [RULE_NUM-1:0][TYPE_NUM-1:0][TYPE_WIDTH-1:0]            r_rule_typeData;
-  // reg   [RULE_NUM-1:0][TYPE_NUM-1:0][TYPE_WIDTH-1:0]            r_rule_typeMask;
-  // reg   [RULE_NUM-1:0][TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]     r_rule_typeOffset;
-  // reg   [RULE_NUM-1:0][KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0]   r_rule_keyOffset;
-  // reg   [RULE_NUM-1:0][HEAD_SHIFT_WIDTH-1:0]                    r_rule_headShift;
-  // reg   [RULE_NUM-1:0][META_SHIFT_WIDTH-1:0]                    r_rule_metaShift;
-  (* mark_debug = "true"*)logic [RULE_NUM-1:0]                                          w_hit_rule;
-  logic [TYPE_NUM*TYPE_WIDTH-1:0]                                 w_type;
-  logic [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]                     w_typeOffset;
-  logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0]                   w_keyOffset;
-  logic [HEAD_SHIFT_WIDTH-1:0]                                    w_headShift;
-  logic [META_SHIFT_WIDTH-1:0]                                    w_metaShift;
-  reg   [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]                     r_typeOffset;
-  reg   [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0]                   r_keyOffset;
-  reg   [HEAD_SHIFT_WIDTH-1:0]                                    r_headShift;
-  reg   [META_SHIFT_WIDTH-1:0]                                    r_metaShift;
+  (* mark_debug = "true"*)reg   [RULE_NUM-1:0]    r_rule_valid;
+  type_rule_t                                     r_type_rule[RULE_NUM-1:0];
+  (* mark_debug = "true"*)logic [RULE_NUM-1:0]    w_hit_rule;
+  logic [TYPE_NUM*TYPE_WIDTH-1:0]                 w_type;
+  lookup_rst_t                                    r_lookup_rst, w_lookup_rst;
+  logic [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]     w_typeOffset;
+  logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0]   w_keyOffset;
+  logic [HEAD_SHIFT_WIDTH-1:0]                    w_headShift;
+  logic [META_SHIFT_WIDTH-1:0]                    w_metaShift;
+  logic [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH:0]  w_replaceOffset;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
   //====================================================================//
@@ -60,13 +49,6 @@ module Lookup_Type
     end else begin
       for (integer i = 0; i < RULE_NUM; i++) begin
          r_type_rule[i]         <= i_rule_wren[i]? i_type_rule: r_type_rule[i];
-         // r_rule_valid[i]        <= i_rule_wren[i]? i_typeRule_valid:      r_rule_valid[i];
-         // r_rule_typeData[i]     <= i_rule_wren[i]? i_typeRule_typeData:   r_rule_typeData[i];
-         // r_rule_typeMask[i]     <= i_rule_wren[i]? i_typeRule_typeMask:   r_rule_typeMask[i];
-         // r_rule_typeOffset[i]   <= i_rule_wren[i]? i_typeRule_typeOffset: r_rule_typeOffset[i];
-         // r_rule_keyOffset[i]    <= i_rule_wren[i]? i_typeRule_keyOffset:  r_rule_keyOffset[i];
-         // r_rule_headShift[i]    <= i_rule_wren[i]? i_typeRule_headShift:  r_rule_headShift[i];
-         // r_rule_metaShift[i]    <= i_rule_wren[i]? i_typeRule_metaShift:  r_rule_metaShift[i];
       end
     end
   end
@@ -94,10 +76,7 @@ module Lookup_Type
   //====================================================================//
   //*   output result
   //====================================================================//
-  assign o_typeOffset = (INSERT_ONE_CLK)? r_typeOffset: w_typeOffset;
-  assign o_keyOffset  = (INSERT_ONE_CLK)? r_keyOffset:  w_keyOffset;
-  assign o_headShift  = (INSERT_ONE_CLK)? r_headShift:  w_headShift;
-  assign o_metaShift  = (INSERT_ONE_CLK)? r_metaShift:  w_metaShift;
+  assign o_lookup_rst = (INSERT_ONE_CLK)? r_lookup_rst: w_lookup_rst;
   `ifdef RULE_W_PRIORITY
     logic [7:0]  w_hit_rule_8b, w_hit_rule_oneHot;
     generate 
@@ -138,6 +117,11 @@ module Lookup_Type
         w_headShift   = {HEAD_SHIFT_WIDTH{w_hit_rule_oneHot[i]}} & r_type_rule[i].typeRule_headShift | w_headShift;
         w_metaShift   = {HEAD_SHIFT_WIDTH{w_hit_rule_oneHot[i]}} & r_type_rule[i].typeRule_metaShift | w_metaShift;
       end
+      for(integer j = 0; j < META_CANDI_NUM; j++) begin
+        w_replaceOffset[j]  = 'b0;
+        for(integer i = 0; i < RULE_NUM; i++)
+          w_replaceOffset[j] = {(REP_OFFSET_WIDTH+1){w_hit_rule_oneHot[i]}} & r_type_rule[i].typeRule_keyReplaceOffset[j] | w_replaceOffset[j];
+      end
     end
   `else
     always_comb begin
@@ -157,13 +141,38 @@ module Lookup_Type
         w_headShift   = {HEAD_SHIFT_WIDTH{w_hit_rule[i]}} & r_type_rule[i].typeRule_headShift | w_headShift;
         w_metaShift   = {HEAD_SHIFT_WIDTH{w_hit_rule[i]}} & r_type_rule[i].typeRule_metaShift | w_metaShift;
       end
+      for(integer j = 0; j < META_CANDI_NUM; j++) begin
+        w_replaceOffset[j]  = 'b0;
+        for(integer i = 0; i < RULE_NUM; i++)
+          w_replaceOffset[j] = {(REP_OFFSET_WIDTH+1){w_hit_rule[i]}} & r_type_rule[i].typeRule_keyReplaceOffset[j] | w_replaceOffset[j];
+      end
     end
   `endif
   always_ff @(posedge i_clk) begin
-    r_typeOffset      <= w_typeOffset;
-    r_keyOffset       <= w_keyOffset;
-    r_headShift       <= w_headShift;
-    r_metaShift       <= w_metaShift;
+    r_lookup_rst.typeOffset <= w_typeOffset;
+    r_lookup_rst.keyOffset  <= w_keyOffset;
+    r_lookup_rst.headShift  <= w_headShift;
+    r_lookup_rst.metaShift  <= w_metaShift;
+  end
+  if(DEPARSER) begin
+    always_ff @(posedge i_clk) begin
+      r_lookup_rst.replaceOffset <= w_replaceOffset;
+    end
+  end
+  else begin
+    always_ff @(posedge i_clk) begin
+      r_lookup_rst.replaceOffset <= 'b0;
+    end
+  end
+  assign w_lookup_rst.typeOffset  = w_typeOffset;
+  assign w_lookup_rst.keyOffset   = w_keyOffset;
+  assign w_lookup_rst.headShift   = w_headShift;
+  assign w_lookup_rst.metaShift   = w_metaShift;
+  if(DEPARSER) begin
+    assign w_lookup_rst.replaceOffset = w_replaceOffset;
+  end
+  else begin
+    assign w_lookup_rst.replaceOffset = 'b0;
   end
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 

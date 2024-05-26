@@ -20,13 +20,13 @@ module Shift_Head(
   input   wire                                i_rst_n,
 
   //--data--//
-  input   wire  [HEAD_WIDTH+TAG_WIDTH-1:0]  i_head,
-  output  wire  [HEAD_WIDTH+TAG_WIDTH-1:0]  o_head,
-  input   wire  [HEAD_SHIFT_WIDTH-1:0]       i_headShift,
-  input   wire  [META_WIDTH+TAG_WIDTH-1:0]  i_meta,
-  output  wire  [META_WIDTH+TAG_WIDTH-1:0]  o_meta,
+  input   wire  [HEAD_WIDTH+TAG_WIDTH-1:0]    i_head,
+  output  wire  [HEAD_WIDTH+TAG_WIDTH-1:0]    o_head,
+  input   wire  [HEAD_SHIFT_WIDTH-1:0]        i_headShift,
+  input   wire  [META_WIDTH+TAG_WIDTH-1:0]    i_meta,
+  output  wire  [META_WIDTH+TAG_WIDTH-1:0]    o_meta,
   input   wire  [KEY_FILED_NUM*KEY_FIELD_WIDTH-1:0] i_extField,
-  input   wire  [META_SHIFT_WIDTH-1:0]       i_metaShift
+  input   wire  [META_SHIFT_WIDTH-1:0]        i_metaShift
 );
 
   //====================================================================//
@@ -34,19 +34,19 @@ module Shift_Head(
   //====================================================================//
   //* r_head/r_meta is used to output;
   //* r_preHead/r_preMeta is one clk delay of i_head/i_meta
-  reg   [HEAD_WIDTH+TAG_WIDTH-1:0]    r_head, r_preHead;
-  reg   [META_WIDTH+TAG_WIDTH-1:0]    r_meta, r_preMeta;
+  reg   [HEAD_WIDTH+TAG_WIDTH-1:0]      r_head, r_preHead;
+  reg   [META_WIDTH+TAG_WIDTH-1:0]      r_meta, r_preMeta;
   //* r_extMeta is used to expanded by i_extField
   //* w_2head/w_meta is used to shift
-  reg   [META_WIDTH-1:0]               r_extMeta;
-  wire  [2*HEAD_WIDTH-1:0]             w_2head;
-  wire  [2*META_WIDTH-1:0]             w_2meta;
+  reg   [META_WIDTH-1:0]                r_extMeta;
+  wire  [2*HEAD_WIDTH-1:0]              w_2head;
+  wire  [2*META_WIDTH-1:0]              w_2meta;
   //* r_headShift/r_metaShift is record of i_headShift/w_metaShift
   //* w_metaShift is the sum of all i_metaShift
-  reg   [HEAD_SHIFT_WIDTH-1:0]         r_headShift;
+  reg   [HEAD_SHIFT_WIDTH-1:0]          r_headShift;
   wire                                  w_startBit_headTag, w_validBit_headTag;
-  wire  [META_SHIFT_WIDTH-1:0]         w_metaShift;
-  reg   [META_SHIFT_WIDTH-1:0]         r_metaShift;
+  wire  [META_SHIFT_WIDTH-1:0]          w_metaShift;
+  reg   [META_SHIFT_WIDTH-1:0]          r_metaShift;
   wire                                  w_startBit_metaTag;
   reg                                   r_startBit_metaTag, r_toShift_metaTag;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//  
@@ -72,15 +72,15 @@ module Shift_Head(
     if(w_validBit_headTag) begin
       for(integer idx=0; idx<HEAD_CANDI_NUM; idx=idx+1) begin
         if(r_headShift == idx)
-          r_head[0+:HEAD_WIDTH]                <= w_2head[2*HEAD_WIDTH-idx*SHIFT_WIDTH-1-:HEAD_WIDTH];
+          r_head[0+:HEAD_WIDTH]                 <= w_2head[2*HEAD_WIDTH-idx*SHIFT_WIDTH-1-:HEAD_WIDTH];
       end
-      r_head[TAG_START_BIT+HEAD_WIDTH]        <= r_preHead[TAG_START_BIT+HEAD_WIDTH];
+      r_head[TAG_START_BIT+HEAD_WIDTH]          <= r_preHead[TAG_START_BIT+HEAD_WIDTH];
     end
 
     if(r_startBit_metaTag) begin
-      r_meta[0+:META_WIDTH]                    <= r_preMeta[0+:META_WIDTH] | r_extMeta;
-      r_meta[TAG_SHIFT_BIT+META_WIDTH]        <= ~r_toShift_metaTag;
-      r_meta[META_WIDTH+:META_SHIFT_WIDTH]    <= r_metaShift;
+      r_meta[0+:META_WIDTH]                     <= r_preMeta[0+:META_WIDTH] | r_extMeta;
+      r_meta[TAG_SHIFT_BIT+META_WIDTH]          <= ~r_toShift_metaTag;
+      r_meta[META_WIDTH+:META_SHIFT_WIDTH]      <= r_metaShift;
     end
     if(w_startBit_headTag) begin
       r_toShift_metaTag                         <= &i_metaShift;
