@@ -1,5 +1,6 @@
 import pandas as pd
-from get_type import *
+from get_type_key import *
+from gen_rule import *
 path = './eht_ipv4_tcp.parserTree.csv'
 data = pd.read_csv(path)
 #x = data[['header','B']]
@@ -17,9 +18,11 @@ dbg_print(list_head_notnull)
 
 layer_info = []
 for idx in range(len(list_index_notnull)-1):
-	print("idx:",idx)
+	dbg_print("idx:",idx)
 	temp_layer_info = {}
 	layer_name = list_head_notnull[idx]
+	if idx == 0:
+		first_layer_name = layer_name
 	temp_layer_info.update({"name":layer_name})
 	temp_layer_info.update({"head_len":data['offset'][list_index_notnull[idx+1]]-data['offset'][list_index_notnull[idx]]})
 	temp_layer_info.update({"meta_len":data['key'][list_index_notnull[idx]]})
@@ -31,4 +34,10 @@ for idx in range(len(list_index_notnull)-1):
 	temp_layer_info.update({"keyField":temp_key_info})
 	layer_info.append(temp_layer_info)
 	dbg_print("temp_layer_info:",temp_layer_info)
-	print("layer_info:",layer_info)
+	dbg_print("layer_info:",layer_info)
+dbg_print(first_layer_name)
+print(layer_info)
+
+# gen rules
+rule_info = gen_rule_info(layer_info, first_layer_name)
+print(rule_info)
