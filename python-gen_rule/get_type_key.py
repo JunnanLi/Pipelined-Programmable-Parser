@@ -1,3 +1,4 @@
+import numpy as np
 # get type info
 global DBG_PRINT
 DBG_PRINT = 0
@@ -22,7 +23,7 @@ def get_type_info(data, list_index_notnull, idx):
 	temp_type_info = {}
 	if len(list_type) == 0:
 		return temp_type_info
-	temp_type_info.update({"offset":list_type[0][OFFSET]})
+	temp_type_info.update({"offset":(list_type[0][OFFSET]-data['offset'][list_index_notnull[idx]])})
 	temp_type_info.update({"len":list_type[0][LEN]})
 	temp_type_info.update({"mask":list_type[0][MASK]})
 	temp_list_proto = []
@@ -44,6 +45,7 @@ def get_key_info(data, list_index_notnull, idx):
 	for i in range(len(list_keyField)):
 		list_offset.append(list_keyField[i][OFFSET])
 		list_len.append(list_keyField[i][LEN])
+	list_offset = (np.array(list_offset)-data['offset'][list_index_notnull[idx]]).tolist()
 	temp_key_info.update({"offset":list_offset})
 	temp_key_info.update({"len":list_len})
 	dbg_print(temp_key_info)
