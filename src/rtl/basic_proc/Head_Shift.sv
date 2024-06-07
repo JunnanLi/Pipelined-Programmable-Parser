@@ -52,7 +52,8 @@ module Shift_Head(
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//  
   assign w_startBit_headTag = i_head[HEAD_WIDTH+TAG_START_BIT];
   assign w_validBit_headTag = r_preHead[HEAD_WIDTH+TAG_VALID_BIT];
-  assign w_startBit_metaTag = i_meta[HEAD_WIDTH+TAG_SHIFT_BIT] & ~r_preMeta[HEAD_WIDTH+TAG_SHIFT_BIT];
+  assign w_startBit_metaTag = i_meta[HEAD_WIDTH+TAG_SHIFT_BIT] & ~r_preMeta[HEAD_WIDTH+TAG_SHIFT_BIT] |
+                              i_meta[HEAD_WIDTH+TAG_TAIL_BIT];
   assign w_2head    = {r_preHead[0+:HEAD_WIDTH], i_head[0+:HEAD_WIDTH]};
   assign w_2meta    = {{META_WIDTH{1'b0}},i_extField, {(META_WIDTH-KEY_FILED_NUM*KEY_FIELD_WIDTH){1'b0}}};
   assign w_metaShift= (w_startBit_headTag)? (i_metaShift + i_meta[META_WIDTH+:META_SHIFT_WIDTH]):
