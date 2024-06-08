@@ -100,7 +100,8 @@ module Parser_Layer(
       .i_rst_n          (i_rst_n            ),
       .i_data           (w_headKey          ),
       .o_extract_data   (w_key_field[idx]   ),
-      .i_offset         (i_layer_info.key_offset[idx]  )
+      .i_offset         ({i_layer_info.key_offset_v[idx],
+                          i_layer_info.key_offset[idx]} )
     );
     end
   endgenerate

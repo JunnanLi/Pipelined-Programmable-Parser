@@ -80,7 +80,8 @@ module Rule_Conf #(
           3'd3: begin
             for(integer i=0; i<KEY_FILED_NUM; i++)
               if(i_rule_addr[`B_EXTR_ID] == i) begin
-                o_type_rule.typeRule_keyOffset[i] <= {i_rule_wdata[16],i_rule_wdata[0+:KEY_OFFSET_WIDTH]};
+                o_type_rule.typeRule_keyOffset_v[i]<=i_rule_wdata[16];
+                o_type_rule.typeRule_keyOffset[i] <= i_rule_wdata[0+:KEY_OFFSET_WIDTH];
               end
           end
           3'd4: o_type_rule.typeRule_headShift    <= i_rule_wdata[0+:HEAD_SHIFT_WIDTH];

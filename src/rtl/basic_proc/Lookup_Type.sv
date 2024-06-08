@@ -32,7 +32,8 @@ module Lookup_Type
   logic [TYPE_NUM*TYPE_WIDTH-1:0]                 w_type;
   lookup_rst_t                                    r_lookup_rst, w_lookup_rst;
   logic [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]     w_typeOffset;
-  logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0]   w_keyOffset;
+  logic [KEY_FILED_NUM-1:0]                       w_keyOffset_v;
+  logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH-1:0] w_keyOffset;
   logic [HEAD_SHIFT_WIDTH-1:0]                    w_headShift;
   logic [META_SHIFT_WIDTH-1:0]                    w_metaShift;
   logic [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH:0]  w_replaceOffset;
@@ -106,6 +107,11 @@ module Lookup_Type
         for(integer i = 0; i < RULE_NUM; i++)
           w_keyOffset[j] = {(KEY_OFFSET_WIDTH+1){w_hit_rule_oneHot[i]}} & r_type_rule[i].typeRule_keyOffset[j] | w_keyOffset[j];
       end
+      for(integer j = 0; j < KEY_FILED_NUM; j++) begin
+        w_keyOffset_v[j] = 'b0;
+        for(integer i = 0; i < RULE_NUM; i++)
+          w_keyOffset_v[j] = {(KEY_OFFSET_WIDTH+1){w_hit_rule_oneHot[i]}} & r_type_rule[i].typeRule_keyOffset_v[j] | w_keyOffset_v[j];
+      end
       for(integer j = 0; j < TYPE_NUM; j++) begin
         w_typeOffset[j]   = 'b0;
         for(integer i = 0; i < RULE_NUM; i++)
@@ -130,6 +136,11 @@ module Lookup_Type
         for(integer i = 0; i < RULE_NUM; i++)
           w_keyOffset[j] = {(KEY_OFFSET_WIDTH+1){w_hit_rule[i]}} & r_type_rule[i].typeRule_keyOffset[j] | w_keyOffset[j];
       end
+      for(integer j = 0; j < KEY_FILED_NUM; j++) begin
+        w_keyOffset_v[j]   = 'b0;
+        for(integer i = 0; i < RULE_NUM; i++)
+          w_keyOffset_v[j] = {(KEY_OFFSET_WIDTH+1){w_hit_rule[i]}} & r_type_rule[i].typeRule_keyOffset_v[j] | w_keyOffset_v[j];
+      end
       for(integer j = 0; j < TYPE_NUM; j++) begin
         w_typeOffset[j]   = 'b0;
         for(integer i = 0; i < RULE_NUM; i++)
@@ -150,6 +161,7 @@ module Lookup_Type
   `endif
   always_ff @(posedge i_clk) begin
     r_lookup_rst.typeOffset <= w_typeOffset;
+    r_lookup_rst.keyOffset_v<= w_keyOffset_v;
     r_lookup_rst.keyOffset  <= w_keyOffset;
     r_lookup_rst.headShift  <= w_headShift;
     r_lookup_rst.metaShift  <= w_metaShift;
@@ -165,7 +177,7 @@ module Lookup_Type
     end
   end
   assign w_lookup_rst.typeOffset  = w_typeOffset;
-  assign w_lookup_rst.keyOffset   = w_keyOffset;
+  assign w_lookup_rst.keyOffset_v = w_keyOffset_v;
   assign w_lookup_rst.headShift   = w_headShift;
   assign w_lookup_rst.metaShift   = w_metaShift;
   if(DEPARSER) begin

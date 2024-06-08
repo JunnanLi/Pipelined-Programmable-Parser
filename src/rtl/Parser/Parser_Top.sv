@@ -100,9 +100,16 @@ module Parser_Top(
         end
         3'd3: begin
           //* key offset;
-          for(integer i=0; i<KEY_FILED_NUM; i++)
-            if(i_rule_addr[`B_EXTR_ID] == i)
-              layer_info_0.key_offset[i] <= {i_rule_wdata[16],i_rule_wdata[0+:KEY_OFFSET_WIDTH]};
+          for(integer i=0; i<KEY_FILED_NUM; i++) begin
+            if(i_rule_addr[`B_EXTR_ID] == i) begin
+              layer_info_0.key_offset_v[i]  <= i_rule_wdata[16];
+              layer_info_0.key_offset[i]    <= i_rule_wdata[0+:KEY_OFFSET_WIDTH];
+            end
+            else begin
+              layer_info_0.key_offset_v[i]  <= layer_info_0.key_offset_v[i];
+              layer_info_0.key_offset[i]    <= layer_info_0.key_offset[i];
+            end
+          end
         end
         3'd4: layer_info_0.headShift     <= i_rule_wdata[0+:HEAD_SHIFT_WIDTH];
         3'd5: layer_info_0.metaShift     <= i_rule_wdata[0+:META_SHIFT_WIDTH];

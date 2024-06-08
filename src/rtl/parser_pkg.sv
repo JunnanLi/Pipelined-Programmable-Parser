@@ -42,7 +42,8 @@ package parser_pkg;
   typedef struct packed {
     //* extract
     logic [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]   type_offset;
-    logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0] key_offset;
+    logic [KEY_FILED_NUM-1:0][0:0]                key_offset_v;
+    logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH-1:0]key_offset;
     logic [HEAD_SHIFT_WIDTH-1:0]                  headShift;
     logic [META_SHIFT_WIDTH-1:0]                  metaShift;
     //* data
@@ -53,7 +54,8 @@ package parser_pkg;
   typedef struct packed {
     //* extract
     logic [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]   type_offset;
-    logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0] key_offset;
+    logic [KEY_FILED_NUM-1:0]                     key_offset_v;
+    logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH-1:0]key_offset;
     logic [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH:0]key_replaceOffset;
     logic [HEAD_SHIFT_WIDTH-1:0]                  headShift;
     logic [META_SHIFT_WIDTH-1:0]                  metaShift;
@@ -67,7 +69,8 @@ package parser_pkg;
     logic [TYPE_NUM-1:0][TYPE_WIDTH-1:0]            typeRule_typeData;
     logic [TYPE_NUM-1:0][TYPE_WIDTH-1:0]            typeRule_typeMask;
     logic [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]     typeRule_typeOffset;
-    logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0]   typeRule_keyOffset;
+    logic [KEY_FILED_NUM-1:0]                       typeRule_keyOffset_v;
+    logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH-1:0] typeRule_keyOffset;
     logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH-1:0] typeRule_keyReplaceOffset;
     logic [HEAD_SHIFT_WIDTH-1:0]                    typeRule_headShift;
     logic [META_SHIFT_WIDTH-1:0]                    typeRule_metaShift;
@@ -75,7 +78,8 @@ package parser_pkg;
 
   typedef struct packed {
     logic [TYPE_NUM-1:0][TYPE_OFFSET_WIDTH-1:0]     typeOffset;
-    logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH:0]   keyOffset;
+    logic [KEY_FILED_NUM-1:0]                       keyOffset_v;
+    logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH-1:0] keyOffset;
     logic [HEAD_SHIFT_WIDTH-1:0]                    headShift;
     logic [META_SHIFT_WIDTH-1:0]                    metaShift;
     logic [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH:0]  replaceOffset;
