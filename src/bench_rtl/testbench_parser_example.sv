@@ -100,32 +100,25 @@ module Testbench_wrapper(
 
 `ifdef READ_CONF
   reg     [2047:0]        conf_file;
-  reg     [127:0]         memConf[0:127];
+  reg     [63:0]          memConf[0:15];
+  //* layer_0
   initial begin
-    conf_file  = "./python-gen_rule/conf_file.txt";
+    conf_file  = "./python-gen_rule/conf_rule.txt";
     $readmemh(conf_file, memConf);
     //* type offset;
-    force parser_top.layer_info_0.type_offset[0]  = memConf[1];
-    force parser_top.layer_info_0.type_offset[1]  = memConf[2];
-    //* key offset;
-    force parser_top.layer_info_0.key_offset_v[0] = 1;
-    force parser_top.layer_info_0.key_offset[0]   = memConf[4];
-    force parser_top.layer_info_0.key_offset_v[1] = 1;
-    force parser_top.layer_info_0.key_offset[1]   = memConf[5];
-    force parser_top.layer_info_0.key_offset_v[2] = 1;
-    force parser_top.layer_info_0.key_offset[2]   = memConf[6];
-    force parser_top.layer_info_0.key_offset_v[3] = 1;
-    force parser_top.layer_info_0.key_offset[3]   = memConf[7];
-    force parser_top.layer_info_0.key_offset_v[4] = 1;
-    force parser_top.layer_info_0.key_offset[4]   = memConf[8];
-    force parser_top.layer_info_0.key_offset_v[5] = 1;
-    force parser_top.layer_info_0.key_offset[5]   = memConf[9];
-    force parser_top.layer_info_0.key_offset_v[6] = 0;
-    force parser_top.layer_info_0.key_offset_v[7] = 0;
+    force parser_top.layer_info_0.type_offset[0]  = memConf[0][8+:8];
+    force parser_top.layer_info_0.type_offset[1]  = memConf[0][0+:8];
     //* head len;
-    force parser_top.layer_info_0.headShift       = memConf[13];
+    force parser_top.layer_info_0.headShift       = memConf[3];
     //* meta len;
-    force parser_top.layer_info_0.metaShift       = memConf[15];
+    force parser_top.layer_info_0.metaShift       = memConf[4];
+  end
+  //* type offset;
+  for(genvar i=0; i<8; i=i+1) begin
+    initial begin
+      force parser_top.layer_info_0.key_offset_v[i] = memConf[1][7-i];
+      force parser_top.layer_info_0.key_offset[i]   = memConf[2][(7-i)*8+:8];
+    end
   end
 
 `else
