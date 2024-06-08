@@ -30,6 +30,8 @@
 `timescale 1ns/1ps
 import parser_pkg::*;
 
+`define READ_CONF
+
 module Testbench_wrapper(
 );
 
@@ -95,6 +97,38 @@ module Testbench_wrapper(
                                   128'h0028_e84b_4000_4006_ce61_c0a8_010a_c0a8,
                                   128'h01c8_1389_c001_3876_6005_0000_1986_5010,
                                   128'hfad8_843d_0000_3876_6005_0000_1986_5010};
+
+`ifdef READ_CONF
+  reg     [2047:0]        conf_file;
+  reg     [127:0]         memConf[0:127];
+  initial begin
+    conf_file  = "./python-gen_rule/conf_file.txt";
+    $readmemh(conf_file, memConf);
+    //* type offset;
+    force parser_top.layer_info_0.type_offset[0]  = memConf[1];
+    force parser_top.layer_info_0.type_offset[1]  = memConf[2];
+    //* key offset;
+    force parser_top.layer_info_0.key_offset_v[0] = 1;
+    force parser_top.layer_info_0.key_offset[0]   = memConf[4];
+    force parser_top.layer_info_0.key_offset_v[1] = 1;
+    force parser_top.layer_info_0.key_offset[1]   = memConf[5];
+    force parser_top.layer_info_0.key_offset_v[2] = 1;
+    force parser_top.layer_info_0.key_offset[2]   = memConf[6];
+    force parser_top.layer_info_0.key_offset_v[3] = 1;
+    force parser_top.layer_info_0.key_offset[3]   = memConf[7];
+    force parser_top.layer_info_0.key_offset_v[4] = 1;
+    force parser_top.layer_info_0.key_offset[4]   = memConf[8];
+    force parser_top.layer_info_0.key_offset_v[5] = 1;
+    force parser_top.layer_info_0.key_offset[5]   = memConf[9];
+    force parser_top.layer_info_0.key_offset_v[6] = 0;
+    force parser_top.layer_info_0.key_offset_v[7] = 0;
+    //* head len;
+    force parser_top.layer_info_0.headShift       = memConf[13];
+    //* meta len;
+    force parser_top.layer_info_0.metaShift       = memConf[15];
+  end
+
+`else
 
 initial begin
   //* layer_0: ethernet
@@ -200,5 +234,7 @@ initial begin
     force parser_top.layer_info_0.meta = 'b0;
   end
 end
+
+`endif
 
 endmodule
