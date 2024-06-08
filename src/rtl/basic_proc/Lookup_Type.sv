@@ -26,7 +26,6 @@ module Lookup_Type
   //====================================================================//
   //*   internal reg/wire/param declarations
   //====================================================================//
-  (* mark_debug = "true"*)reg   [RULE_NUM-1:0]    r_rule_valid;
   type_rule_t                                     r_type_rule[RULE_NUM-1:0];
   (* mark_debug = "true"*)logic [RULE_NUM-1:0]    w_hit_rule;
   logic [TYPE_NUM*TYPE_WIDTH-1:0]                 w_type;
@@ -178,6 +177,7 @@ module Lookup_Type
   end
   assign w_lookup_rst.typeOffset  = w_typeOffset;
   assign w_lookup_rst.keyOffset_v = w_keyOffset_v;
+  assign w_lookup_rst.keyOffset   = w_keyOffset;
   assign w_lookup_rst.headShift   = w_headShift;
   assign w_lookup_rst.metaShift   = w_metaShift;
   if(DEPARSER) begin

@@ -173,6 +173,7 @@ module Parser_Layer(
   `endif
 
   //* shift stage
+  assign o_layer_info.key_offset_v = lookup_rst_s2.keyOffset_v;
   assign o_layer_info.key_offset   = lookup_rst_s2.keyOffset;
   assign o_layer_info.type_offset  = lookup_rst_s2.typeOffset;
   assign o_layer_info.headShift    = lookup_rst_s2.headShift;
