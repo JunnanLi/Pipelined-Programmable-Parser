@@ -24,7 +24,7 @@ for idx in range(len(list_index_notnull)-1):
 	if idx == 0:
 		first_layer_name = layer_name
 	temp_layer_info.update({"name":layer_name})
-	temp_layer_info.update({"head_len":data['offset'][list_index_notnull[idx+1]]-data['offset'][list_index_notnull[idx]]})
+	temp_layer_info.update({"head_len":data['len'][list_index_notnull[idx]]})
 	temp_layer_info.update({"meta_len":data['key'][list_index_notnull[idx]]})
 	# get type info
 	temp_type_info = get_type_info(data, list_index_notnull, idx)
@@ -40,5 +40,6 @@ print(layer_info)
 
 # gen rules
 rule_info = gen_rule_info(layer_info, first_layer_name)
+# print(rule_info)
 write_conf_rule(rule_info)
-print(rule_info)
+gen_testbench_w_rule(rule_info)

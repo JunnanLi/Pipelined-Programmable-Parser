@@ -1,9 +1,9 @@
 ﻿header,field,offset,len,type,key,mask,value1,next_header1,value2,next_header2,value3,next_header3,meta_len
-Ethernet,,0,,,12,,,,,,,,
+Ethernet,,,14,,12,,,,,,,,
 ,dst_MAC,0,6,,y,,,,,,,,6
 ,src_MAC,6,6,,y,,,,,,,,6
 ,eth_type,12,2,y,,65535,2048,IPv4,/,/,/,/,
-IPv4,,14,,,8,,,,,,,,
+IPv4,,,20,,8,,,,,,,,
 ,v_len,0,1,,,,,,,,,,0
 ,QoS,1,1,,,,,,,,,,0
 ,pkt_len,2,2,,,,,,,,,,0
@@ -14,7 +14,7 @@ IPv4,,14,,,8,,,,,,,,
 ,checksum,10,2,,,,,,,,,,0
 ,src_IP,12,4,,y,,,,,,,,4
 ,dst_IP,16,4,,y,,,,,,,,4
-TCP,,20,,,4,,,,,,,,
+TCP,,,20,,4,,,,,,,,
 ,src_port,0,2,,y,,,,,,,,2
 ,dst_port,2,2,,y,,,,,,,,2
 ,send_seq,4,4,,,,,,,,,,0
@@ -23,7 +23,7 @@ TCP,,20,,,4,,,,,,,,
 ,window,14,2,,,,,,,,,,0
 ,checksum,16,2,,,,,,,,,,0
 ,urgent_p,18,2,,,,,,,,,,0
-UDP,,20,,,4,,,,,,,,
+UDP,,,8,,4,,,,,,,,
 ,src_port,0,2,,y,,,,,,,,2
 ,dst_port,2,2,,y,,,,,,,,2
 ,len,4,2,,,,,,,,,,0

@@ -15,11 +15,11 @@ fc
 08_00
 ff_ff
 // type offset 
-17_00 
+09_00 
 // valid of key offset 
 f0
 // key offset 
-0d_0e_0f_10_00_00_00_00
+06_07_08_09_00_00_00_00
 // head len 
 0a
 // meta len 
@@ -34,7 +34,7 @@ ff_00
 // valid of key offset 
 c0
 // key offset 
-11_12_00_00_00_00_00_00
+00_01_00_00_00_00_00_00
 // head len 
 0a
 // meta len 
@@ -49,7 +49,7 @@ ff_00
 // valid of key offset 
 c0
 // key offset 
-1b_1c_00_00_00_00_00_00
+00_01_00_00_00_00_00_00
 // head len 
 04
 // meta len 
