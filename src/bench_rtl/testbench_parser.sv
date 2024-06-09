@@ -99,150 +99,116 @@ module Testbench_wrapper(
                                   128'hfad8_843d_0000_3876_6005_0000_1986_5010};
 
 `ifdef READ_CONF
-  //* layer_0
-  initial begin
-    conf_file  = "./python-gen_rule/conf_rule.txt";
-    $readmemh(conf_file, memConf);
-    //* type offset;
-    force parser_top.layer_info_0.type_offset[0]  = memConf[0][8+:8];
-    force parser_top.layer_info_0.type_offset[1]  = memConf[0][0+:8];
-    //* head len;
-    force parser_top.layer_info_0.headShift       = memConf[3];
-    //* meta len;
-    force parser_top.layer_info_0.metaShift       = memConf[4];
-  end
-  //* type offset;
-  for(genvar i=0; i<8; i=i+1) begin
-    initial begin
-      force parser_top.layer_info_0.key_offset_v[i] = memConf[1][7-i];
-      force parser_top.layer_info_0.key_offset[i]   = memConf[2][(7-i)*8+:8];
-    end
-  end
-
-  //* layer_1
-  initial begin
-    //* type offset;
-    force parser_top.layer_info_0.type_offset[0]  = memConf[0][8+:8];
-    force parser_top.layer_info_0.type_offset[1]  = memConf[0][0+:8];
-    //* head len;
-    force parser_top.layer_info_0.headShift       = memConf[3];
-    //* meta len;
-    force parser_top.layer_info_0.metaShift       = memConf[4];
-  end
-  //* type offset;
-  for(genvar i=0; i<8; i=i+1) begin
-    initial begin
-      force parser_top.layer_info_0.key_offset_v[i] = memConf[1][7-i];
-      force parser_top.layer_info_0.key_offset[i]   = memConf[2][(7-i)*8+:8];
-    end
-  end
 `else
 
-initial begin
-  //* layer_0: ethernet
-  //* type offset;
-  force parser_top.layer_info_0.type_offset[0]  = 12;
-  force parser_top.layer_info_0.type_offset[1]  = 13;
-  //* key offset;
-  force parser_top.layer_info_0.key_offset_v[0] = 1;
-  force parser_top.layer_info_0.key_offset[0]   = 0;
-  force parser_top.layer_info_0.key_offset_v[1] = 1;
-  force parser_top.layer_info_0.key_offset[1]   = 1;
-  force parser_top.layer_info_0.key_offset_v[2] = 1;
-  force parser_top.layer_info_0.key_offset[2]   = 2;
-  force parser_top.layer_info_0.key_offset_v[3] = 1;
-  force parser_top.layer_info_0.key_offset[3]   = 3;
-  force parser_top.layer_info_0.key_offset_v[4] = 1;
-  force parser_top.layer_info_0.key_offset[4]   = 4;
-  force parser_top.layer_info_0.key_offset_v[5] = 1;
-  force parser_top.layer_info_0.key_offset[5]   = 5;
-  force parser_top.layer_info_0.key_offset_v[6] = 0;
-  force parser_top.layer_info_0.key_offset[6]   = 6;
-  force parser_top.layer_info_0.key_offset_v[7] = 0;
-  //* head len;
-  force parser_top.layer_info_0.headShift       = 7;
-  //* meta len;
-  force parser_top.layer_info_0.metaShift       = 6;
-  
-  //* layer_1: IPv4
-  //* rule is valid;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_valid          = 1;
-  //* type value;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeData[0]    = 8'h8;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeData[1]    = 8'h0;
-  //* type mask;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeMask[0]    = 8'hff;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeMask[1]    = 8'hff;
-  //* next type offset;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeOffset[0]  = 9;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeOffset[1]  = 9;
-  //* next key offset;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[0] = 1;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[0]   = 4;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[1] = 1;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[1]   = 6;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[2] = 1;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[2]   = 7;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[3] = 1;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[3]   = 8;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[4] = 1;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[4]   = 9;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[5] = 0;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[6] = 0;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[7] = 0;
-  //* next head len;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_headShift      = 10;
-  //* next meta len;
-  force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_metaShift      = 3;
-  
-  //* layer_2: TCP
-  //* rule is valid;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_valid       = 1;
-  //* type value;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeData[0]    = 8'h6;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeData[1]    = 8'h0;
-  //* type mask;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeMask[0]    = 8'hff;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeMask[1]    = 8'h00;
-  //* next type offset;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeOffset[0]  = 0;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeOffset[1]  = 0;
-  //* next key offset;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[0] = 1;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset[0]   = 0;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[1] = 1;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset[1]   = 1;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[2] = 0;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[3] = 0;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[4] = 0;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[5] = 0;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[6] = 0;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[7] = 0;
-  //* next head len;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_headShift      = 10;
-  //* next meta len;
-  force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_metaShift      = 2;
+  initial begin
+    //* layer_0: ethernet
+    //* type offset;
+    force parser_top.layer_info_0.type_offset[0]  = 12;
+    force parser_top.layer_info_0.type_offset[1]  = 13;
+    //* key offset;
+    force parser_top.layer_info_0.key_offset_v[0] = 1;
+    force parser_top.layer_info_0.key_offset[0]   = 0;
+    force parser_top.layer_info_0.key_offset_v[1] = 1;
+    force parser_top.layer_info_0.key_offset[1]   = 1;
+    force parser_top.layer_info_0.key_offset_v[2] = 1;
+    force parser_top.layer_info_0.key_offset[2]   = 2;
+    force parser_top.layer_info_0.key_offset_v[3] = 1;
+    force parser_top.layer_info_0.key_offset[3]   = 3;
+    force parser_top.layer_info_0.key_offset_v[4] = 1;
+    force parser_top.layer_info_0.key_offset[4]   = 4;
+    force parser_top.layer_info_0.key_offset_v[5] = 1;
+    force parser_top.layer_info_0.key_offset[5]   = 5;
+    force parser_top.layer_info_0.key_offset_v[6] = 0;
+    force parser_top.layer_info_0.key_offset[6]   = 6;
+    force parser_top.layer_info_0.key_offset_v[7] = 0;
+    //* head len;
+    force parser_top.layer_info_0.headShift       = 7;
+    //* meta len;
+    force parser_top.layer_info_0.metaShift       = 6;
+    
+    //* layer_1: IPv4
+    //* rule is valid;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_valid          = 1;
+    //* type value;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeData[0]    = 8'h8;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeData[1]    = 8'h0;
+    //* type mask;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeMask[0]    = 8'hff;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeMask[1]    = 8'hff;
+    //* next type offset;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeOffset[0]  = 9;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeOffset[1]  = 9;
+    //* next key offset;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[0] = 1;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[0]   = 4;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[1] = 1;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[1]   = 6;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[2] = 1;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[2]   = 7;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[3] = 1;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[3]   = 8;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[4] = 1;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[4]   = 9;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[5] = 0;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[6] = 0;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[7] = 0;
+    //* next head len;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_headShift      = 10;
+    //* next meta len;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_metaShift      = 3;
+    
+    //* layer_2: TCP
+    //* rule is valid;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_valid       = 1;
+    //* type value;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeData[0]    = 8'h6;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeData[1]    = 8'h0;
+    //* type mask;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeMask[0]    = 8'hff;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeMask[1]    = 8'h00;
+    //* next type offset;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeOffset[0]  = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeOffset[1]  = 0;
+    //* next key offset;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[0] = 1;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset[0]   = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[1] = 1;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset[1]   = 1;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[2] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[3] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[4] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[5] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[6] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[7] = 0;
+    //* next head len;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_headShift      = 10;
+    //* next meta len;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_metaShift      = 2;
 
-  force parser_top.layer_info_0.head = 'b0;
-  force parser_top.layer_info_0.meta = 'b0;
-  #100 begin
-    force parser_top.layer_info_0.head = {4'b1101,{TAG_START_BIT{1'b1}}, NORMAL_ARP};
-    force parser_top.layer_info_0.meta = {4'b1111,{TAG_START_BIT+META_WIDTH{1'b0}}};
-  end
-  #2 begin
     force parser_top.layer_info_0.head = 'b0;
     force parser_top.layer_info_0.meta = 'b0;
-  end 
-  #100 begin
-    force parser_top.layer_info_0.head = {4'b1101,{TAG_START_BIT{1'b1}}, NORMAL_TCP};
-    force parser_top.layer_info_0.meta = {4'b1111,{TAG_START_BIT+META_WIDTH{1'b0}}};
-  end
-  #2 begin
-    force parser_top.layer_info_0.head = 'b0;
-    force parser_top.layer_info_0.meta = 'b0;
-  end
-end
+    
 
 `endif
+
+  initial begin
+    #100 begin
+      force parser_top.layer_info_0.head = {4'b1101,{TAG_START_BIT{1'b1}}, NORMAL_ARP};
+      force parser_top.layer_info_0.meta = {4'b1111,{TAG_START_BIT+META_WIDTH{1'b0}}};
+    end
+    #2 begin
+      force parser_top.layer_info_0.head = 'b0;
+      force parser_top.layer_info_0.meta = 'b0;
+    end 
+    #100 begin
+      force parser_top.layer_info_0.head = {4'b1101,{TAG_START_BIT{1'b1}}, NORMAL_TCP};
+      force parser_top.layer_info_0.meta = {4'b1111,{TAG_START_BIT+META_WIDTH{1'b0}}};
+    end
+    #2 begin
+      force parser_top.layer_info_0.head = 'b0;
+      force parser_top.layer_info_0.meta = 'b0;
+    end
+  end
 
 endmodule

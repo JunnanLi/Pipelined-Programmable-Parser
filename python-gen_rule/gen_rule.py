@@ -70,111 +70,209 @@ def gen_rule_info(layer_info, first_layer_name):
 	return rule_info
 
 def write_conf_rule(rule_info, file):
-	cntLayer = 0
+	cntRule = 0
 	preLayerID = 0
 	for each_layer in rule_info:
 		# layer_0
+		file.write('  initial begin\n')
 		if each_layer['layerID'] == 0:
 			# type offset
-			file.write('//* layer_0 \n')
-			file.write('// type offset \n')
-			if len(each_layer['type_offset']) == 0:
-				file.write('00_00 \n')
-			elif len(each_layer['type_offset']) == 1:
-				file.write(str("{0:02x}".format(each_layer['type_offset'][0])))
-				file.write('_00 \n')
-			else:
-				file.write(str("{0:02x}".format(each_layer['type_offset'][0])))
-				file.write('_' + str("{0:02x}".format(each_layer['type_offset'][1]))+'\n')
-			# valid of key offset
-			file.write('// valid of key offset \n')
-			key_valid = 0xff & (0xff << (8-len(each_layer['keyField_offset'])))
-			file.write(str("{0:02x}".format(key_valid)) + '\n')
-			# key offset
-			file.write('// key offset \n')
+			file.write('    //* layer_0 \n')
+			file.write('    // type offset \n')
+			j =0
+			for type_offset in each_layer['type_offset']:
+				file.write('    force parser_top.layer_info_0.type_offset[%d]  = %d;\n' % 
+					(j, type_offset))
+				j += 1
+			for i in range(j,2):
+				file.write('    force parser_top.layer_info_0.type_offset[%d]  = 0;\n' % i)
+			# valid of key offset & key offset
+			file.write('    // valid of key offset & key offset \n')
 			j = 0
 			for key_offset in each_layer['keyField_offset']:
-				if j != 0:
-					file.write('_')
-				file.write(str("{0:02x}".format(int(each_layer['keyField_offset'][j]/2))))
+				file.write('    force parser_top.layer_info_0.key_offset_v[%d] = 1;\n' % j)
+				file.write('    force parser_top.layer_info_0.key_offset[%d]   = %d;\n' % 
+					(j, int(key_offset/2)))
 				j += 1
 			for i in range(j,8):
-				if i != 0:
-					file.write('_')
-				file.write('00')
-			file.write('\n')
+				file.write('    force parser_top.layer_info_0.key_offset_v[%d] = 0;\n' % i)
 			# head len
-			file.write('// head len \n')
-			file.write(str("{0:02x}".format(int(each_layer['head_len']/2)))+'\n')
+			file.write('    // head len \n')
+			file.write('    force parser_top.layer_info_0.headShift   = %d;\n' % 
+				int(each_layer['head_len']/2))
 			# meta len
-			file.write('// meta len \n')
-			file.write(str("{0:02x}".format(int(int(each_layer['meta_len'])/2)))+'\n')
+			file.write('    // meta len \n')
+			file.write('    force parser_top.layer_info_0.metaShift   = %d;\n' % 
+				int(int(each_layer['meta_len'])/2))
 		
 		else:
 			if preLayerID == each_layer['layerID']:
-				cntLayer += 1
+				cntRule += 1
 			else:
-				cntLayer = 0
+				cntRule = 0
 				preLayerID = each_layer['layerID']
+			file.write('    //* layer_%d \n' % preLayerID)
+			# type value & mask
+			file.write('    // type value & mask \n')
+			j =0
+			for typeValue in each_layer['typeValue']:
+				file.write('    force parser_top.parser_layer%d.lookup_type.r_type_rule[%d].typeRule_typeData[%d]  = %d;\n' % 
+					(preLayerID, cntRule, j, typeValue))
+				file.write('    force parser_top.parser_layer%d.lookup_type.r_type_rule[%d].typeRule_typeMask[%d]  = %d;\n' % 
+					(preLayerID, cntRule, j, each_layer['typeMask'][j]))
+				j += 1
+			for i in range(j,2):
+				file.write('    force parser_top.parser_layer%d.lookup_type.r_type_rule[%d].typeRule_typeData[%d]  = 0;\n' % 
+					(preLayerID, cntRule, i))
+				file.write('    force parser_top.parser_layer%d.lookup_type.r_type_rule[%d].typeRule_typeMask[%d]  = 0;\n' % 
+					(preLayerID, cntRule, i))
+
 			# type offset
-			file.write('//* layer_ID & rule ID\n') 
-			file.write(str("{0:02x}".format(each_layer['layerID'])))
-			file.write('_' + str("{0:02x}".format(cntLayer)) +'\n')
+			file.write('    // type offset \n')
+			j =0
+			for type_offset in each_layer['type_offset']:
+				file.write('    force parser_top.parser_layer%d.lookup_type.r_type_rule[%d].typeRule_typeOffset[%d]  = %d;\n' % 
+					(preLayerID, cntRule, j, type_offset))
+				j += 1
+			for i in range(j,2):
+				file.write('    force parser_top.parser_layer%d.lookup_type.r_type_rule[%d].typeRule_typeOffset[%d]  = 0;\n' % 
+					(preLayerID, cntRule, i))
 
-			file.write('// type value & type mask\n')
-			if len(each_layer['typeValue']) == 0:
-				file.write('00_00 \n')
-				file.write('00_00 \n')
-			elif len(each_layer['typeValue']) == 1:
-				file.write(str("{0:02x}".format(each_layer['typeValue'][0])))
-				file.write('_00 \n')
-				file.write(str("{0:02x}".format(each_layer['typeMask'][0])))
-				file.write('_00 \n')
-			else:
-				file.write(str("{0:02x}".format(each_layer['typeValue'][0])))
-				file.write('_' + str("{0:02x}".format(each_layer['typeValue'][1]))+'\n')
-				file.write(str("{0:02x}".format(each_layer['typeMask'][0])))
-				file.write('_' + str("{0:02x}".format(each_layer['typeMask'][1]))+'\n')
-
-			file.write('// type offset \n')
-			if len(each_layer['type_offset']) == 0:
-				file.write('00_00 \n')
-			elif len(each_layer['type_offset']) == 1:
-				file.write(str("{0:02x}".format(each_layer['type_offset'][0])))
-				file.write('_00 \n')
-			else:
-				file.write(str("{0:02x}".format(each_layer['type_offset'][0])))
-				file.write('_' + str("{0:02x}".format(each_layer['type_offset'][1]))+'\n')
 			# valid of key offset
-			file.write('// valid of key offset \n')
-			key_valid = 0xff & (0xff << (8-len(each_layer['keyField_offset'])))
-			file.write(str("{0:02x}".format(key_valid)) + '\n')
-			# key offset
-			file.write('// key offset \n')
+			# valid of key offset & key offset
+			file.write('    // valid of key offset & key offset \n')
 			j = 0
 			for key_offset in each_layer['keyField_offset']:
-				if j != 0:
-					file.write('_')
-				file.write(str("{0:02x}".format(int(each_layer['keyField_offset'][j]/2))))
+				file.write('    force parser_top.parser_layer%d.lookup_type.r_type_rule[%d].typeRule_keyOffset_v[%d] = 1;\n' % 
+					(preLayerID, cntRule, j))
+				file.write('    force parser_top.parser_layer%d.lookup_type.r_type_rule[%d].typeRule_keyOffset[%d]   = %d;\n' % 
+					(preLayerID, cntRule, j, int(key_offset/2)))
 				j += 1
 			for i in range(j,8):
-				if i != 0:
-					file.write('_')
-				file.write('00')
-			file.write('\n')
+				file.write('    force parser_top.parser_layer%d.lookup_type.r_type_rule[%d].typeRule_keyOffset_v[%d] = 0;\n' % 
+					(preLayerID, cntRule, i))
 			# head len
-			file.write('// head len \n')
-			file.write(str("{0:02x}".format(int(int(each_layer['head_len'])/2)))+'\n')
+			file.write('    // head len \n')
+			file.write('    force parser_top.parser_layer%d.lookup_type.r_type_rule[%d].typeRule_headShift = %d;\n' % 
+				(preLayerID, cntRule, int(each_layer['head_len']/2)))
 			# meta len
-			file.write('// meta len \n')
-			file.write(str("{0:02x}".format(int(int(each_layer['meta_len'])/2)))+'\n')
-
+			file.write('    // meta len \n')
+			file.write('    force parser_top.parser_layer%d.lookup_type.r_type_rule[%d].typeRule_metaShift = %d;\n' % 
+				(preLayerID, cntRule, int(int(each_layer['meta_len'])/2)))
+			# rule valid
+			file.write('    // meta len \n')
+			file.write('    force parser_top.parser_layer%d.lookup_type.r_type_rule[%d].typeRule_valid = 1;\n' % 
+				(preLayerID, cntRule))
+		file.write('  end\n')
 
 def gen_testbench_w_rule(rule_info):
+	tag_to_write = 1
 	file_w = open('../src/bench_rtl/testbench_parser_example.sv', 'w') 
 	with open('../src/bench_rtl/testbench_parser.sv', 'r') as file: 
 		lines = file.readlines() 
-		for line in lines: 
-			file_w.write(line)
+		for line in lines:
 			if line == '`ifdef READ_CONF\n':
+				file_w.write(line)
 				write_conf_rule(rule_info, file_w)
+				tag_to_write = 0
+			elif line == '`endif\n':
+				tag_to_write = 1
+			if tag_to_write == 1:
+				file_w.write(line)
+
+# for each_layer in rule_info:
+# 		# layer_0
+# 		if each_layer['layerID'] == 0:
+# 			# type offset
+# 			file.write('//* layer_0 \n')
+# 			file.write('// type offset \n')
+# 			if len(each_layer['type_offset']) == 0:
+# 				file.write('00_00 \n')
+# 			elif len(each_layer['type_offset']) == 1:
+# 				file.write(str("{0:02x}".format(each_layer['type_offset'][0])))
+# 				file.write('_00 \n')
+# 			else:
+# 				file.write(str("{0:02x}".format(each_layer['type_offset'][0])))
+# 				file.write('_' + str("{0:02x}".format(each_layer['type_offset'][1]))+'\n')
+# 			# valid of key offset
+# 			file.write('// valid of key offset \n')
+# 			key_valid = 0xff & (0xff << (8-len(each_layer['keyField_offset'])))
+# 			file.write(str("{0:02x}".format(key_valid)) + '\n')
+# 			# key offset
+# 			file.write('// key offset \n')
+# 			j = 0
+# 			for key_offset in each_layer['keyField_offset']:
+# 				if j != 0:
+# 					file.write('_')
+# 				file.write(str("{0:02x}".format(int(each_layer['keyField_offset'][j]/2))))
+# 				j += 1
+# 			for i in range(j,8):
+# 				if i != 0:
+# 					file.write('_')
+# 				file.write('00')
+# 			file.write('\n')
+# 			# head len
+# 			file.write('// head len \n')
+# 			file.write(str("{0:02x}".format(int(each_layer['head_len']/2)))+'\n')
+# 			# meta len
+# 			file.write('// meta len \n')
+# 			file.write(str("{0:02x}".format(int(int(each_layer['meta_len'])/2)))+'\n')
+		
+# 		else:
+# 			if preLayerID == each_layer['layerID']:
+# 				cntLayer += 1
+# 			else:
+# 				cntLayer = 0
+# 				preLayerID = each_layer['layerID']
+# 			# type offset
+# 			file.write('//* layer_ID & rule ID\n') 
+# 			file.write(str("{0:02x}".format(each_layer['layerID'])))
+# 			file.write('_' + str("{0:02x}".format(cntLayer)) +'\n')
+
+# 			file.write('// type value & type mask\n')
+# 			if len(each_layer['typeValue']) == 0:
+# 				file.write('00_00 \n')
+# 				file.write('00_00 \n')
+# 			elif len(each_layer['typeValue']) == 1:
+# 				file.write(str("{0:02x}".format(each_layer['typeValue'][0])))
+# 				file.write('_00 \n')
+# 				file.write(str("{0:02x}".format(each_layer['typeMask'][0])))
+# 				file.write('_00 \n')
+# 			else:
+# 				file.write(str("{0:02x}".format(each_layer['typeValue'][0])))
+# 				file.write('_' + str("{0:02x}".format(each_layer['typeValue'][1]))+'\n')
+# 				file.write(str("{0:02x}".format(each_layer['typeMask'][0])))
+# 				file.write('_' + str("{0:02x}".format(each_layer['typeMask'][1]))+'\n')
+
+# 			file.write('// type offset \n')
+# 			if len(each_layer['type_offset']) == 0:
+# 				file.write('00_00 \n')
+# 			elif len(each_layer['type_offset']) == 1:
+# 				file.write(str("{0:02x}".format(each_layer['type_offset'][0])))
+# 				file.write('_00 \n')
+# 			else:
+# 				file.write(str("{0:02x}".format(each_layer['type_offset'][0])))
+# 				file.write('_' + str("{0:02x}".format(each_layer['type_offset'][1]))+'\n')
+# 			# valid of key offset
+# 			file.write('// valid of key offset \n')
+# 			key_valid = 0xff & (0xff << (8-len(each_layer['keyField_offset'])))
+# 			file.write(str("{0:02x}".format(key_valid)) + '\n')
+# 			# key offset
+# 			file.write('// key offset \n')
+# 			j = 0
+# 			for key_offset in each_layer['keyField_offset']:
+# 				if j != 0:
+# 					file.write('_')
+# 				file.write(str("{0:02x}".format(int(each_layer['keyField_offset'][j]/2))))
+# 				j += 1
+# 			for i in range(j,8):
+# 				if i != 0:
+# 					file.write('_')
+# 				file.write('00')
+# 			file.write('\n')
+# 			# head len
+# 			file.write('// head len \n')
+# 			file.write(str("{0:02x}".format(int(int(each_layer['head_len'])/2)))+'\n')
+# 			# meta len
+# 			file.write('// meta len \n')
+# 			file.write(str("{0:02x}".format(int(int(each_layer['meta_len'])/2)))+'\n')

@@ -41,5 +41,4 @@ print(layer_info)
 # gen rules
 rule_info = gen_rule_info(layer_info, first_layer_name)
 # print(rule_info)
-write_conf_rule(rule_info)
 gen_testbench_w_rule(rule_info)
