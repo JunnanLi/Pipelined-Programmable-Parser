@@ -40,4 +40,5 @@ print(layer_info)
 
 # gen rules
 rule_info = gen_rule_info(layer_info, first_layer_name)
+write_conf_rule(rule_info)
 print(rule_info)

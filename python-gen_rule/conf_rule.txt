@@ -1,0 +1,56 @@
+//* layer_0 
+// type offset 
+0c_0d
+// valid of key offset 
+fc
+// key offset 
+00_01_02_03_04_05_00_00
+// head len 
+07
+// meta len 
+06
+//* layer_ID & rule ID
+01_00
+// type value & type mask
+08_00
+ff_ff
+// type offset 
+17_00 
+// valid of key offset 
+f0
+// key offset 
+0d_0e_0f_10_00_00_00_00
+// head len 
+0a
+// meta len 
+04
+//* layer_ID & rule ID
+02_00
+// type value & type mask
+06_00 
+ff_00 
+// type offset 
+00_00 
+// valid of key offset 
+c0
+// key offset 
+11_12_00_00_00_00_00_00
+// head len 
+0a
+// meta len 
+02
+//* layer_ID & rule ID
+02_01
+// type value & type mask
+11_00 
+ff_00 
+// type offset 
+00_00 
+// valid of key offset 
+c0
+// key offset 
+1b_1c_00_00_00_00_00_00
+// head len 
+04
+// meta len 
+02
