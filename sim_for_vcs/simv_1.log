@@ -1,0 +1,24 @@
+Command: /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/./simv_1 -cm line+cond+fsm+branch+tgl -cm_name simv_1 -cm_dir ./simv_1.vdb +vpdfile+simv_1.vpd -l simv_1.log
+Chronologic VCS simulator copyright 1991-2018
+Contains Synopsys proprietary information.
+Compiler version O-2018.09-SP2_Full64; Runtime version O-2018.09-SP2_Full64;  Jun 11 01:11 2024
+Message: From $vcdpluson at time 0 in file ./src/bench_rtl/testbench_deparser_example.sv line 43: [VCD+-SVFN]: 
+Setting VPD File by "+vpdfile+" switch to simv_1.vpd.
+
+*Verdi* Loading libsscore_vcs201809.so
+FSDB Dumper for VCS, Release Verdi_O-2018.09-SP2, Linux x86_64/64bit, 02/21/2019
+(C) 1996 - 2019 by Synopsys, Inc.
+*Verdi* : Create FSDB file 'wave.fsdb'
+*Verdi* : Begin traversing the scopes, layer (0).
+*Verdi* : Enable +all dumping.
+*Verdi* : End of traversing.
+*Verdi* : Begin traversing the MDAs, layer (0).
+*Verdi* : Enable +mda and +packedmda dumping.
+*Verdi* : End of traversing the MDAs.
+VCD+ Writer O-2018.09-SP2_Full64 Copyright (c) 1991-2018 by Synopsys Inc.
+$finish called from file "./src/bench_rtl/testbench_deparser_example.sv", line 85.
+$finish at simulation time            200000000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 2000000000 fs
+CPU Time:      0.260 seconds;       Data structure size:   0.3Mb
+Tue Jun 11 01:11:40 2024

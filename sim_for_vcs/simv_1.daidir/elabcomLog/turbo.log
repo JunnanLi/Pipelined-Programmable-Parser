@@ -1,0 +1,7 @@
+Command Line: /home/lijunnan/Documents/2-software/vcs_verdi2018/vcs2018/vcs/O-2018.09-SP2/linux64/bin/elabcom -logdir /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/simv_1.daidir/elabcomLog -simvdaidir /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/simv_1.daidir -lib /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/simv_1.daidir/work -saveLevel -elab /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/simv_1.daidir/kdb -simflow -simdir /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/simv_1.daidir/kdb_libs -top asyncfifo syncram StreamParser_Top Testbench_wrapper -ssv -ssy -Lf work +disable_message+C00380+C00381 +disable_message+C00388+C00389
+uname(Linux lijunnan-Desktop 6.5.0-35-generic #35~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue May  7 09:00:52 UTC 2 x86_64)
+[INFO] error/warning message 'C00380' has been suppressed.
+[INFO] error/warning message 'C00381' has been suppressed.
+[INFO] error/warning message 'C00388' has been suppressed.
+[INFO] error/warning message 'C00389' has been suppressed.
+au time 0.035832 0.010209 0.016530 delta 94294016 94294016 total 171999232 171999232

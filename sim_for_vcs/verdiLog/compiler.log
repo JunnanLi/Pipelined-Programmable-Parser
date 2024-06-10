@@ -5,12 +5,29 @@ Command arguments:
     +v2k
     -f file_list.f
         ./src/rtl/global_head.svh
-        ./src/rtl/Encap_Decap/Decap.sv
-        ./testbench_encap.sv
+        ./src/rtl/parser_pkg.sv
+        ./src/rtl/Parser/Parser_Top.sv
+        ./src/rtl/Parser/Parser_Layer.sv
+        ./src/rtl/basic_proc/Extract_Field.sv
+        ./src/rtl/basic_proc/Lookup_Type.sv
+        ./src/rtl/basic_proc/Head_Shift.sv
+        ./src/rtl/basic_proc/Shift_Replace_Head.sv
+        ./src/rtl/basic_proc/Rule_Conf.sv
+        ./src/rtl/Deparser/Deparser_Top.sv
+        ./src/rtl/Deparser/Deparser_Layer.sv
+        ./src/sim_rtl/asyncfifo.v
+        ./src/sim_rtl/syncfifo.v
+        ./src/sim_rtl/syncram.v
+        ./src/soc_rtl/Gen_PHV_and_Conf_Parser.v
+        ./src/soc_rtl/StreamParser_Top.v
+        ./src/bench_rtl/testbench_deparser_example.sv
     -top
     Testbench_wrapper
 
 Highest level modules:
+asyncfifo
+syncram
+StreamParser_Top
 Testbench_wrapper
 
 Total	0 error(s),   0 warning(s)

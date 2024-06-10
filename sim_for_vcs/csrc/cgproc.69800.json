@@ -1,0 +1,100 @@
+{
+    "stat": {
+        "ru_self_end": {
+            "ru_utime_sec": 0.048085000000000003,
+            "ru_stime_sec": 0.0080140000000000003,
+            "ru_minflt": 3234,
+            "ru_maxrss_kb": 70448,
+            "ru_majflt": 0,
+            "ru_nvcsw": 2,
+            "ru_nivcsw": 8
+        },
+        "peak_mem_kb": 315320,
+        "ru_childs_end": {
+            "ru_utime_sec": 0.0,
+            "ru_stime_sec": 0.0,
+            "ru_minflt": 0,
+            "ru_maxrss_kb": 0,
+            "ru_majflt": 0,
+            "ru_nvcsw": 0,
+            "ru_nivcsw": 0
+        },
+        "cpu_cycles_end": 5095522581697
+    },
+    "Modules": {
+        "Deparser_Layer_0000": {
+            "nRouts": 378,
+            "start_perf": [
+                0.30836200714111328,
+                0.00024600000000000002,
+                0.0,
+                314352,
+                314352,
+                1718039496.1694641,
+                5095320591475
+            ],
+            "child_modules": {},
+            "Compiled Times": 1,
+            "Compiled": "Yes",
+            "significant_routs": [
+                [
+                    152,
+                    "R_VCSgd_ZVLSs_98",
+                    11235768,
+                    9083,
+                    1202
+                ],
+                [
+                    156,
+                    "R_VCSgd_ZVLSs_9c",
+                    6448258,
+                    5574,
+                    716
+                ],
+                [
+                    212,
+                    "R_VCSgd_ZVLSs_d4",
+                    10764744,
+                    9375,
+                    1115
+                ]
+            ],
+            "end_perf": [
+                0.3643348217010498,
+                0.047972000000000001,
+                0.0079950000000000004,
+                315320,
+                315320,
+                5095522018489,
+                51539607553,
+                0
+            ],
+            "nQuads": 4340,
+            "nMops": 13747
+        }
+    },
+    "reusePaths": {},
+    "CompUnits": {
+        "ZVLSs_d": {
+            "mod": "Deparser_Layer_0000",
+            "checksum": 0,
+            "out": "ZVLSs_d.o",
+            "archive": "archive.0/_69800_archive_1.a",
+            "bytes": 170858,
+            "text": 108652,
+            "mode": 4
+        }
+    },
+    "ObjArchives": [
+        {
+            "archive": "archive.0/_69800_archive_1.a",
+            "objects": [
+                [
+                    "ZVLSs_d.o",
+                    170858
+                ]
+            ],
+            "size": 170858
+        }
+    ]
+}
