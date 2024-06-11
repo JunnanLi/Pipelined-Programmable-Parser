@@ -37,7 +37,8 @@ module Deparser_Top(
   //====================================================================//
   layer_info_t  layer_info_0, layer_info_1, layer_info_2, layer_info_3;
   reg   [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH-1:0] r_key_ReplaceOffset;
-  logic [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH:0]  l_key_replaceOffset;
+  logic [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH-1:0]l_key_replaceOffset;
+  logic [META_CANDI_NUM-1:0]                      l_key_replaceOffset_v;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
   assign layer_info_0.head = i_head;
   assign layer_info_0.meta = i_meta;
@@ -99,20 +100,24 @@ module Deparser_Top(
       l_key_replaceOffset[j]   = 'b0;
       for(integer k=0; k<KEY_FILED_NUM; k++)
         if(r_key_ReplaceOffset[k] == j && layer_info_0.key_offset_v[k] == 1'b1) begin
-          l_key_replaceOffset[j][REP_OFFSET_WIDTH]    = 1'b1;
-          l_key_replaceOffset[j][REP_OFFSET_WIDTH-1:0]= l_key_replaceOffset[j][REP_OFFSET_WIDTH-1:0] | k;
+          l_key_replaceOffset_v[j]  = 1'b1;
+          l_key_replaceOffset[j]    = l_key_replaceOffset[j] | k;
         end
     end
   end
   
   always_ff @(posedge i_clk ) begin: layer_0
-    layer_info_0.key_replaceOffset       <= l_key_replaceOffset;
+    layer_info_0.key_replaceOffset        <= l_key_replaceOffset;
+    layer_info_0.key_replaceOffset_v      <= l_key_replaceOffset_v;
+    layer_info_0.key_replaceOffset_carry  <= 1'b0;
+    layer_info_0.total_metaShift          <= 'b0;
+    layer_info_0.metaShift_carry          <= 1'b0;
     if(i_rule_wren == 1'b1 && i_rule_addr[`B_LAYER_ID] == LAYER_0 ) begin
       case(i_rule_addr[`B_INFO_TYPE])
         3'd2: begin
           //* type offset;
           for(integer i=0; i<TYPE_NUM; i++)
-            layer_info_0.type_offset[i]  <= (i_rule_addr[`B_EXTR_ID] == i)? 
+            layer_info_0.type_offset[i]   <= (i_rule_addr[`B_EXTR_ID] == i)? 
                   i_rule_wdata[0+:TYPE_OFFSET_WIDTH]: layer_info_0.type_offset[i];
         end
         3'd3: begin

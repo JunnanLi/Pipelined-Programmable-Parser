@@ -24,8 +24,8 @@ module Rule_Conf #(
   //====================================================================//
   //*   internal reg/wire/param declarations
   //====================================================================//
-  reg   [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH-1:0] r_keyReplaceOffset;
-  logic [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH:0]  w_rule_replaceOffset;
+  // reg   [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH-1:0] r_keyReplaceOffset;
+  // logic [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH:0]  w_rule_replaceOffset;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
   /*--------------------------------------------------------------------------------------*
@@ -82,6 +82,11 @@ module Rule_Conf #(
               if(i_rule_addr[`B_EXTR_ID] == i) begin
                 o_type_rule.typeRule_keyOffset_v[i]<=i_rule_wdata[16];
                 o_type_rule.typeRule_keyOffset[i] <= i_rule_wdata[0+:KEY_OFFSET_WIDTH];
+                //* replace offset
+                if(DEPARSER)
+                  o_type_rule.typeRule_keyReplaceOffset[i] <= i_rule_wdata[0+:KEY_OFFSET_WIDTH];
+                else
+                  o_type_rule.typeRule_keyReplaceOffset[i] <= 'b0;
               end
           end
           3'd4: o_type_rule.typeRule_headShift    <= i_rule_wdata[0+:HEAD_SHIFT_WIDTH];
@@ -92,28 +97,29 @@ module Rule_Conf #(
     end
   end
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
-if(DEPARSER) begin: gen_key_replaceOffset
-  //* gen w_rule_replaceOffset
-  always_comb begin
-    for(integer j=0; j<META_CANDI_NUM; j++) begin
-      w_rule_replaceOffset   = 'b0;
-      for(integer k=0; k<KEY_FILED_NUM; k++)
-        if(r_keyReplaceOffset[k] == j && o_type_rule.typeRule_keyOffset_v[k] == 1'b1) begin
-          w_rule_replaceOffset[j][REP_OFFSET_WIDTH]    = 1'b1;
-          w_rule_replaceOffset[j][REP_OFFSET_WIDTH-1:0]= w_rule_replaceOffset[j][REP_OFFSET_WIDTH-1:0] | k;
-        end
-    end
-  end
-end
-else begin
-  always_comb begin
-    for(integer j=0; j<META_CANDI_NUM; j++)
-      w_rule_replaceOffset[j]   = 'b0;
-  end
-end
-always_ff @(posedge i_clk) begin
-  o_type_rule.typeRule_keyReplaceOffset  <= w_rule_replaceOffset;
-end
+  
+  // if(DEPARSER) begin: gen_key_replaceOffset
+  //   //* gen w_rule_replaceOffset
+  //   always_comb begin
+  //     for(integer j=0; j<META_CANDI_NUM; j++) begin
+  //       w_rule_replaceOffset   = 'b0;
+  //       for(integer k=0; k<KEY_FILED_NUM; k++)
+  //         if(r_keyReplaceOffset[k] == j && o_type_rule.typeRule_keyOffset_v[k] == 1'b1) begin
+  //           w_rule_replaceOffset[j][REP_OFFSET_WIDTH]    = 1'b1;
+  //           w_rule_replaceOffset[j][REP_OFFSET_WIDTH-1:0]= w_rule_replaceOffset[j][REP_OFFSET_WIDTH-1:0] | k;
+  //         end
+  //     end
+  //   end
+  // end
+  // else begin
+  //   always_comb begin
+  //     for(integer j=0; j<META_CANDI_NUM; j++)
+  //       w_rule_replaceOffset[j]   = 'b0;
+  //   end
+  // end
+  // always_ff @(posedge i_clk) begin
+  //   o_type_rule.typeRule_keyReplaceOffset  <= w_rule_replaceOffset;
+  // end
 
 
 endmodule

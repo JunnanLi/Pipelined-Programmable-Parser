@@ -35,7 +35,7 @@ module Lookup_Type
   logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH-1:0] w_keyOffset;
   logic [HEAD_SHIFT_WIDTH-1:0]                    w_headShift;
   logic [META_SHIFT_WIDTH-1:0]                    w_metaShift;
-  logic [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH:0]  w_replaceOffset, w_rule_replaceOffset;
+  logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH-1:0] w_replaceOffset;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
   //====================================================================//
@@ -49,21 +49,21 @@ module Lookup_Type
     end else begin
       for (integer i = 0; i < RULE_NUM; i++) begin
          r_type_rule[i]         <= i_rule_wren[i]? i_type_rule: r_type_rule[i];
-         r_type_rule[i].typeRule_keyReplaceOffset <= w_rule_replaceOffset;
+         // r_type_rule[i].typeRule_keyReplaceOffset <= w_rule_replaceOffset;
       end
     end
   end
-  //* gen w_rule_replaceOffset
-  always_comb begin
-    for(integer j=0; j<META_CANDI_NUM; j++) begin
-      w_rule_replaceOffset[j]   = 'b0;
-      for(integer k=0; k<KEY_FILED_NUM; k++)
-        if(i_type_rule.typeRule_keyOffset[k] == j && i_type_rule.typeRule_keyOffset_v[k] == 1'b1) begin
-          w_rule_replaceOffset[j][REP_OFFSET_WIDTH]    = 1'b1;
-          w_rule_replaceOffset[j][REP_OFFSET_WIDTH-1:0]= w_rule_replaceOffset[j][REP_OFFSET_WIDTH-1:0] | k;
-        end
-    end
-  end
+  // //* gen w_rule_replaceOffset
+  // always_comb begin
+  //   for(integer j=0; j<META_CANDI_NUM; j++) begin
+  //     w_rule_replaceOffset[j]   = 'b0;
+  //     for(integer k=0; k<KEY_FILED_NUM; k++)
+  //       if(i_type_rule.typeRule_keyOffset[k] == j && i_type_rule.typeRule_keyOffset_v[k] == 1'b1) begin
+  //         w_rule_replaceOffset[j][REP_OFFSET_WIDTH]    = 1'b1;
+  //         w_rule_replaceOffset[j][REP_OFFSET_WIDTH-1:0]= w_rule_replaceOffset[j][REP_OFFSET_WIDTH-1:0] | k;
+  //       end
+  //   end
+  // end
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 
   //====================================================================//
@@ -134,7 +134,7 @@ module Lookup_Type
         w_headShift   = {HEAD_SHIFT_WIDTH{w_hit_rule_oneHot[i]}} & r_type_rule[i].typeRule_headShift | w_headShift;
         w_metaShift   = {HEAD_SHIFT_WIDTH{w_hit_rule_oneHot[i]}} & r_type_rule[i].typeRule_metaShift | w_metaShift;
       end
-      for(integer j = 0; j < META_CANDI_NUM; j++) begin
+      for(integer j = 0; j < KEY_FILED_NUM; j++) begin
         w_replaceOffset[j]  = 'b0;
         for(integer i = 0; i < RULE_NUM; i++)
           w_replaceOffset[j] = {(REP_OFFSET_WIDTH+1){w_hit_rule_oneHot[i]}} & r_type_rule[i].typeRule_keyReplaceOffset[j] | w_replaceOffset[j];
@@ -163,7 +163,7 @@ module Lookup_Type
         w_headShift   = {HEAD_SHIFT_WIDTH{w_hit_rule[i]}} & r_type_rule[i].typeRule_headShift | w_headShift;
         w_metaShift   = {HEAD_SHIFT_WIDTH{w_hit_rule[i]}} & r_type_rule[i].typeRule_metaShift | w_metaShift;
       end
-      for(integer j = 0; j < META_CANDI_NUM; j++) begin
+      for(integer j = 0; j < KEY_FILED_NUM; j++) begin
         w_replaceOffset[j]  = 'b0;
         for(integer i = 0; i < RULE_NUM; i++)
           w_replaceOffset[j] = {(REP_OFFSET_WIDTH+1){w_hit_rule[i]}} & r_type_rule[i].typeRule_keyReplaceOffset[j] | w_replaceOffset[j];
@@ -179,12 +179,12 @@ module Lookup_Type
   end
   if(DEPARSER) begin
     always_ff @(posedge i_clk) begin
-      r_lookup_rst.replaceOffset <= w_replaceOffset;
+      r_lookup_rst.k_replaceOffset <= w_replaceOffset;
     end
   end
   else begin
     always_ff @(posedge i_clk) begin
-      r_lookup_rst.replaceOffset <= 'b0;
+      r_lookup_rst.k_replaceOffset <= 'b0;
     end
   end
   assign w_lookup_rst.typeOffset  = w_typeOffset;
@@ -193,10 +193,10 @@ module Lookup_Type
   assign w_lookup_rst.headShift   = w_headShift;
   assign w_lookup_rst.metaShift   = w_metaShift;
   if(DEPARSER) begin
-    assign w_lookup_rst.replaceOffset = w_replaceOffset;
+    assign w_lookup_rst.k_replaceOffset = w_replaceOffset;
   end
   else begin
-    assign w_lookup_rst.replaceOffset = 'b0;
+    assign w_lookup_rst.k_replaceOffset = 'b0;
   end
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 

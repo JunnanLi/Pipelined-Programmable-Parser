@@ -51,12 +51,17 @@ def gen_rule_info(layer_info, first_layer_name):
 		
 		## get keyField's offset list
 		keyField_offset = []
+		keyField_replaceOffset = []
 		if layer_info[cur_idx]['keyField']:
 			for i in range(len(layer_info[cur_idx]['keyField']['offset'])):
 				keyField_offset +=(list(range(int(layer_info[cur_idx]['keyField']['offset'][i]),
 					int(layer_info[cur_idx]['keyField']['offset'][i]+layer_info[cur_idx]['keyField']['len'][i]),2)))
+			for i in range(len(layer_info[cur_idx]['keyField']['replace_offset'])):
+				keyField_replaceOffset +=(list(range(int(layer_info[cur_idx]['keyField']['replace_offset'][i]),
+					int(layer_info[cur_idx]['keyField']['replace_offset'][i]+layer_info[cur_idx]['keyField']['len'][i]),2)))
 		dbg_print(keyField_offset)
 		temp_rule_info.update({"keyField_offset":keyField_offset})
+		temp_rule_info.update({"keyField_replaceOffset":keyField_replaceOffset})
 
 		## update list_layer_wait2check
 		list_layer_wait2check.pop(0)
@@ -165,10 +170,10 @@ def write_conf_rule(rule_info, file):
 				(preLayerID, cntRule))
 		file.write('  end\n')
 
-def gen_testbench_w_rule(rule_info):
+def gen_testbench_w_rule(rule_info, mode):
 	tag_to_write = 1
-	file_w = open('../src/bench_rtl/testbench_parser_example.sv', 'w') 
-	with open('../src/bench_rtl/testbench_parser.sv', 'r') as file: 
+	file_w = open('../src/bench_rtl/testbench_'+ mode +'_example.sv', 'w') 
+	with open('../src/bench_rtl/testbench_'+ mode + '.sv', 'r') as file: 
 		lines = file.readlines() 
 		for line in lines:
 			if line == '`ifdef READ_CONF\n':

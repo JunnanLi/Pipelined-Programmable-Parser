@@ -99,103 +99,117 @@ module Testbench_wrapper(
                                   128'h01c8_1389_c001_3876_6005_0000_1986_5010,
                                   128'hfad8_843d_0000_3876_6005_0000_1986_5010};
 `ifdef READ_CONF
-`else
-
   initial begin
-    //* layer_0: ethernet
-    //* type offset;
-    force deparser_top.layer_info_0.type_offset[0]  = 12;
-    force deparser_top.layer_info_0.type_offset[1]  = 13;
-    //* key offset;
-    force deparser_top.layer_info_0.key_offset_v[0] = 1;
-    force deparser_top.layer_info_0.key_offset[0]   = 0;
-    force deparser_top.layer_info_0.key_offset_v[1] = 1;
-    force deparser_top.layer_info_0.key_offset[1]   = 1;
-    force deparser_top.layer_info_0.key_offset_v[2] = 1;
-    force deparser_top.layer_info_0.key_offset[2]   = 2;
-    force deparser_top.layer_info_0.key_offset_v[3] = 1;
-    force deparser_top.layer_info_0.key_offset[3]   = 3;
-    force deparser_top.layer_info_0.key_offset_v[4] = 1;
-    force deparser_top.layer_info_0.key_offset[4]   = 4;
-    force deparser_top.layer_info_0.key_offset_v[5] = 1;
-    force deparser_top.layer_info_0.key_offset[5]   = 5;
-    force deparser_top.layer_info_0.key_offset_v[6] = 0;
-    force deparser_top.layer_info_0.key_offset[6]   = 6;
-    force deparser_top.layer_info_0.key_offset_v[7] = 0;
-    //* head len;
-    force deparser_top.layer_info_0.headShift       = 7;
-    //* meta len;
-    force deparser_top.layer_info_0.metaShift       = 6;
-    force deparser_top.layer_info_0.key_replaceOffset[0] = 4'b1000;
-    force deparser_top.layer_info_0.key_replaceOffset[1] = 4'b1001;
-    force deparser_top.layer_info_0.key_replaceOffset[2] = 4'b1010;
-    force deparser_top.layer_info_0.key_replaceOffset[3] = 4'b1011;
-    force deparser_top.layer_info_0.key_replaceOffset[4] = 4'b1100;
-    force deparser_top.layer_info_0.key_replaceOffset[5] = 4'b1101;
-    // for(integer i=6; i<31; i=i+1)
-    //   force deparser_top.layer_info_0.key_replaceOffset[i] = 4'b0;
-    
-    // //* layer_1: IPv4
-    // //* rule is valid;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_valid          = 1;
-    // //* type value;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_typeData[0]    = 8'h8;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_typeData[1]    = 8'h0;
-    // //* type mask;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_typeMask[0]    = 8'hff;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_typeMask[1]    = 8'hff;
-    // //* next type offset;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_typeOffset[0]  = 9;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_typeOffset[1]  = 9;
-    // //* next key offset;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[0] = 1;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[0]   = 4;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[1] = 1;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[1]   = 6;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[2] = 1;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[2]   = 7;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[3] = 1;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[3]   = 8;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[4] = 1;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[4]   = 9;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[5] = 0;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[6] = 0;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[7] = 0;
-    // //* next head len;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_headShift      = 10;
-    // //* next meta len;
-    // force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_metaShift      = 3;
-    
-    // //* layer_2: TCP
-    // //* rule is valid;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_valid       = 1;
-    // //* type value;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_typeData[0]    = 8'h6;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_typeData[1]    = 8'h0;
-    // //* type mask;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_typeMask[0]    = 8'hff;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_typeMask[1]    = 8'h00;
-    // //* next type offset;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_typeOffset[0]  = 0;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_typeOffset[1]  = 0;
-    // //* next key offset;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[0] = 1;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset[0]   = 0;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[1] = 1;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset[1]   = 1;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[2] = 0;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[3] = 0;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[4] = 0;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[5] = 0;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[6] = 0;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[7] = 0;
-    // //* next head len;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_headShift      = 10;
-    // //* next meta len;
-    // force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_metaShift      = 2;
-
+    //* layer_0 
+    // type offset 
+    force parser_top.layer_info_0.type_offset[0]  = 12;
+    force parser_top.layer_info_0.type_offset[1]  = 13;
+    // valid of key offset & key offset 
+    force parser_top.layer_info_0.key_offset_v[0] = 1;
+    force parser_top.layer_info_0.key_offset[0]   = 0;
+    force parser_top.layer_info_0.key_offset_v[1] = 1;
+    force parser_top.layer_info_0.key_offset[1]   = 1;
+    force parser_top.layer_info_0.key_offset_v[2] = 1;
+    force parser_top.layer_info_0.key_offset[2]   = 2;
+    force parser_top.layer_info_0.key_offset_v[3] = 1;
+    force parser_top.layer_info_0.key_offset[3]   = 3;
+    force parser_top.layer_info_0.key_offset_v[4] = 1;
+    force parser_top.layer_info_0.key_offset[4]   = 4;
+    force parser_top.layer_info_0.key_offset_v[5] = 1;
+    force parser_top.layer_info_0.key_offset[5]   = 5;
+    force parser_top.layer_info_0.key_offset_v[6] = 0;
+    force parser_top.layer_info_0.key_offset_v[7] = 0;
+    // head len 
+    force parser_top.layer_info_0.headShift   = 7;
+    // meta len 
+    force parser_top.layer_info_0.metaShift   = 7;
   end
-
+  initial begin
+    //* layer_1 
+    // type value & mask 
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeData[0]  = 8;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeMask[0]  = 255;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeData[1]  = 0;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeMask[1]  = 255;
+    // type offset 
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeOffset[0]  = 1;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeOffset[1]  = 0;
+    // valid of key offset & key offset 
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[0] = 1;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[0]   = 1;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[1] = 1;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[1]   = 2;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[2] = 1;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[2]   = 3;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[3] = 1;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[3]   = 4;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[4] = 0;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[5] = 0;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[6] = 0;
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[7] = 0;
+    // head len 
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_headShift = 5;
+    // meta len 
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_metaShift = 10;
+    // meta len 
+    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_valid = 1;
+  end
+  initial begin
+    //* layer_2 
+    // type value & mask 
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeData[0]  = 6;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeMask[0]  = 255;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeData[1]  = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeMask[1]  = 0;
+    // type offset 
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeOffset[0]  = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeOffset[1]  = 0;
+    // valid of key offset & key offset 
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[0] = 1;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset[0]   = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[1] = 1;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset[1]   = 1;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[2] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[3] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[4] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[5] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[6] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[7] = 0;
+    // head len 
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_headShift = 2;
+    // meta len 
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_metaShift = 10;
+    // meta len 
+    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_valid = 1;
+  end
+  initial begin
+    //* layer_2 
+    // type value & mask 
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_typeData[0]  = 17;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_typeMask[0]  = 255;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_typeData[1]  = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_typeMask[1]  = 0;
+    // type offset 
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_typeOffset[0]  = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_typeOffset[1]  = 0;
+    // valid of key offset & key offset 
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[0] = 1;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset[0]   = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[1] = 1;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset[1]   = 1;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[2] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[3] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[4] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[5] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[6] = 0;
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[7] = 0;
+    // head len 
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_headShift = 2;
+    // meta len 
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_metaShift = 4;
+    // meta len 
+    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_valid = 1;
+  end
 `endif
 
   initial begin

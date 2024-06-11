@@ -1,7 +1,16 @@
 import pandas as pd
+import sys
 from get_type_key import *
 from gen_rule import *
-path = './eht_ipv4_tcp.parserTree.csv'
+if len(sys.argv) > 2:
+	path = sys.argv[1]
+	mode = sys.argv[2]
+elif len(sys.argv) > 1:
+	path = sys.argv[1]
+	mode = 'parser'
+else:
+	path = './eth_ipv4_tcp.parserTree.csv'
+	mode = 'parser'
 data = pd.read_csv(path)
 #x = data[['header','B']]
 #print(data)
@@ -25,7 +34,7 @@ for idx in range(len(list_index_notnull)-1):
 		first_layer_name = layer_name
 	temp_layer_info.update({"name":layer_name})
 	temp_layer_info.update({"head_len":data['len'][list_index_notnull[idx]]})
-	temp_layer_info.update({"meta_len":data['key'][list_index_notnull[idx]]})
+	temp_layer_info.update({"meta_len":data['meta_len'][list_index_notnull[idx]]})
 	# get type info
 	temp_type_info = get_type_info(data, list_index_notnull, idx)
 	temp_layer_info.update({"type":temp_type_info})
@@ -41,4 +50,4 @@ print(layer_info)
 # gen rules
 rule_info = gen_rule_info(layer_info, first_layer_name)
 # print(rule_info)
-gen_testbench_w_rule(rule_info)
+gen_testbench_w_rule(rule_info, mode)

@@ -59,10 +59,11 @@ module Deparser_Layer(
   //* insert 1 clk
   logic [HEAD_WIDTH+TAG_WIDTH-1:0]                  l_head;
   logic [HEAD_WIDTH+TAG_WIDTH-1:0]                  l_meta;
-  logic [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH:0]    l_replaceOffset;
+  logic [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH-1:0]  l_replaceOffset;
   logic [META_CANDI_NUM-1:0]                        l_replaceOffset_carry;
+  logic [META_CANDI_NUM-1:0]                        l_replaceOffset_v;
   logic [HEAD_SHIFT_WIDTH-1:0]                      l_headShift;
-  logic [META_SHIFT_WIDTH-1:0]                      l_metaShift;
+  logic [META_SHIFT_WIDTH-1:0]                      l_metaShift, l_total_metaShift;
   logic                                             l_metaShift_1b;
   lookup_rst_t                                      lookup_rst_s0, lookup_rst_s1, lookup_rst_s2;
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
@@ -131,6 +132,7 @@ module Deparser_Layer(
     .i_extField           (w_key_field            ),
     .i_replaceOffset      (l_replaceOffset        ),
     .i_replaceOffset_carry(l_replaceOffset_carry  ),
+    .i_replaceOffset_v    (l_replaceOffset_v      ),
     .i_metaShift          (l_metaShift_1b         )
   );
 
@@ -157,35 +159,31 @@ module Deparser_Layer(
   end
 
   //* insert one cycle;
-  wire [HEAD_SHIFT_WIDTH:0] w_metaShift;
-  assign w_metaShift = {1'b0,lookup_rst_s0.metaShift} + {1'b0,i_layer_info.metaShift};
+  logic [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH-1:0]  w_rule_replaceOffset;
+  logic [META_CANDI_NUM-1:0]                        w_rule_replaceOffset_v, w_rule_replaceOffset_carry;
   `ifdef TWO_CYCLE_PER_LAYER
     always_ff @(posedge i_clk) begin
       l_head                <= i_layer_info.head;
       l_meta                <= i_layer_info.meta;
-      // l_replaceOffset       <= i_layer_info.key_replaceOffset;
+      l_replaceOffset       <= i_layer_info.key_replaceOffset;
+      l_replaceOffset_v     <= i_layer_info.key_replaceOffset_v;
+      l_replaceOffset_carry <= i_layer_info.key_replaceOffset_carry;
       l_headShift           <= i_layer_info.headShift;
       l_metaShift           <= i_layer_info.metaShift;
-      l_metaShift_1b        <= w_metaShift[HEAD_SHIFT_WIDTH];
-      for(integer i=0; i<META_CANDI_NUM; i=i+1) begin
-        l_replaceOffset[i][REP_OFFSET_WIDTH]     <= i_layer_info.key_replaceOffset[i][REP_OFFSET_WIDTH];
-        {l_replaceOffset_carry[i],l_replaceOffset[i][REP_OFFSET_WIDTH-1:0]} <= 
-              {1'b0,i_layer_info.key_replaceOffset[i][REP_OFFSET_WIDTH-1:0]} + {1'b0,i_layer_info.metaShift};
-      end
+      l_total_metaShift     <= i_layer_info.total_metaShift;
+      l_metaShift_1b        <= i_layer_info.metaShift_carry;
     end
   `else
     always_comb begin
       l_head                = i_layer_info.head;
       l_meta                = i_layer_info.meta;
-      // l_replaceOffset       = i_layer_info.key_replaceOffset;
+      l_replaceOffset       = i_layer_info.key_replaceOffset;
+      l_replaceOffset_v     = i_layer_info.key_replaceOffset_v;
+      l_replaceOffset_carry = i_layer_info.key_replaceOffset_carry;
       l_headShift           = i_layer_info.headShift;
       l_metaShift           = i_layer_info.metaShift;
-      l_metaShift_1b        = w_metaShift[HEAD_SHIFT_WIDTH];
-      for(integer i=0; i<META_CANDI_NUM; i=i+1) begin
-        l_replaceOffset[REP_OFFSET_WIDTH]     = i_layer_info.key_replaceOffset[REP_OFFSET_WIDTH];
-        {l_replaceOffset_carry[i],l_replaceOffset[i][REP_OFFSET_WIDTH-1:0]} = 
-              {1'b0,i_layer_info.key_replaceOffset[i][REP_OFFSET_WIDTH-1:0]} + {1'b0,i_layer_info.metaShift};
-      end
+      l_total_metaShift     = i_layer_info.total_metaShift;
+      l_metaShift_1b        = i_layer_info.metaShift_carry;
     end
   `endif
   
@@ -194,11 +192,40 @@ module Deparser_Layer(
   assign o_layer_info.key_offset   = lookup_rst_s2.keyOffset;
   assign o_layer_info.type_offset  = lookup_rst_s2.typeOffset;
   assign o_layer_info.headShift    = lookup_rst_s2.headShift;
-  assign o_layer_info.metaShift    = lookup_rst_s2.metaShift;
-  assign o_layer_info.key_replaceOffset = lookup_rst_s2.replaceOffset;
+  assign o_layer_info.metaShift         = lookup_rst_s2.metaShift;
+  assign o_layer_info.total_metaShift   = lookup_rst_s2.total_metaShift;
+  assign o_layer_info.metaShift_carry   = lookup_rst_s2.metaShift_carry;
+  assign o_layer_info.key_replaceOffset       = lookup_rst_s2.m_replaceOffset;
+  assign o_layer_info.key_replaceOffset_v     = lookup_rst_s2.m_replaceOffset_v;
+  assign o_layer_info.key_replaceOffset_carry = lookup_rst_s2.m_replaceOffset_carry;
   always_ff @(posedge i_clk) begin
-    lookup_rst_s1                 <= lookup_rst_s0;
-    lookup_rst_s1                 <= w_metaShift[HEAD_SHIFT_WIDTH-1:0];
-    lookup_rst_s2                 <= lookup_rst_s1;
+    lookup_rst_s1                       <= lookup_rst_s0;
+    {lookup_rst_s1.metaShift_carry,lookup_rst_s1.total_metaShift} <= 
+                  {1'b0,l_metaShift} + {1'b0,l_total_metaShift};
+    lookup_rst_s2                       <= lookup_rst_s1;
+    lookup_rst_s2.m_replaceOffset       <= w_rule_replaceOffset;
+    lookup_rst_s2.m_replaceOffset_v     <= w_rule_replaceOffset_v;
+    lookup_rst_s2.m_replaceOffset_carry <= w_rule_replaceOffset_carry;
+  end
+
+  logic [KEY_FILED_NUM-1:0][KEY_OFFSET_WIDTH-1:0] w_replaceOffset;
+  logic [KEY_FILED_NUM-1:0]                       w_replaceOffset_carry;
+  always_comb begin
+    for(integer k=0; k<KEY_FILED_NUM; k++)
+      {w_replaceOffset_carry[k],w_replaceOffset[k]} = {1'b0,lookup_rst_s1.k_replaceOffset[k]} +
+                                                      {1'b0,lookup_rst_s1.total_metaShift};
+  end
+  always_comb begin
+    for(integer j=0; j<META_CANDI_NUM; j++) begin
+      w_rule_replaceOffset_v[j]         = 'b0;
+      w_rule_replaceOffset_carry[j]     = 'b0;
+      w_rule_replaceOffset[j]           = 'b0;
+      for(integer k=0; k<KEY_FILED_NUM; k++)
+        if(w_replaceOffset[k] == j && lookup_rst_s1.keyOffset_v[k] == 1'b1) begin
+          w_rule_replaceOffset_v[j]     = 1'b1;
+          w_rule_replaceOffset_carry[j] = w_rule_replaceOffset_carry[j] | w_replaceOffset_carry[k];
+          w_rule_replaceOffset[j]       = w_rule_replaceOffset[j] | k;
+        end
+    end
   end
 endmodule
