@@ -30,7 +30,7 @@
 
 `timescale 1ns/1ps
 import parser_pkg::*;
-// `define READ_CONF
+`define READ_CONF
 
 module Testbench_wrapper(
 );
@@ -94,10 +94,9 @@ module Testbench_wrapper(
                                   128'h0028_e84b_4000_4006_ce61_c0a8_010a_c0a8,
                                   128'h01c8_1389_c001_3876_6005_0000_1986_5010,
                                   128'hfad8_843d_0000_3876_6005_0000_1986_5010};
-  localparam REPLACE_META     = {128'h1111_2222_3333_4444_5555_6666_aaaa_bbbb,
-                                  128'hcccc_dddd_00ee_00ff_ce61_c0a8_010a_c0a8,
-                                  128'h01c8_1389_c001_3876_6005_0000_1986_5010,
-                                  128'hfad8_843d_0000_3876_6005_0000_1986_5010};
+  localparam REPLACE_META     = {128'h1111_2222_3333_4444_5555_6666_0800_0006,
+                                  128'haaaa_bbbb_cccc_dddd_00ee_00ff_0000_0000,
+                                  128'h0,128'h0};
 `ifdef READ_CONF
 `else
 

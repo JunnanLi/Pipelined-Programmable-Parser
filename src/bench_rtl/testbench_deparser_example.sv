@@ -30,7 +30,7 @@
 
 `timescale 1ns/1ps
 import parser_pkg::*;
-// `define READ_CONF
+`define READ_CONF
 
 module Testbench_wrapper(
 );
@@ -94,121 +94,112 @@ module Testbench_wrapper(
                                   128'h0028_e84b_4000_4006_ce61_c0a8_010a_c0a8,
                                   128'h01c8_1389_c001_3876_6005_0000_1986_5010,
                                   128'hfad8_843d_0000_3876_6005_0000_1986_5010};
-  localparam REPLACE_META     = {128'h1111_2222_3333_4444_5555_6666_aaaa_bbbb,
-                                  128'hcccc_dddd_00ee_00ff_ce61_c0a8_010a_c0a8,
-                                  128'h01c8_1389_c001_3876_6005_0000_1986_5010,
-                                  128'hfad8_843d_0000_3876_6005_0000_1986_5010};
+  localparam REPLACE_META     = {128'h1111_2222_3333_4444_5555_6666_0800_0006,
+                                  128'haaaa_bbbb_cccc_dddd_00ee_00ff_0000_0000,
+                                  128'h0,128'h0};
 `ifdef READ_CONF
   initial begin
     //* layer_0 
     // type offset 
-    force parser_top.layer_info_0.type_offset[0]  = 12;
-    force parser_top.layer_info_0.type_offset[1]  = 13;
-    // valid of key offset & key offset 
-    force parser_top.layer_info_0.key_offset_v[0] = 1;
-    force parser_top.layer_info_0.key_offset[0]   = 0;
-    force parser_top.layer_info_0.key_offset_v[1] = 1;
-    force parser_top.layer_info_0.key_offset[1]   = 1;
-    force parser_top.layer_info_0.key_offset_v[2] = 1;
-    force parser_top.layer_info_0.key_offset[2]   = 2;
-    force parser_top.layer_info_0.key_offset_v[3] = 1;
-    force parser_top.layer_info_0.key_offset[3]   = 3;
-    force parser_top.layer_info_0.key_offset_v[4] = 1;
-    force parser_top.layer_info_0.key_offset[4]   = 4;
-    force parser_top.layer_info_0.key_offset_v[5] = 1;
-    force parser_top.layer_info_0.key_offset[5]   = 5;
-    force parser_top.layer_info_0.key_offset_v[6] = 0;
-    force parser_top.layer_info_0.key_offset_v[7] = 0;
+    force deparser_top.layer_info_0.type_offset[0]  = 12;
+    force deparser_top.layer_info_0.type_offset[1]  = 13;
+    // valid of key offset
+    force deparser_top.layer_info_0.key_offset_v = 8'h3f;
+    // valid of replace offset
+    force deparser_top.layer_info_0.key_replaceOffset_v = 32'h3f;
+    // key offset 
+    force deparser_top.layer_info_0.key_offset[0]   = 0;
+    force deparser_top.layer_info_0.key_replaceOffset[0]   = 0;
+    force deparser_top.layer_info_0.key_offset[1]   = 1;
+    force deparser_top.layer_info_0.key_replaceOffset[1]   = 1;
+    force deparser_top.layer_info_0.key_offset[2]   = 2;
+    force deparser_top.layer_info_0.key_replaceOffset[2]   = 2;
+    force deparser_top.layer_info_0.key_offset[3]   = 3;
+    force deparser_top.layer_info_0.key_replaceOffset[3]   = 3;
+    force deparser_top.layer_info_0.key_offset[4]   = 4;
+    force deparser_top.layer_info_0.key_replaceOffset[4]   = 4;
+    force deparser_top.layer_info_0.key_offset[5]   = 5;
+    force deparser_top.layer_info_0.key_replaceOffset[5]   = 5;
     // head len 
-    force parser_top.layer_info_0.headShift   = 7;
+    force deparser_top.layer_info_0.headShift   = 7;
     // meta len 
-    force parser_top.layer_info_0.metaShift   = 7;
+    force deparser_top.layer_info_0.metaShift   = 7;
   end
   initial begin
     //* layer_1 
     // type value & mask 
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeData[0]  = 8;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeMask[0]  = 255;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeData[1]  = 0;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeMask[1]  = 255;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_typeData[0]  = 8;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_typeMask[0]  = 255;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_typeData[1]  = 0;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_typeMask[1]  = 255;
     // type offset 
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeOffset[0]  = 1;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_typeOffset[1]  = 0;
-    // valid of key offset & key offset 
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[0] = 1;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[0]   = 1;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[1] = 1;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[1]   = 2;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[2] = 1;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[2]   = 3;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[3] = 1;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[3]   = 4;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[4] = 0;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[5] = 0;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[6] = 0;
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v[7] = 0;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_typeOffset[0]  = 1;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_typeOffset[1]  = 0;
+    // valid of key offset
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset_v = 8'hf;
+    // key offset & replace offset
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[0]   = 1;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyReplaceOffset[0]   = 6;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[1]   = 2;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyReplaceOffset[1]   = 7;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[2]   = 3;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyReplaceOffset[2]   = 8;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyOffset[3]   = 4;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_keyReplaceOffset[3]   = 9;
     // head len 
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_headShift = 5;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_headShift = 5;
     // meta len 
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_metaShift = 10;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_metaShift = 10;
     // meta len 
-    force parser_top.parser_layer1.lookup_type.r_type_rule[0].typeRule_valid = 1;
+    force deparser_top.deparser_layer1.lookup_type.r_type_rule[0].typeRule_valid = 1;
   end
   initial begin
     //* layer_2 
     // type value & mask 
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeData[0]  = 6;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeMask[0]  = 255;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeData[1]  = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeMask[1]  = 0;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_typeData[0]  = 6;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_typeMask[0]  = 255;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_typeData[1]  = 0;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_typeMask[1]  = 0;
     // type offset 
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeOffset[0]  = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_typeOffset[1]  = 0;
-    // valid of key offset & key offset 
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[0] = 1;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset[0]   = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[1] = 1;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset[1]   = 1;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[2] = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[3] = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[4] = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[5] = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[6] = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v[7] = 0;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_typeOffset[0]  = 0;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_typeOffset[1]  = 0;
+    // valid of key offset
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset_v = 8'h3;
+    // key offset & replace offset
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset[0]   = 0;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyReplaceOffset[0]   = 0;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyOffset[1]   = 1;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_keyReplaceOffset[1]   = 1;
     // head len 
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_headShift = 2;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_headShift = 2;
     // meta len 
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_metaShift = 10;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_metaShift = 10;
     // meta len 
-    force parser_top.parser_layer2.lookup_type.r_type_rule[0].typeRule_valid = 1;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[0].typeRule_valid = 1;
   end
   initial begin
     //* layer_2 
     // type value & mask 
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_typeData[0]  = 17;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_typeMask[0]  = 255;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_typeData[1]  = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_typeMask[1]  = 0;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[1].typeRule_typeData[0]  = 17;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[1].typeRule_typeMask[0]  = 255;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[1].typeRule_typeData[1]  = 0;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[1].typeRule_typeMask[1]  = 0;
     // type offset 
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_typeOffset[0]  = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_typeOffset[1]  = 0;
-    // valid of key offset & key offset 
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[0] = 1;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset[0]   = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[1] = 1;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset[1]   = 1;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[2] = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[3] = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[4] = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[5] = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[6] = 0;
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v[7] = 0;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[1].typeRule_typeOffset[0]  = 0;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[1].typeRule_typeOffset[1]  = 0;
+    // valid of key offset
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset_v = 8'h3;
+    // key offset & replace offset
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset[0]   = 0;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[1].typeRule_keyReplaceOffset[0]   = 0;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[1].typeRule_keyOffset[1]   = 1;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[1].typeRule_keyReplaceOffset[1]   = 1;
     // head len 
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_headShift = 2;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[1].typeRule_headShift = 2;
     // meta len 
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_metaShift = 4;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[1].typeRule_metaShift = 4;
     // meta len 
-    force parser_top.parser_layer2.lookup_type.r_type_rule[1].typeRule_valid = 1;
+    force deparser_top.deparser_layer2.lookup_type.r_type_rule[1].typeRule_valid = 1;
   end
 `endif
 
