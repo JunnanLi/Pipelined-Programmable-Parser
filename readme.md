@@ -1,4 +1,7 @@
-# Files 
+StreamParser - A Programmable Parser/Deparser in stream mode
+======================================
+
+## Files 
 
 | name            | description                           |
 |-----------------|---------------------------------------|
