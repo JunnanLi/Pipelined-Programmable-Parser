@@ -30,7 +30,7 @@
 
 `timescale 1ns/1ps
 import parser_pkg::*;
-`define READ_CONF
+`define AUTO_CONF
 
 module Testbench_wrapper(
 );
@@ -97,7 +97,7 @@ module Testbench_wrapper(
   localparam REPLACE_META     = {128'h1111_2222_3333_4444_5555_6666_0800_0006,
                                   128'haaaa_bbbb_cccc_dddd_00ee_00ff_0000_0000,
                                   128'h0,128'h0};
-`ifdef READ_CONF
+`ifdef AUTO_CONF
 `else
 
   initial begin

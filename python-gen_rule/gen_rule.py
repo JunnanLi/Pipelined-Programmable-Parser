@@ -187,7 +187,7 @@ def gen_testbench_w_rule(rule_info, mode):
 	with open('../src/bench_rtl/testbench_'+ mode + '.sv', 'r') as file: 
 		lines = file.readlines() 
 		for line in lines:
-			if line == '`ifdef READ_CONF\n':
+			if line == '`ifdef AUTO_CONF\n':
 				file_w.write(line)
 				write_conf_rule(rule_info, file_w, mode)
 				tag_to_write = 0
