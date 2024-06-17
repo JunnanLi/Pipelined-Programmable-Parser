@@ -27,8 +27,15 @@
 //================================================================//
 
 import parser_pkg::*;
+import "DPI-C" function void sim_to_read_head(int layerID, int tag_start, int slice_id, byte unsigned data[]);
+// import "DPI-C" function void sim_to_check_rst(int layerID, byte unsigned data[]);
+//* TODO,
+import "DPI-C" function void sim_to_read_rule(int layerID);
 
-module Parser_Layer(
+module Parser_Layer
+#(parameter LAYER_ID = 0
+)
+(
   input   wire            i_clk,
   input   wire            i_rst_n,
   //---conf--//
@@ -181,6 +188,26 @@ module Parser_Layer(
   always_ff @(posedge i_clk) begin
     lookup_rst_s1                 <= lookup_rst_s0;
     lookup_rst_s2                 <= lookup_rst_s1;
+  end
+
+  //* for sim;
+  byte unsigned data[63:0];
+  wire tag_start = i_layer_info.head[TAG_START_BIT + HEAD_WIDTH];
+  wire tag_valid = i_layer_info.head[TAG_VALID_BIT + HEAD_WIDTH];
+  reg [31:0]  slice_id;
+  always_ff @(posedge i_clk) begin
+    if(tag_start) begin
+      slice_id <= 32'b0;
+      sim_to_read_head(LAYER_ID,tag_start,slice_id,data);
+    end
+    else if(tag_valid) begin
+      slice_id <= slice_id + 32'd1;
+      sim_to_read_head(LAYER_ID,tag_start,slice_id,data);
+    end
+  end
+  always_comb begin
+    for(integer i=0; i<512; i=i+1)
+      data[i] = i_layer_info.head[512-i*8-1-:8];
   end
 
 endmodule

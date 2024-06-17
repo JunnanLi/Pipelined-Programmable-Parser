@@ -41,7 +41,10 @@ module Parser_Top(
   assign o_head = layer_info_3.head;
   assign o_meta = layer_info_3.meta;
   //* layer 1: ethernet
-  Parser_Layer parser_layer1(
+  Parser_Layer #(
+    .LAYER_ID(1)
+  )
+  parser_layer1(
     .i_clk                (i_clk          ),
     .i_rst_n              (i_rst_n        ),
     //---conf--//
@@ -57,7 +60,10 @@ module Parser_Top(
     .o_layer_info         (layer_info_1   )
   );
   //* layer 2: ip/arp
-  Parser_Layer parser_layer2(
+  Parser_Layer #(
+    .LAYER_ID(2)
+  )
+  parser_layer2(
     .i_clk                (i_clk          ),
     .i_rst_n              (i_rst_n        ),
     //---conf--//
@@ -73,7 +79,10 @@ module Parser_Top(
     .o_layer_info         (layer_info_2   )
   );  
   //* layer 3: tcp/udp
-  Parser_Layer parser_layer3(
+  Parser_Layer #(
+    .LAYER_ID(3)
+  )
+  parser_layer3(
     .i_clk                (i_clk          ),
     .i_rst_n              (i_rst_n        ),
     //---conf--//
