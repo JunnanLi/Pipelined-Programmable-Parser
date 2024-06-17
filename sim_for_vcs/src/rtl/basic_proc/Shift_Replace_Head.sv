@@ -25,8 +25,9 @@ module Shift_Replace_Head(
   input   wire  [HEAD_SHIFT_WIDTH-1:0]      i_headShift,
   input   wire  [META_WIDTH+TAG_WIDTH-1:0]  i_meta,
   output  wire  [META_WIDTH+TAG_WIDTH-1:0]  o_meta,
-  input   wire  [KEY_FILED_NUM-1:0][KEY_FIELD_WIDTH-1:0] i_extField,
-  input   wire  [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH:0] i_replaceOffset,
+  input   wire  [KEY_FILED_NUM-1:0][KEY_FIELD_WIDTH-1:0]    i_extField,
+  input   wire  [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH-1:0]  i_replaceOffset,
+  input   wire  [META_CANDI_NUM-1:0]        i_replaceOffset_v,
   input   wire  [META_CANDI_NUM-1:0]        i_replaceOffset_carry,
   input   wire                              i_metaShift
 );
@@ -41,7 +42,8 @@ module Shift_Replace_Head(
   //* r_extField is one clk delay of i_extField
   //* w_2head/w_meta is used to shift
   reg   [KEY_FILED_NUM-1:0][KEY_FIELD_WIDTH-1:0]  r_extField;
-  reg   [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH:0]  r_replaceOffset;
+  reg   [META_CANDI_NUM-1:0][REP_OFFSET_WIDTH-1:0]r_replaceOffset;
+  reg   [META_CANDI_NUM-1:0]                      r_replaceOffset_v;
   reg   [META_CANDI_NUM-1:0]                      r_replaceOffset_carry;
   wire  [2*HEAD_WIDTH-1:0]              w_2head;
   //* r_headShift is record of i_headShift
@@ -78,8 +80,8 @@ module Shift_Replace_Head(
     if(r_startBit_metaTag) begin
       for(integer i=0; i<META_CANDI_NUM; i++) begin
         //* TODO,
-        if(r_replaceOffset[i][REP_OFFSET_WIDTH] & (~r_replaceOffset_carry[i]))
-          case(r_replaceOffset[i][REP_OFFSET_WIDTH-1:0])
+        if(r_replaceOffset_v[i] & (~r_replaceOffset_carry[i]))
+          case(r_replaceOffset[i])
             3'd0: r_meta[META_WIDTH-i*KEY_FIELD_WIDTH-1-:KEY_FIELD_WIDTH] <= r_extField[0];
             3'd1: r_meta[META_WIDTH-i*KEY_FIELD_WIDTH-1-:KEY_FIELD_WIDTH] <= r_extField[1]; 
             3'd2: r_meta[META_WIDTH-i*KEY_FIELD_WIDTH-1-:KEY_FIELD_WIDTH] <= r_extField[2]; 
@@ -99,8 +101,8 @@ module Shift_Replace_Head(
     else if(r_startBit_metaTag_carry) begin
       for(integer i=0; i<META_CANDI_NUM; i++) begin
         //* TODO,
-        if(r_replaceOffset[i][REP_OFFSET_WIDTH] & r_replaceOffset_carry[i])
-          case(r_replaceOffset[i][REP_OFFSET_WIDTH-1:0])
+        if(r_replaceOffset_v[i] & r_replaceOffset_carry[i])
+          case(r_replaceOffset[i])
             3'd0: r_meta[META_WIDTH-i*KEY_FIELD_WIDTH-1-:KEY_FIELD_WIDTH] <= r_extField[0];
             3'd1: r_meta[META_WIDTH-i*KEY_FIELD_WIDTH-1-:KEY_FIELD_WIDTH] <= r_extField[1]; 
             3'd2: r_meta[META_WIDTH-i*KEY_FIELD_WIDTH-1-:KEY_FIELD_WIDTH] <= r_extField[2]; 
@@ -117,6 +119,7 @@ module Shift_Replace_Head(
       r_extField                                <= i_extField;
       r_replaceOffset                           <= i_replaceOffset;
       r_replaceOffset_carry                     <= i_replaceOffset_carry;
+      r_replaceOffset_v                         <= i_replaceOffset_v;
     end
 
 	end

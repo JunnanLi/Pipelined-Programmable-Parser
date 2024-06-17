@@ -2,7 +2,7 @@ Magic 271485
 Revision Verdi_O-2018.09-SP2
 
 ; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
-viewPort 0 27 1978 442 305 456
+viewPort 0 27 1850 362 305 364
 
 ; File list:
 ; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
@@ -16,16 +16,16 @@ signalSpacing 5
 
 ; windowTimeUnit is used for zoom, cursor & marker
 ; waveform viewport range
-zoom 0.000000 20200000.000000
-cursor 1300000.000000
+zoom 2020000.000000 22220000.000000
+cursor 10500000.000000
 marker 0.000000
 
 ; user define markers
 ; userMarker time_pos marker_name color linestyle
 ; visible top row signal index
-top 10
+top 0
 ; marker line index
-markerPos 24
+markerPos 9
 
 ; event list
 ; addEvent event_name event_expression
@@ -47,31 +47,16 @@ curSTATUS ByChange
 
 addGroup "G1"
 activeDirFile "" "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb"
-addSignal -h 15 /Testbench_wrapper/deparser_top/i_clk
+addSignal -h 15 /Testbench_wrapper/parser_top/i_clk
 addSignal -h 15 -holdScope i_rst_n
-addSignal -expanded -h 15 -holdScope layer_info_0
-addSignal -h 15 -holdScope layer_info_0.type_offset[1:0]
-addSignal -h 15 -holdScope layer_info_0.key_offset_v[7:0]
-addSignal -h 15 -holdScope layer_info_0.key_offset[7:0]
-addSignal -h 15 -UNSIGNED -HEX -holdScope layer_info_0.key_replaceOffset[31:0]
-addSignal -h 15 -holdScope layer_info_0.headShift[4:0]
-addSignal -h 15 -holdScope layer_info_0.metaShift[4:0]
-addSignal -h 15 -holdScope layer_info_0.head[520:0]
-addSignal -h 15 -holdScope layer_info_0.meta[520:0]
-addSignal -expanded -h 15 -holdScope layer_info_1
-addSignal -h 15 -holdScope layer_info_1.type_offset[1:0]
-addSignal -h 15 -holdScope layer_info_1.key_offset_v[7:0]
-addSignal -h 15 -holdScope layer_info_1.key_offset[7:0]
-addSignal -h 15 -holdScope layer_info_1.key_replaceOffset[31:0]
-addSignal -h 15 -holdScope layer_info_1.headShift[4:0]
-addSignal -h 15 -holdScope layer_info_1.metaShift[4:0]
-addSignal -h 15 -holdScope layer_info_1.head[520:0]
-addSignal -h 15 -holdScope layer_info_1.meta[520:0]
-addSignal -h 15 -holdScope layer_info_2
-addSignal -h 15 -holdScope layer_info_3
 addGroup "G2"
-addSignal -h 15 /Testbench_wrapper/deparser_top/deparser_layer1/shift_replace_head/i_extField[7:0]
+addSignal -h 15 /Testbench_wrapper/parser_top/layer_info_0
 addGroup "G3"
+addSignal -h 15 /Testbench_wrapper/parser_top/layer_info_1
+addSignal -h 15 /Testbench_wrapper/parser_top/parser_layer1/slice_id[31:0]
+addSignal -h 15 -holdScope tag_start
+addSignal -h 15 -holdScope tag_valid_head
+addGroup "G4"
 
 ; getSignalForm Scope Hierarchy Status
 ; active file of getSignalForm

@@ -27,8 +27,21 @@
 //================================================================//
 
 import parser_pkg::*;
+import "DPI-C" function void sim_to_read_head(int layerID, int tag_start, int slice_id, 
+  byte unsigned data_head[]);
+import "DPI-C" function void sim_to_read_meta(int layerID, int tag_start, int tag_end, int slice_id,
+  byte unsigned data_meta[]);
+// import "DPI-C" function void sim_to_check_rst(int layerID, byte unsigned data[]);
+//* TODO,
+import "DPI-C" function void sim_to_read_rule(int layerID, int ruleID, int ruleValid,
+  int unsigned typeData[], int unsigned typeMask[], int unsigned typeOffset[],
+  int unsigned keyOffset_v[], int unsigned keyOffset[], int unsigned keyReplaceOffset[],
+  int headShift, int metaShift);
 
-module Parser_Layer(
+module Parser_Layer
+#(parameter LAYER_ID = 0
+)
+(
   input   wire            i_clk,
   input   wire            i_rst_n,
   //---conf--//
@@ -181,6 +194,85 @@ module Parser_Layer(
   always_ff @(posedge i_clk) begin
     lookup_rst_s1                 <= lookup_rst_s0;
     lookup_rst_s2                 <= lookup_rst_s1;
+  end
+
+  //* for sim;
+  byte unsigned data_head[63:0], data_meta[63:0];
+  wire tag_start = o_layer_info.head[TAG_START_BIT + HEAD_WIDTH];
+  wire tag_end = o_layer_info.meta[TAG_TAIL_BIT + META_WIDTH];
+  wire tag_valid_head = o_layer_info.head[TAG_VALID_BIT + HEAD_WIDTH];
+  wire tag_valid_meta = o_layer_info.meta[TAG_VALID_BIT + HEAD_WIDTH];
+  reg [31:0]  slice_id;
+  always_ff @(posedge i_clk) begin
+    if(tag_start) begin
+      slice_id <= 32'b0;
+      sim_to_read_head(LAYER_ID,tag_start,slice_id,data_head);
+      sim_to_read_meta(LAYER_ID,tag_start,tag_end,slice_id,data_meta);
+    end
+    else if(tag_valid_head) begin
+      slice_id <= slice_id + 32'd1;
+      sim_to_read_head(LAYER_ID,tag_start,slice_id,data_head);
+      if(tag_valid_meta)
+        sim_to_read_meta(LAYER_ID,tag_start,tag_end,slice_id,data_meta);
+    end
+  end
+  //* read head/meta
+  always_comb begin
+    for(integer i=0; i<512; i=i+1) begin
+      data_head[i] = o_layer_info.head[512-i*8-1-:8];
+      data_meta[i] = o_layer_info.meta[512-i*8-1-:8];
+    end
+  end
+  //* read rules
+  int ruleValid, headShift, metaShift;
+  int unsigned typeData[TYPE_NUM-1:0], typeMask[TYPE_NUM-1:0], typeOffset[TYPE_NUM-1:0];
+  int unsigned keyOffset_v[KEY_FILED_NUM-1:0], keyOffset[KEY_FILED_NUM-1:0],
+                keyReplaceOffset[KEY_FILED_NUM-1:0];
+  reg [31:0]  r_cnt;
+  always_ff @(posedge i_clk or negedge i_rst_n) begin
+    if(!i_rst_n) begin
+      r_cnt <= 32'b0;
+    end
+    else begin
+      r_cnt <= 32'd1 + r_cnt;
+      for(integer i=0; i<RULE_NUM; i=i+1) begin
+        if(r_cnt == i)
+          sim_to_read_rule(LAYER_ID,i,ruleValid,typeData,typeMask,typeOffset,
+            keyOffset_v, keyOffset, keyReplaceOffset, headShift,metaShift);
+      end
+    end
+  end
+  always_comb begin
+    ruleValid = 'b0;
+    for(integer i=0; i<TYPE_NUM; i=i+1) begin
+      typeData[i] = 'b0;
+      typeMask[i] = 'b0;
+      typeOffset[i] = 'b0;
+    end
+    for(integer i=0; i<KEY_FILED_NUM; i=i+1) begin
+      keyOffset_v[i] = 'b0;
+      keyOffset[i] = 'b0;
+      keyReplaceOffset[i] = 'b0;
+    end
+    headShift = 'b0;
+    metaShift = 'b0;
+    for(integer i=0; i<RULE_NUM; i=i+1) begin
+      if(r_cnt == i) begin
+        ruleValid = lookup_type.r_type_rule[i].typeRule_valid | ruleValid;
+        headShift = lookup_type.r_type_rule[i].typeRule_headShift | headShift;
+        metaShift = lookup_type.r_type_rule[i].typeRule_metaShift | metaShift;
+        for(integer j=0; j<TYPE_NUM; j=j+1) begin
+          typeData[j] = lookup_type.r_type_rule[i].typeRule_typeData[j] | typeData[j];
+          typeMask[j] = lookup_type.r_type_rule[i].typeRule_typeMask[j] | typeMask[j];
+          typeOffset[j] = lookup_type.r_type_rule[i].typeRule_typeOffset[j] | typeOffset[j];
+        end
+        for(integer j=0; j<KEY_FILED_NUM; j=j+1) begin
+          keyOffset_v[j] = lookup_type.r_type_rule[i].typeRule_keyOffset_v[j] | keyOffset_v[j];
+          keyOffset[j] = lookup_type.r_type_rule[i].typeRule_keyOffset[j] | keyOffset[j];
+          keyReplaceOffset[j] = lookup_type.r_type_rule[i].typeRule_keyReplaceOffset[j] | keyReplaceOffset[j];
+        end
+      end
+    end
   end
 
 endmodule

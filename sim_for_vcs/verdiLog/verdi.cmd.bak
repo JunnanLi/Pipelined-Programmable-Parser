@@ -1,99 +1,294 @@
 sidCmdLineBehaviorAnalysisOpt -incr -clockSkew 0 -loopUnroll 0 -bboxEmptyModule 0  -cellModel 0 -bboxIgnoreProtected 0 
 debImport "-sverilog" "+v2k" "-f" "file_list.f" "-top" "Testbench_wrapper"
+nsMsgSwitchTab -tab general
 debLoadSimResult \
            /home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb
 wvCreateWindow
-wvSetCursor -win $_nWave2 7326952.141058
-wvRestoreSignal -win $_nWave2 \
-           "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/test_deparser.rc" \
-           -overWriteAutoAlias on -appendSignals on
-wvScrollDown -win $_nWave2 1
-wvScrollDown -win $_nWave2 1
-wvScrollDown -win $_nWave2 1
-wvScrollDown -win $_nWave2 0
-wvScrollDown -win $_nWave2 0
-wvScrollDown -win $_nWave2 0
-wvSelectSignal -win $_nWave2 {( "G2" 1 )} 
-wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
-srcDeselectAll -win $_nTrace1
+nsMsgSwitchTab -tab cmpl
+srcHBSelect "Testbench_wrapper.parser_top" -win $_nTrace1
+srcSetScope -win $_nTrace1 "Testbench_wrapper.parser_top" -delim "."
+srcHBSelect "Testbench_wrapper.parser_top" -win $_nTrace1
 srcSetOptions -win $_nTrace1 -annotate on
 schSetOptions -win $_nSchema1 -annotate on
-wvSelectSignal -win $_nWave2 {( "G2" 1 )} 
-wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
-wvSetCursor -win $_nWave2 1356842.989085 -snap {("G2" 2)}
-srcActiveTrace \
-           "Testbench_wrapper.deparser_top.deparser_layer1.shift_replace_head.i_replaceOffset\[31:0\]" \
-           -win $_nTrace1 -TraceByDConWave -TraceTime 1300000 -TraceValue \
-           xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, xxxx, x011, x010, 1011, x000, x111, x110
-wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
-wvCut -win $_nWave2
-wvSetPosition -win $_nWave2 {("G3" 0)}
-wvSetPosition -win $_nWave2 {("G2" 1)}
 srcDeselectAll -win $_nTrace1
 srcDeselectAll -win $_nTrace1
-srcSelect -signal "i_layer_info.key_replaceOffset\[i\]\[2:0\]" -line 174 -pos 1 \
-          -win $_nTrace1
+srcSelect -signal "i_clk" -line 28 -pos 1 -win $_nTrace1
+srcSelect -signal "i_rst_n" -line 29 -pos 1 -win $_nTrace1
 srcAddSelectedToWave -clipboard -win $_nTrace1
 wvDrop -win $_nWave2
-wvSelectSignal -win $_nWave2 {( "G2" 1 )} 
-wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
-wvCut -win $_nWave2
-wvSetPosition -win $_nWave2 {("G3" 0)}
-wvSetPosition -win $_nWave2 {("G2" 1)}
+wvSelectGroup -win $_nWave2 {G2}
+wvSetPosition -win $_nWave2 {("G2" 0)}
 srcDeselectAll -win $_nTrace1
-srcSelect -signal "i_layer_info.metaShift\[2:0\]" -line 174 -pos 1 -win $_nTrace1
+srcSelect -signal "layer_info_0" -line 47 -pos 1 -win $_nTrace1
+srcSelect -signal "layer_info_1" -line 47 -pos 1 -win $_nTrace1
 srcAddSelectedToWave -clipboard -win $_nTrace1
 wvDrop -win $_nWave2
 wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
-wvExpandBus -win $_nWave2 {("G2" 2)}
-wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
-wvSetPosition -win $_nWave2 {("G2" 2)}
-wvCollapseBus -win $_nWave2 {("G2" 2)}
-wvSetPosition -win $_nWave2 {("G2" 2)}
-wvSelectSignal -win $_nWave2 {( "G2" 1 )} 
-wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
-wvCut -win $_nWave2
 wvSetPosition -win $_nWave2 {("G3" 0)}
-wvSetPosition -win $_nWave2 {("G2" 1)}
+wvMoveSelected -win $_nWave2
+wvSetPosition -win $_nWave2 {("G3" 1)}
+wvSetPosition -win $_nWave2 {("G3" 1)}
+wvSelectGroup -win $_nWave2 {G2}
 wvSelectSignal -win $_nWave2 {( "G2" 1 )} 
+wvSetPosition -win $_nWave2 {("G2" 1)}
+wvExpandBus -win $_nWave2 {("G2" 1)}
+wvSetPosition -win $_nWave2 {("G3" 1)}
+wvScrollDown -win $_nWave2 3
+wvSelectSignal -win $_nWave2 {( "G2" 13 )} 
+wvZoomOut -win $_nWave2
+wvZoomOut -win $_nWave2
+wvZoomOut -win $_nWave2
+wvSetCursor -win $_nWave2 10103078.095238 -snap {("G2" 13)}
+wvSetCursor -win $_nWave2 9927626.666667 -snap {("G2" 13)}
 srcDeselectAll -win $_nTrace1
-srcSelect -signal "l_replaceOffset_carry\[i\]" -line 172 -pos 1 -win $_nTrace1
+srcSelect -signal "data_meta\[i\]" -line 163 -pos 1 -win $_nTrace1
 srcAddSelectedToWave -clipboard -win $_nTrace1
 wvDrop -win $_nWave2
-wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
-wvSelectSignal -win $_nWave2 {( "G2" 1 )} 
-wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
-wvCut -win $_nWave2
-wvSetPosition -win $_nWave2 {("G3" 0)}
-wvSetPosition -win $_nWave2 {("G2" 1)}
+wvScrollDown -win $_nWave2 1
 srcDeselectAll -win $_nTrace1
-srcSelect -signal "l_replaceOffset\[i\]\[REP_OFFSET_WIDTH-1:0\]" -line 172 -pos 1 \
-          -win $_nTrace1
+srcSelect -word -line 178 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "data_meta" -line 156 -pos 1 -win $_nTrace1
 srcAddSelectedToWave -clipboard -win $_nTrace1
 wvDrop -win $_nWave2
-wvSelectSignal -win $_nWave2 {( "G2" 1 )} 
-wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
+wvSelectSignal -win $_nWave2 {( "G3" 2 )} 
+wvSelectSignal -win $_nWave2 {( "G3" 3 )} 
 wvCut -win $_nWave2
-wvSetPosition -win $_nWave2 {("G3" 0)}
-wvSetPosition -win $_nWave2 {("G2" 1)}
+wvSetPosition -win $_nWave2 {("G4" 0)}
+wvSetPosition -win $_nWave2 {("G3" 2)}
+wvSelectSignal -win $_nWave2 {( "G3" 2 )} 
 srcDeselectAll -win $_nTrace1
-srcSelect -signal "l_replaceOffset\[i\]\[REP_OFFSET_WIDTH-1:0\]" -line 172 -pos 1 \
-          -win $_nTrace1
+srcSelect -signal "slice_id" -line 156 -pos 1 -win $_nTrace1
 srcDeselectAll -win $_nTrace1
-srcSelect -signal "l_replaceOffset\[REP_OFFSET_WIDTH\]" -line 171 -pos 1 -win \
+srcSelect -signal "tag_start" -line 156 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "slice_id" -line 156 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "data_meta" -line 156 -pos 1 -win $_nTrace1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvZoom -win $_nWave2 9664449.523810 12076906.666667
+wvDisplayGridCount -win $_nWave2 -off
+wvGetSignalClose -win $_nWave2
+wvReloadFile -win $_nWave2
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvSelectSignal -win $_nWave2 {( "G1" 1 )} 
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvSelectSignal -win $_nWave2 {( "G3" 1 )} 
+wvSetPosition -win $_nWave2 {("G3" 1)}
+wvExpandBus -win $_nWave2 {("G3" 1)}
+wvSetPosition -win $_nWave2 {("G3" 14)}
+wvSetCursor -win $_nWave2 10493666.394558 -snap {("G3" 12)}
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvSetCursor -win $_nWave2 10712980.680273 -snap {("G3" 12)}
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvSetCursor -win $_nWave2 10485311.564626 -snap {("G1" 0)}
+wvSetCursor -win $_nWave2 10512464.761905 -snap {("G1" 1)}
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvDisplayGridCount -win $_nWave2 -off
+wvGetSignalClose -win $_nWave2
+wvReloadFile -win $_nWave2
+wvSelectSignal -win $_nWave2 {( "G3" 12 )} 
+wvSelectSignal -win $_nWave2 {( "G3" 13 )} 
+wvScrollUp -win $_nWave2 3
+wvSelectSignal -win $_nWave2 {( "G2" 13 )} 
+wvSetPosition -win $_nWave2 {("G2" 13)}
+srcHBSelect "Testbench_wrapper.parser_top.parser_layer1" -win $_nTrace1
+srcSetScope -win $_nTrace1 "Testbench_wrapper.parser_top.parser_layer1" -delim \
+           "."
+srcHBSelect "Testbench_wrapper.parser_top.parser_layer1" -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "data_meta\[i\]" -line 223 -pos 1 -win $_nTrace1
+srcSelect -signal "data_head\[i\]" -line 222 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+wvSelectSignal -win $_nWave2 {( "G2" 13 )} 
+wvSelectSignal -win $_nWave2 {( "G2" 14 )} 
+wvSelectSignal -win $_nWave2 {( "G2" 13 )} 
+wvSelectSignal -win $_nWave2 {( "G2" 14 )} 
+wvSetCursor -win $_nWave2 10010652.789116 -snap {("G2" 12)}
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "o_layer_info.meta\[512-i*8-1-:8\]" -line 223 -pos 1 -win \
           $_nTrace1
 srcAddSelectedToWave -clipboard -win $_nTrace1
 wvDrop -win $_nWave2
-wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
-wvExpandBus -win $_nWave2 {("G2" 2)}
-wvScrollDown -win $_nWave2 1
-wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
-wvSetPosition -win $_nWave2 {("G2" 2)}
-wvCollapseBus -win $_nWave2 {("G2" 2)}
-wvSetPosition -win $_nWave2 {("G2" 2)}
-wvSelectSignal -win $_nWave2 {( "G2" 1 )} 
-wvSelectSignal -win $_nWave2 {( "G2" 2 )} 
+wvSelectSignal -win $_nWave2 {( "G2" 15 )} 
+wvSelectSignal -win $_nWave2 {( "G2" 16 )} 
 wvCut -win $_nWave2
 wvSetPosition -win $_nWave2 {("G3" 0)}
-wvSetPosition -win $_nWave2 {("G2" 1)}
+wvSetPosition -win $_nWave2 {("G2" 15)}
+wvSelectSignal -win $_nWave2 {( "G2" 14 )} 
+wvSelectSignal -win $_nWave2 {( "G2" 14 15 )} 
+wvSetPosition -win $_nWave2 {("G2" 14)}
+wvSetPosition -win $_nWave2 {("G2" 15)}
+wvSetPosition -win $_nWave2 {("G3" 0)}
+wvMoveSelected -win $_nWave2
+wvSetPosition -win $_nWave2 {("G3" 2)}
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvSetCursor -win $_nWave2 10507765.170068 -snap {("G3" 1)}
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "data_meta\[i\]" -line 223 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "data_head\[i\]" -line 222 -pos 1 -win $_nTrace1
+srcSearchString "data_head\[i\]" -win $_nTrace1 -next -case
+srcSearchString "data_head\[i\]" -win $_nTrace1 -next -case
+srcSearchString "data_head\[i\]" -win $_nTrace1 -next -case
+srcSearchString "data_head\[i\]" -win $_nTrace1 -next -case
+srcSearchString "data_head\[i\]" -win $_nTrace1 -next -case
+srcSearchString "data_head\[i\]" -win $_nTrace1 -prev -case
+srcSelect -win $_nTrace1 -range {222 222 2 3 1 1}
+srcSearchString "data_head\[i\]" -win $_nTrace1 -prev -case
+srcSelect -win $_nTrace1 -range {222 222 2 3 1 1}
+srcSearchString "data_head\[i\]" -win $_nTrace1 -prev -case
+srcSelect -win $_nTrace1 -range {222 222 2 3 1 1}
+srcSearchString "data_head\[i\]" -win $_nTrace1 -prev -case
+srcSelect -win $_nTrace1 -range {222 222 2 3 1 1}
+wvSetCursor -win $_nWave2 10599668.299320 -snap {("G3" 6)}
+wvDisplayGridCount -win $_nWave2 -off
+wvGetSignalClose -win $_nWave2
+wvReloadFile -win $_nWave2
+wvSelectSignal -win $_nWave2 {( "G3" 1 )} 
+wvScrollUp -win $_nWave2 2
+wvSelectGroup -win $_nWave2 {G3}
+wvSetPosition -win $_nWave2 {("G3" 0)}
+srcDeselectAll -win $_nTrace1
+srcSearchString "slice" -win $_nTrace1 -next -case
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcAction -pos 29 22 3 -win $_nTrace1 -name "slice_id" -ctrlKey off
+wvDrop -win $_nWave2
+srcDeselectAll -win $_nTrace1
+srcSetOptions -win $_nTrace1 -annotate off
+schSetOptions -win $_nSchema1 -annotate off
+srcSetOptions -win $_nTrace1 -annotate on
+schSetOptions -win $_nSchema1 -annotate on
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcAction -pos 29 22 4 -win $_nTrace1 -name "slice_id" -ctrlKey off
+srcSearchString "slice_id" -win $_nTrace1 -next -case
+srcSearchString "slice_id" -win $_nTrace1 -next -case
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "TAG_VALID_BIT" -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "slice_id" -line 205 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
+srcDeselectAll -win $_nTrace1
+debReload
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "o_layer_info.meta\[TAG_VALID_BIT + HEAD_WIDTH\]" -line 204 \
+          -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "tag_valid_meta" -line 204 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave2
 debExit

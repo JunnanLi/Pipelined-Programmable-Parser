@@ -2,7 +2,7 @@ Magic 271485
 Revision Verdi_O-2018.09-SP2
 
 ; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
-viewPort 0 27 1978 504 305 456
+viewPort 0 27 1850 422 305 364
 
 ; File list:
 ; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
@@ -17,15 +17,15 @@ signalSpacing 5
 ; windowTimeUnit is used for zoom, cursor & marker
 ; waveform viewport range
 zoom 0.000000 20200000.000000
-cursor 10100000.000000
+cursor 11700000.000000
 marker 0.000000
 
 ; user define markers
 ; userMarker time_pos marker_name color linestyle
 ; visible top row signal index
-top 8
+top 44
 ; marker line index
-markerPos 25
+markerPos 44
 
 ; event list
 ; addEvent event_name event_expression
@@ -53,26 +53,75 @@ addSignal -expanded -h 15 -holdScope layer_info_0
 addSignal -h 15 -holdScope layer_info_0.type_offset[1:0]
 addSignal -h 15 -holdScope layer_info_0.key_offset_v[7:0]
 addSignal -h 15 -holdScope layer_info_0.key_offset[7:0]
-addSignal -h 15 -UNSIGNED -HEX -holdScope layer_info_0.key_replaceOffset[31:0]
+addSignal -h 15 -holdScope layer_info_0.key_replaceOffset[31:0]
+addSignal -h 15 -holdScope layer_info_0.key_replaceOffset_v[31:0]
+addSignal -h 15 -holdScope layer_info_0.key_replaceOffset_carry[31:0]
 addSignal -h 15 -holdScope layer_info_0.headShift[4:0]
 addSignal -h 15 -holdScope layer_info_0.metaShift[4:0]
+addSignal -h 15 -holdScope layer_info_0.total_metaShift[4:0]
+addSignal -h 15 -holdScope layer_info_0.metaShift_carry
 addSignal -h 15 -holdScope layer_info_0.head[520:0]
-addSignal -h 15 -holdScope layer_info_0.meta[520:0]
-addSignal -expanded -h 15 -holdScope layer_info_1
+addSignal -h 15 -UNSIGNED -HEX -holdScope layer_info_0.meta[520:0]
+addSignal -h 15 /BLANK
+addSignal -expanded -h 15 /Testbench_wrapper/deparser_top/layer_info_1
 addSignal -h 15 -holdScope layer_info_1.type_offset[1:0]
 addSignal -h 15 -holdScope layer_info_1.key_offset_v[7:0]
 addSignal -h 15 -holdScope layer_info_1.key_offset[7:0]
 addSignal -h 15 -holdScope layer_info_1.key_replaceOffset[31:0]
+addSignal -h 15 -holdScope layer_info_1.key_replaceOffset_v[31:0]
+addSignal -h 15 -holdScope layer_info_1.key_replaceOffset_carry[31:0]
 addSignal -h 15 -holdScope layer_info_1.headShift[4:0]
 addSignal -h 15 -holdScope layer_info_1.metaShift[4:0]
+addSignal -h 15 -holdScope layer_info_1.total_metaShift[4:0]
+addSignal -h 15 -holdScope layer_info_1.metaShift_carry
 addSignal -h 15 -holdScope layer_info_1.head[520:0]
-addSignal -h 15 -holdScope layer_info_1.meta[520:0]
-addSignal -h 15 -holdScope layer_info_2
-addSignal -h 15 -holdScope layer_info_3
+addSignal -h 15 -UNSIGNED -HEX -holdScope layer_info_1.meta[520:0]
+addSignal -h 15 /BLANK
+addSignal -expanded -h 15 /Testbench_wrapper/deparser_top/layer_info_2
+addSignal -h 15 -holdScope layer_info_2.type_offset[1:0]
+addSignal -h 15 -holdScope layer_info_2.key_offset_v[7:0]
+addSignal -h 15 -holdScope layer_info_2.key_offset[7:0]
+addSignal -h 15 -holdScope layer_info_2.key_replaceOffset[31:0]
+addSignal -h 15 -holdScope layer_info_2.key_replaceOffset_v[31:0]
+addSignal -h 15 -holdScope layer_info_2.key_replaceOffset_carry[31:0]
+addSignal -h 15 -holdScope layer_info_2.headShift[4:0]
+addSignal -h 15 -holdScope layer_info_2.metaShift[4:0]
+addSignal -h 15 -holdScope layer_info_2.total_metaShift[4:0]
+addSignal -h 15 -holdScope layer_info_2.metaShift_carry
+addSignal -h 15 -holdScope layer_info_2.head[520:0]
+addSignal -h 15 -UNSIGNED -HEX -holdScope layer_info_2.meta[520:0]
+addSignal -h 15 /BLANK
+addSignal -expanded -h 15 /Testbench_wrapper/deparser_top/layer_info_3
+addSignal -h 15 -holdScope layer_info_3.type_offset[1:0]
+addSignal -h 15 -holdScope layer_info_3.key_offset_v[7:0]
+addSignal -h 15 -holdScope layer_info_3.key_offset[7:0]
+addSignal -h 15 -holdScope layer_info_3.key_replaceOffset[31:0]
+addSignal -h 15 -holdScope layer_info_3.key_replaceOffset_v[31:0]
+addSignal -h 15 -holdScope layer_info_3.key_replaceOffset_carry[31:0]
+addSignal -h 15 -holdScope layer_info_3.headShift[4:0]
+addSignal -h 15 -holdScope layer_info_3.metaShift[4:0]
+addSignal -h 15 -holdScope layer_info_3.total_metaShift[4:0]
+addSignal -h 15 -holdScope layer_info_3.metaShift_carry
+addSignal -h 15 -holdScope layer_info_3.head[520:0]
+addSignal -h 15 -holdScope layer_info_3.meta[520:0]
 addGroup "G2"
-addSignal -h 15 /Testbench_wrapper/deparser_top/deparser_layer1/shift_replace_head/i_extField[7:0]
-addSignal -h 15 -holdScope i_replaceOffset[31:0]
+addSignal -expanded -h 15 /Testbench_wrapper/deparser_top/deparser_layer1/lookup_type/o_lookup_rst
+addSignal -h 15 -holdScope o_lookup_rst.typeOffset[1:0]
+addSignal -h 15 -holdScope o_lookup_rst.keyOffset_v[7:0]
+addSignal -h 15 -holdScope o_lookup_rst.keyOffset[7:0]
+addSignal -h 15 -holdScope o_lookup_rst.headShift[4:0]
+addSignal -h 15 -holdScope o_lookup_rst.metaShift[4:0]
+addSignal -h 15 -holdScope o_lookup_rst.k_replaceOffset[7:0]
+addSignal -h 15 -holdScope o_lookup_rst.m_replaceOffset[31:0]
+addSignal -h 15 /Testbench_wrapper/deparser_top/deparser_layer1/lookup_rst_s1
+addSignal -h 15 -holdScope lookup_rst_s2
 addGroup "G3"
+addSignal -h 15 /Testbench_wrapper/deparser_top/deparser_layer1/w_replaceOffset_carry[7:0]
+addSignal -h 15 -holdScope w_replaceOffset[7:0]
+addSignal -h 15 -holdScope w_rule_replaceOffset_v[31:0]
+addSignal -h 15 -holdScope w_rule_replaceOffset_carry[31:0]
+addSignal -h 15 -holdScope w_replaceOffset_carry[7:0]
+addGroup "G4"
 
 ; getSignalForm Scope Hierarchy Status
 ; active file of getSignalForm

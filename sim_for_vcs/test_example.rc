@@ -2,7 +2,7 @@ Magic 271485
 Revision Verdi_O-2018.09-SP2
 
 ; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
-viewPort 0 27 1978 456 305 456
+viewPort 0 27 1850 357 305 266
 
 ; File list:
 ; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
@@ -16,16 +16,18 @@ signalSpacing 5
 
 ; windowTimeUnit is used for zoom, cursor & marker
 ; waveform viewport range
-zoom 13670193.115029 26560201.511335
-cursor 20300000.000000
+zoom 9807793.405024 29423380.215072
+cursor 21900000.000000
 marker 0.000000
 
 ; user define markers
 ; userMarker time_pos marker_name color linestyle
+userMarker 12500000 1st_pkt ID_GREEN5 long_dashed
+
 ; visible top row signal index
-top 11
+top 32
 ; marker line index
-markerPos 27
+markerPos 43
 
 ; event list
 ; addEvent event_name event_expression
@@ -47,61 +49,51 @@ curSTATUS ByChange
 
 addGroup "G1"
 activeDirFile "" "/home/lijunnan/Documents/0-code/vcs_prj/Programmable-Parser/wave.fsdb"
+addSignal -h 15 /Testbench_wrapper/parser_top/i_clk
+addSignal -h 15 -holdScope i_rst_n
+addGroup "G2"
 addSignal -expanded -h 15 /Testbench_wrapper/parser_top/layer_info_0
 addSignal -h 15 -holdScope layer_info_0.type_offset[1:0]
 addSignal -h 15 -holdScope layer_info_0.key_offset_v[7:0]
 addSignal -h 15 -holdScope layer_info_0.key_offset[7:0]
+addSignal -h 15 -holdScope layer_info_0.key_replaceOffset[31:0]
+addSignal -h 15 -holdScope layer_info_0.key_replaceOffset_v[31:0]
+addSignal -h 15 -holdScope layer_info_0.key_replaceOffset_carry[31:0]
 addSignal -h 15 -holdScope layer_info_0.headShift[4:0]
 addSignal -h 15 -holdScope layer_info_0.metaShift[4:0]
+addSignal -h 15 -holdScope layer_info_0.total_metaShift[4:0]
+addSignal -h 15 -holdScope layer_info_0.metaShift_carry
 addSignal -h 15 -holdScope layer_info_0.head[520:0]
 addSignal -h 15 -holdScope layer_info_0.meta[520:0]
-addGroup "G2"
-addSignal -expanded -h 15 /Testbench_wrapper/parser_top/parser_layer1/lookup_type/r_type_rule[7:0]
-addSignal -h 15 -holdScope r_type_rule[7]
-addSignal -h 15 -holdScope r_type_rule[6]
-addSignal -h 15 -holdScope r_type_rule[5]
-addSignal -h 15 -holdScope r_type_rule[4]
-addSignal -h 15 -holdScope r_type_rule[3]
-addSignal -h 15 -holdScope r_type_rule[2]
-addSignal -h 15 -holdScope r_type_rule[1]
-addSignal -expanded -h 15 -holdScope r_type_rule[0]
-addSignal -h 15 -holdScope r_type_rule[0].typeRule_valid
-addSignal -h 15 -holdScope r_type_rule[0].typeRule_typeData[1:0]
-addSignal -h 15 -holdScope r_type_rule[0].typeRule_typeMask[1:0]
-addSignal -h 15 -holdScope r_type_rule[0].typeRule_typeOffset[1:0]
-addSignal -h 15 -holdScope r_type_rule[0].typeRule_keyOffset_v[7:0]
-addSignal -h 15 -holdScope r_type_rule[0].typeRule_keyOffset[7:0]
-addSignal -h 15 -holdScope r_type_rule[0].typeRule_keyReplaceOffset[7:0]
-addSignal -h 15 -holdScope r_type_rule[0].typeRule_headShift[4:0]
-addSignal -h 15 -holdScope r_type_rule[0].typeRule_metaShift[4:0]
-addSignal -expanded -h 15 /Testbench_wrapper/parser_top/layer_info_1
-addSignal -h 15 -holdScope layer_info_1.type_offset[1:0]
-addSignal -h 15 -holdScope layer_info_1.key_offset_v[7:0]
-addSignal -h 15 -holdScope layer_info_1.key_offset[7:0]
-addSignal -h 15 -holdScope layer_info_1.headShift[4:0]
-addSignal -h 15 -holdScope layer_info_1.metaShift[4:0]
-addSignal -h 15 -holdScope layer_info_1.head[520:0]
-addSignal -h 15 -holdScope layer_info_1.meta[520:0]
-addGroup "G3"
-addSignal -h 15 /Testbench_wrapper/parser_top/parser_layer2/lookup_type/r_type_rule[7:0]
-addSignal -expanded -h 15 /Testbench_wrapper/parser_top/layer_info_2
+addSignal -h 15 -holdScope layer_info_1
+addSignal -expanded -h 15 -holdScope layer_info_2
 addSignal -h 15 -holdScope layer_info_2.type_offset[1:0]
 addSignal -h 15 -holdScope layer_info_2.key_offset_v[7:0]
 addSignal -h 15 -holdScope layer_info_2.key_offset[7:0]
+addSignal -h 15 -holdScope layer_info_2.key_replaceOffset[31:0]
+addSignal -h 15 -holdScope layer_info_2.key_replaceOffset_v[31:0]
+addSignal -h 15 -holdScope layer_info_2.key_replaceOffset_carry[31:0]
 addSignal -h 15 -holdScope layer_info_2.headShift[4:0]
 addSignal -h 15 -holdScope layer_info_2.metaShift[4:0]
+addSignal -h 15 -holdScope layer_info_2.total_metaShift[4:0]
+addSignal -h 15 -holdScope layer_info_2.metaShift_carry
 addSignal -h 15 -holdScope layer_info_2.head[520:0]
 addSignal -h 15 -holdScope layer_info_2.meta[520:0]
-addGroup "G4"
-addSignal -h 15 /Testbench_wrapper/parser_top/parser_layer3/lookup_type/r_type_rule[7:0]
-addSignal -expanded -h 15 /Testbench_wrapper/parser_top/layer_info_3
+addSignal -expanded -h 15 -holdScope layer_info_3
 addSignal -h 15 -holdScope layer_info_3.type_offset[1:0]
 addSignal -h 15 -holdScope layer_info_3.key_offset_v[7:0]
 addSignal -h 15 -holdScope layer_info_3.key_offset[7:0]
+addSignal -h 15 -holdScope layer_info_3.key_replaceOffset[31:0]
+addSignal -h 15 -holdScope layer_info_3.key_replaceOffset_v[31:0]
+addSignal -h 15 -holdScope layer_info_3.key_replaceOffset_carry[31:0]
 addSignal -h 15 -holdScope layer_info_3.headShift[4:0]
 addSignal -h 15 -holdScope layer_info_3.metaShift[4:0]
+addSignal -h 15 -holdScope layer_info_3.total_metaShift[4:0]
+addSignal -h 15 -holdScope layer_info_3.metaShift_carry
 addSignal -h 15 -holdScope layer_info_3.head[520:0]
 addSignal -h 15 -holdScope layer_info_3.meta[520:0]
+addGroup "G3"
+addGroup "G4"
 addGroup "G5"
 
 ; getSignalForm Scope Hierarchy Status

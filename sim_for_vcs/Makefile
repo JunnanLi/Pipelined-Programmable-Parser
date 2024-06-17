@@ -37,7 +37,7 @@ SIM = ./$(OUTPUT) \
 
 #start compile
 com:
-	$(VCS) -f $(FILE_LIST) $(COM)
+	$(VCS) -f $(FILE_LIST) c-based_parser/parser_in_sim.c $(COM)
 
 com_w_trace:
 	$(VCS) -f $(FILE_LIST) $(W_TRACE)

@@ -18,16 +18,24 @@ Command arguments:
         ./src/sim_rtl/asyncfifo.v
         ./src/sim_rtl/syncfifo.v
         ./src/sim_rtl/syncram.v
-        ./src/soc_rtl/Gen_PHV_and_Conf_Parser.v
-        ./src/soc_rtl/StreamParser_Top.v
-        ./src/bench_rtl/testbench_deparser_example.sv
+        ./src/bench_rtl/testbench_parser_example.sv
     -top
     Testbench_wrapper
 
+
+*Warning* task or function (sim_to_read_head) duplicated
+"./src/rtl/Parser/Parser_Layer.sv", 30: 
+
+*Warning* task or function (sim_to_read_meta) duplicated
+"./src/rtl/Parser/Parser_Layer.sv", 32: 
+
+*Warning* task or function (sim_to_read_rule) duplicated
+"./src/rtl/Parser/Parser_Layer.sv", 36: 
 Highest level modules:
+Deparser_Top
 asyncfifo
+syncfifo
 syncram
-StreamParser_Top
 Testbench_wrapper
 
-Total	0 error(s),   0 warning(s)
+Total	0 error(s),   3 warning(s)
