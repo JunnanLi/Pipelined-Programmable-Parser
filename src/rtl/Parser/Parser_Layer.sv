@@ -218,7 +218,7 @@ module Parser_Layer
   end
   //* read head/meta
   always_comb begin
-    for(integer i=0; i<512; i=i+1) begin
+    for(integer i=0; i<64; i=i+1) begin
       data_head[i] = o_layer_info.head[512-i*8-1-:8];
       data_meta[i] = o_layer_info.meta[512-i*8-1-:8];
     end
