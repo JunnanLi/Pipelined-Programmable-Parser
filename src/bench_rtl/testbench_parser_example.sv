@@ -54,13 +54,10 @@ module Testbench_wrapper(
     .i_clk                (clk            ),
     .i_rst_n              (rst_n          ),
 
-    //---conf--//
-    .i_rule_wren          (1'b0           ),
-    .i_rule_rden          (1'b0           ),
-    .i_rule_addr          (32'b0          ),
-    .i_rule_wdata         (32'b0          ),
-    .o_rule_rdata_valid   (               ),
-    .o_rule_rdata         (               ),
+    .i_rule_valid         (),
+    .i_layerID            (),
+    .i_ruleID             (),
+    .i_type_rule          (),
 
     //--data--//
     .i_head               (r_phv_in       ),

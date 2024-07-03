@@ -19,12 +19,10 @@ module Deparser_Top(
   input   wire                              i_clk,
   input   wire                              i_rst_n,
   //---conf--//
-  input   wire                              i_rule_wren,
-  input   wire                              i_rule_rden,
-  input   wire  [31:0]                      i_rule_addr,
-  input   wire  [31:0]                      i_rule_wdata,
-  output  wire                              o_rule_rdata_valid,
-  output  wire  [31:0]                      o_rule_rdata,
+  input   wire                              i_rule_valid,
+  input   wire  [7:0]                       i_layerID,
+  input   wire  [RULE_NUM-1:0]              i_ruleID,
+  input   type_rule_t                       i_type_rule,
   //--data--//
   input   wire  [HEAD_WIDTH+TAG_WIDTH-1:0]  i_head,
   output  wire  [HEAD_WIDTH+TAG_WIDTH-1:0]  o_head,
@@ -50,13 +48,10 @@ module Deparser_Top(
     .i_clk                (i_clk          ),
     .i_rst_n              (i_rst_n        ),
     //---conf--//
-    .i_rule_wren          (i_rule_wren & 
-                            i_rule_addr[`B_LAYER_ID] == LAYER_1 ),
-    .i_rule_rden          (1'b0           ),
-    .i_rule_addr          (i_rule_addr    ),
-    .i_rule_wdata         (i_rule_wdata   ),
-    .o_rule_rdata_valid   (               ),
-    .o_rule_rdata         (               ),
+    .i_rule_valid         (i_rule_valid & 
+                            i_ruleID == LAYER_1 ),
+    .i_rule_wren          (i_ruleID       ),
+    .i_type_rule          (i_type_rule    ),
     
     .i_layer_info         (layer_info_0   ),
     .o_layer_info         (layer_info_1   )
@@ -66,13 +61,10 @@ module Deparser_Top(
     .i_clk                (i_clk          ),
     .i_rst_n              (i_rst_n        ),
     //---conf--//
-    .i_rule_wren          (i_rule_wren & 
-                            i_rule_addr[`B_LAYER_ID] == LAYER_2 ),
-    .i_rule_rden          (1'b0           ),
-    .i_rule_addr          (i_rule_addr    ),
-    .i_rule_wdata         (i_rule_wdata   ),
-    .o_rule_rdata_valid   (               ),
-    .o_rule_rdata         (               ),
+    .i_rule_valid         (i_rule_valid & 
+                            i_ruleID == LAYER_2 ),
+    .i_rule_wren          (i_ruleID       ),
+    .i_type_rule          (i_type_rule    ),
 
     .i_layer_info         (layer_info_1   ),
     .o_layer_info         (layer_info_2   )
@@ -82,13 +74,10 @@ module Deparser_Top(
     .i_clk                (i_clk          ),
     .i_rst_n              (i_rst_n        ),
     //---conf--//
-    .i_rule_wren          (i_rule_wren & 
-                            i_rule_addr[`B_LAYER_ID] == LAYER_3 ),
-    .i_rule_rden          (1'b0           ),
-    .i_rule_addr          (i_rule_addr    ),
-    .i_rule_wdata         (i_rule_wdata   ),
-    .o_rule_rdata_valid   (               ),
-    .o_rule_rdata         (               ),
+    .i_rule_valid         (i_rule_valid & 
+                            i_ruleID == LAYER_3 ),
+    .i_rule_wren          (i_ruleID       ),
+    .i_type_rule          (i_type_rule    ),
 
     .i_layer_info         (layer_info_2   ),
     .o_layer_info         (layer_info_3   )
@@ -112,31 +101,21 @@ module Deparser_Top(
     layer_info_0.key_replaceOffset_carry  <= 1'b0;
     layer_info_0.total_metaShift          <= 'b0;
     layer_info_0.metaShift_carry          <= 1'b0;
-    if(i_rule_wren == 1'b1 && i_rule_addr[`B_LAYER_ID] == LAYER_0 ) begin
-      case(i_rule_addr[`B_INFO_TYPE])
-        3'd2: begin
-          //* type offset;
-          for(integer i=0; i<TYPE_NUM; i++)
-            layer_info_0.type_offset[i]   <= (i_rule_addr[`B_EXTR_ID] == i)? 
-                  i_rule_wdata[0+:TYPE_OFFSET_WIDTH]: layer_info_0.type_offset[i];
-        end
-        3'd3: begin
-          //* key offset;
-          for(integer i=0; i<KEY_FILED_NUM; i++) begin
-            if(i_rule_addr[`B_EXTR_ID] == i) begin
-              layer_info_0.key_offset_v[i]  <= i_rule_wdata[16];
-              layer_info_0.key_offset[i]    <= i_rule_wdata[0+:KEY_OFFSET_WIDTH];
-              r_key_ReplaceOffset[i]        <= i_rule_wdata[8+:KEY_OFFSET_WIDTH];
-            end
-            else begin
-              layer_info_0.key_offset_v[i]  <= layer_info_0.key_offset_v[i];
-              layer_info_0.key_offset[i]    <= layer_info_0.key_offset[i];
-            end
-          end
-        end
-        3'd4: layer_info_0.headShift     <= i_rule_wdata[0+:HEAD_SHIFT_WIDTH];
-        3'd5: layer_info_0.metaShift     <= i_rule_wdata[0+:META_SHIFT_WIDTH];
-      endcase
+    if(i_rule_valid == 1'b1 && i_layerID == LAYER_0 ) begin
+      layer_info_0.type_offset    <= i_type_rule.typeRule_typeOffset;
+      layer_info_0.key_offset_v   <= i_type_rule.typeRule_keyOffset_v;
+      layer_info_0.key_offset     <= i_type_rule.typeRule_keyOffset;
+      layer_info_0.headShift      <= i_type_rule.typeRule_headShift;
+      layer_info_0.metaShift      <= i_type_rule.typeRule_metaShift;
+      r_key_ReplaceOffset         <= i_type_rule.typeRule_keyReplaceOffset;
+    end
+    else begin
+      layer_info_0.type_offset    <= layer_info_0.type_offset;
+      layer_info_0.key_offset_v   <= layer_info_0.key_offset_v;
+      layer_info_0.key_offset     <= layer_info_0.key_offset;
+      layer_info_0.headShift      <= layer_info_0.headShift ;
+      layer_info_0.metaShift      <= layer_info_0.metaShift ;
+      r_key_ReplaceOffset         <= r_key_ReplaceOffset;
     end
   end
 

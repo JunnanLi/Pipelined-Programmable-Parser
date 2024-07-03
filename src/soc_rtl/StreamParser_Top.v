@@ -24,9 +24,10 @@ module StreamParser_Top(
   //====================================================================//
   //*   internal reg/wire/param declarations
   //====================================================================//
-  wire                      w_rule_wren;
-  wire  [31:0]              w_rule_addr;
-  wire  [31:0]              w_rule_wdata;
+  wire                      w_rule_valid;
+  wire  [7:0]               w_layerID;
+  wire  [RULE_NUM-1:0]      w_ruleID;
+  type_rule_t               w_type_rule;
   wire                      w_phv_in_valid;
   wire  [HEAD_WIDTH+TAG_WIDTH-1:0]   w_phv_in;
   wire  [133:0]             w_wdata_pktIn, w_dout_pktIn;
@@ -47,9 +48,10 @@ module StreamParser_Top(
     .o_phv                (w_phv_in       ),
     .o_meta               (w_meta_in      ),
 
-    .o_rule_wren          (w_rule_wren    ),
-    .o_rule_addr          (w_rule_addr    ),
-    .o_rule_wdata         (w_rule_wdata   )
+    .o_rule_valid         (w_rule_valid   ),
+    .o_layerID            (w_layerID      ),
+    .o_ruleID             (w_ruleID       ),
+    .o_type_rule          (w_type_rule    )
   );
 
 
@@ -59,12 +61,10 @@ module StreamParser_Top(
     .i_rst_n              (i_rst_n        ),
 
     //---conf--//
-    .i_rule_wren          (w_rule_wren    ),
-    .i_rule_rden          (1'b0           ),
-    .i_rule_addr          (w_rule_addr    ),
-    .i_rule_wdata         (w_rule_wdata   ),
-    .o_rule_rdata_valid   (               ),
-    .o_rule_rdata         (               ),
+    .i_rule_valid         (w_rule_valid   ),
+    .i_layerID            (w_layerID      ),
+    .i_ruleID             (w_ruleID       ),
+    .i_type_rule          (w_type_rule    ),
 
     //--data--//
     .i_head               (w_phv_in       ),
