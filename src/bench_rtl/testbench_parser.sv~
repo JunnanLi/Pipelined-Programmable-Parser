@@ -14,7 +14,7 @@
 `timescale 1ns/1ps
 import parser_pkg::*;
 
-//`define AUTO_CONF
+`define AUTO_CONF
 
 module Testbench_wrapper(
 );
